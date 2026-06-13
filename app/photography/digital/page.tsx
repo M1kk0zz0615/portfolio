@@ -5,8 +5,11 @@ import { useScrollReveal } from "@/app/hooks/useScrollReveal";
 import { ScrollArrow } from "@/components/ScrollArrow";
 import { PhotographyPlaceholder } from "@/components/photography/PhotographyPlaceholder";
 
+// 照片条目类型
+type DigitalPhoto = { src: string; rot: string; clip: "tl" | "br" | "tr"; span?: number };
+
 // 竖图 span:2 占两行，横图 span:1
-const COMMISSIONED_PHOTOS = [
+const COMMISSIONED_PHOTOS: DigitalPhoto[] = [
   { src: "/photos/digital/work/1781326254378.jpg", rot: "-1deg", clip: "br" as const },
   { src: "/photos/digital/work/DSC03078.jpg", rot: "2deg", clip: "tl" as const },
   { src: "/photos/digital/work/DSC03095.jpg", rot: "-2deg", clip: "tr" as const },
@@ -15,14 +18,14 @@ const COMMISSIONED_PHOTOS = [
   { src: "/photos/digital/work/DSC03165.jpg", rot: "2deg", clip: "tr" as const },
 ];
 
-const LANDSCAPE_PHOTOS = [
+const LANDSCAPE_PHOTOS: DigitalPhoto[] = [
   { src: "/photos/digital/landscape/1.jpg", rot: "-2deg", clip: "tl" as const, span: 2 },
   { src: "/photos/digital/landscape/2.jpg", rot: "2.5deg", clip: "br" as const, span: 2 },
   { src: "/photos/digital/landscape/6436259C7AC9B87CBA8B7D9F56F87650.jpg", rot: "-1deg", clip: "tr" as const },
   { src: "/photos/digital/landscape/D15447C749809A59FE4E708E4F25BE64.jpg", rot: "3deg", clip: "tl" as const },
 ];
 
-const STREET_PHOTOS = [
+const STREET_PHOTOS: DigitalPhoto[] = [
   { src: "/photos/digital/street/3C808CD630D3762524689C8369E03F9D.jpg", rot: "-3.5deg", clip: "br" as const },
   { src: "/photos/digital/street/3.jpg", rot: "2deg", clip: "tl" as const, span: 2 },
   { src: "/photos/digital/street/4773508DFF53256DC4386FD8783D247E.jpg", rot: "-1.5deg", clip: "tr" as const },

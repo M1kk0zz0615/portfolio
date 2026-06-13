@@ -5,8 +5,11 @@ import { useScrollReveal } from "@/app/hooks/useScrollReveal";
 import { ScrollArrow } from "@/components/ScrollArrow";
 import { PhotographyPlaceholder } from "@/components/photography/PhotographyPlaceholder";
 
+// 照片条目类型
+type FilmPhoto = { src: string; w: string; h: string; rot: string; clip: "tl" | "br" | "tr"; span?: number };
+
 // 彩色胶片 — 10张（8横 + 2竖）
-const COLOR_PHOTOS = [
+const COLOR_PHOTOS: FilmPhoto[] = [
   { src: "/photos/film/color/000002.jpg", w: "clamp(140px, 22vw, 280px)", h: "clamp(100px, 16vw, 200px)", rot: "-3deg", clip: "tl" as const },
   { src: "/photos/film/color/1 (27)2.jpg", w: "clamp(130px, 20vw, 260px)", h: "clamp(200px, 30vw, 380px)", rot: "1deg", clip: "br" as const, span: 2 },
   { src: "/photos/film/color/000029.jpg", w: "clamp(160px, 24vw, 320px)", h: "clamp(110px, 18vw, 220px)", rot: "-1.5deg", clip: "tr" as const },
@@ -20,7 +23,7 @@ const COLOR_PHOTOS = [
 ];
 
 // 黑白胶片 — 6张（全横构图）
-const BW_PHOTOS = [
+const BW_PHOTOS: FilmPhoto[] = [
   { src: "/photos/film/b&w/000005.jpg", w: "clamp(130px, 22vw, 280px)", h: "clamp(130px, 22vw, 280px)", rot: "-4deg", clip: "br" as const },
   { src: "/photos/film/b&w/000021.jpg", w: "clamp(150px, 24vw, 310px)", h: "clamp(110px, 18vw, 220px)", rot: "2.5deg", clip: "tl" as const },
   { src: "/photos/film/b&w/000023.jpg", w: "clamp(140px, 23vw, 290px)", h: "clamp(120px, 20vw, 250px)", rot: "-2deg", clip: "tr" as const },
