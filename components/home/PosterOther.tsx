@@ -169,29 +169,60 @@ export function PosterOther() {
 
       {/* 社交媒体 */}
       <div
-        className="anim-y-60 d-4 absolute flex items-center gap-5 type-label select-none z-10"
+        className="anim-y-60 d-4 absolute flex flex-col items-start gap-3 select-none z-10"
         style={{
           left: "12%",
-          bottom: "16%",
-          fontSize: "clamp(0.6rem, 0.8cqw, 0.7rem)",
+          bottom: "14%",
         }}
       >
-        <a href="https://space.bilibili.com/39276639?spm_id_from=333.1007.0.0" target="_blank" rel="noopener noreferrer" className="text-[#8C8C8C] hover-red no-underline transition-colors duration-200">
-          Bilibili
-        </a>
-        <span className="text-[#D10000] select-none">·</span>
-        <a
-          ref={wechatRef}
-          href="#"
-          onClick={(e) => { e.preventDefault(); openWechat(); }}
-          className="text-[#8C8C8C] hover-red no-underline transition-colors duration-200"
-        >
-          WeChat
-        </a>
-        <span className="text-[#D10000] select-none">·</span>
-        <a href="#" className="text-[#8C8C8C] hover-red no-underline transition-colors duration-200">
-          Instagram
-        </a>
+        {/* 找到我 + 向下箭头 */}
+        <div className="flex items-center gap-2">
+          <span
+            className="type-label text-[#8C8C8C]"
+            style={{ fontSize: "clamp(0.55rem, 0.7cqw, 0.65rem)", letterSpacing: "0.2em" }}
+          >
+            找到我
+          </span>
+          {/* 向下三角 */}
+          <div
+            style={{
+              width: 0,
+              height: 0,
+              borderLeft: "5px solid transparent",
+              borderRight: "5px solid transparent",
+              borderTop: "7px solid var(--red)",
+            }}
+          />
+        </div>
+
+        {/* 按钮行 */}
+        <div className="flex items-center gap-3 type-label">
+          <a
+            href="https://space.bilibili.com/39276639?spm_id_from=333.1007.0.0"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border border-[var(--fg)]/20 px-3 py-1.5 text-[var(--fg)] no-underline transition-all duration-200 hover:border-[#D10000] hover:text-[#D10000] hover:bg-[#D10000]/5"
+            style={{ fontSize: "clamp(0.6rem, 0.8cqw, 0.7rem)" }}
+          >
+            Bilibili
+          </a>
+          <a
+            ref={wechatRef}
+            href="#"
+            onClick={(e) => { e.preventDefault(); openWechat(); }}
+            className="border border-[var(--fg)]/20 px-3 py-1.5 text-[var(--fg)] no-underline transition-all duration-200 hover:border-[#D10000] hover:text-[#D10000] hover:bg-[#D10000]/5"
+            style={{ fontSize: "clamp(0.6rem, 0.8cqw, 0.7rem)" }}
+          >
+            WeChat
+          </a>
+          <a
+            href="#"
+            className="border border-[var(--fg)]/20 px-3 py-1.5 text-[var(--fg)] no-underline transition-all duration-200 hover:border-[#D10000] hover:text-[#D10000] hover:bg-[#D10000]/5"
+            style={{ fontSize: "clamp(0.6rem, 0.8cqw, 0.7rem)" }}
+          >
+            Instagram
+          </a>
+        </div>
       </div>
 
       {/* 底部黑色粗线 — 封底 */}
