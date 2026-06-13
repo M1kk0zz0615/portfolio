@@ -31,7 +31,7 @@ const ENTRIES: IndexEntry[] = [
   {
     num: "03",
     title: "PROJECTS",
-    href: "/about",
+    href: "https://github.com/M1kk0zz0615/portfolio",
     desc: ["GitHub Repositories", "Code · Tools · Experiments"],
   },
   {
@@ -43,11 +43,10 @@ const ENTRIES: IndexEntry[] = [
 ];
 
 function IndexItem({ item, delay }: { item: IndexEntry; delay: string }) {
-  return (
-    <Link
-      href={item.href}
-      className={`anim-y-60 ${delay} group flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-8 no-underline py-6 border-b-[1px] border-[var(--fg)]/06 hover:border-[#D10000]/20 transition-colors duration-300`}
-    >
+  const isExternal = item.href.startsWith("http");
+
+  const inner = (
+    <>
       {/* 数字 */}
       <span
         className="type-display text-[#D10000] shrink-0 leading-none select-none"
@@ -82,6 +81,28 @@ function IndexItem({ item, delay }: { item: IndexEntry; delay: string }) {
           ))}
         </span>
       </div>
+    </>
+  );
+
+  if (isExternal) {
+    return (
+      <a
+        href={item.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`anim-y-60 ${delay} group flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-8 no-underline py-6 border-b-[1px] border-[var(--fg)]/06 hover:border-[#D10000]/20 transition-colors duration-300`}
+      >
+        {inner}
+      </a>
+    );
+  }
+
+  return (
+    <Link
+      href={item.href}
+      className={`anim-y-60 ${delay} group flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-8 no-underline py-6 border-b-[1px] border-[var(--fg)]/06 hover:border-[#D10000]/20 transition-colors duration-300`}
+    >
+      {inner}
     </Link>
   );
 }
