@@ -12,9 +12,25 @@ export function PosterOther() {
 
   const openWechat = useCallback(() => {
     if (wechatRef.current) {
+      const linkRect = wechatRef.current.getBoundingClientRect();
+      // 用链接中心点构造虚拟方形区域，避免小文字 rect 导致图片渲染模糊
+      const cx = linkRect.left + linkRect.width / 2;
+      const cy = linkRect.top + linkRect.height / 2;
+      const size = Math.min(window.innerWidth, window.innerHeight) * 0.2;
+      const virtualRect: DOMRect = {
+        left: cx - size / 2,
+        top: cy - size / 2,
+        width: size,
+        height: size * (1338 / 912), // 保持原图宽高比
+        right: cx + size / 2,
+        bottom: cy + size * (1338 / 912) / 2,
+        x: cx - size / 2,
+        y: cy - size / 2,
+        toJSON: () => ({}),
+      };
       setWechatLightbox({
         src: "/photos/wechat/mmqrcode1781334663008.png",
-        rect: wechatRef.current.getBoundingClientRect(),
+        rect: virtualRect,
       });
     }
   }, []);
