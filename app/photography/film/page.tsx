@@ -235,6 +235,12 @@ export default function FilmPage() {
 
         {/* 前往数码 */}
         <div className="anim-y-60 d-4 mt-12 text-center">
+          <p
+            className="type-label text-[#B0B0B0]/60 mb-3"
+            style={{ fontSize: "clamp(0.65rem, 0.8vw, 0.75rem)" }}
+          >
+            需要高清原图请联系作者喵
+          </p>
           <Link
             href="/photography/digital"
             className="type-label text-[var(--paper-cream)] hover:bg-[#D10000] no-underline inline-flex items-center gap-2 px-6 py-3 bg-[var(--fg)] transition-colors duration-200"
