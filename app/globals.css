@@ -1,0 +1,374 @@
+@import "tailwindcss";
+
+/* ============================================
+   苏维埃调色板
+   ============================================ */
+:root {
+  --bg: #E8DCC8;
+  --bg-muted: #D4C4A8;
+  --paper-cream: #F5EDE0;
+  --fg: #0D0D0D;
+  --red: #D10000;
+  --red-bright: #FF2200;
+  --red-deep: #8B0000;
+  --gray-mid: #9A8B78;
+  --gray-light: #C9B89A;
+  --gray-dark: #3D3228;
+  /* Noto Sans SC 优先（Google Fonts 加载），统一跨平台渲染
+     回退：macOS 苹方 → Windows 微软雅黑 → 黑体 → 系统 sans-serif */
+  --font-display: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", "Heiti SC", sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #4A3F35;
+    --bg-muted: #3D332A;
+    --paper-cream: #E8DCC8;
+    --fg: #F0E6D6;
+    --gray-light: #5C4F42;
+    --gray-dark: #D4C4A8;
+  }
+}
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* ============================================
+   全局
+   ============================================ */
+html {
+  background: var(--bg);
+}
+
+body {
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(ellipse 120% 80% at 10% 0%, rgba(255, 248, 235, 0.45) 0%, transparent 55%),
+    radial-gradient(ellipse 90% 60% at 90% 100%, rgba(120, 90, 60, 0.06) 0%, transparent 50%);
+  color: var(--fg);
+  font-family: var(--font-geist-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.bg-paper {
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(ellipse 120% 80% at 10% 0%, rgba(255, 248, 235, 0.35) 0%, transparent 55%),
+    radial-gradient(ellipse 90% 60% at 90% 100%, rgba(120, 90, 60, 0.05) 0%, transparent 50%);
+}
+
+/* ============================================
+   海报容器 — scroll-snap (跨浏览器兼容)
+   ============================================ */
+.poster-container {
+  /* Safari ≤15 / 旧 Chrome 需要 -webkit- 前缀 */
+  -webkit-scroll-snap-type: y mandatory;
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  /* dvh = 动态视口高度，排除移动端地址栏 & 桌面端滚动条的影响 */
+  height: 100vh;
+  height: 100dvh;
+  /* 始终预留滚动条槽位，消除 Windows (占位) vs macOS (覆盖) 的宽度差异 */
+  scrollbar-gutter: stable;
+}
+
+.poster {
+  scroll-snap-align: start;
+  /* always 在移动端手感不佳，桌面端保留 */
+  scroll-snap-stop: always;
+  height: 100vh;
+  height: 100dvh;
+  position: relative;
+  overflow: hidden;
+  /* 启用容器查询 — 子元素可用 cqw 替代 vw，精确跟随海报宽度而非视口 */
+  container-type: inline-size;
+}
+
+/* ============================================
+   超大屏海报约束 (≥1680px)
+   约束 poster 宽度 → 百分比定位相对于约束宽度，防止全屏元素散开
+   视口宽度 ≤1680px 时海报占满，≥1680px 时居中约束
+   结合 container-type，cqw 会基于约束后的宽度计算
+   ============================================ */
+@media (min-width: 1680px) {
+  .poster {
+    max-width: 1680px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* 移动端触摸滚动关闭 scroll-snap-stop，避免吸附卡顿 */
+@media (pointer: coarse) {
+  .poster {
+    scroll-snap-stop: normal;
+  }
+}
+
+/* ============================================
+   中文展示字体预设
+   ============================================ */
+.type-display {
+  font-family: var(--font-display);
+  font-weight: 900;
+  line-height: 0.85;
+  letter-spacing: -0.03em;
+}
+
+/* 主要标题 — 红色斜排虚线文字阴影 */
+.title-depth {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+}
+
+/* title-depth: 红色斜线文字阴影
+   兼容策略：
+   - WebKit (Chrome/Safari): -webkit-background-clip: text 已稳定十余年
+   - Firefox: 支持 unprefixed background-clip: text (v49+)，但 color:transparent 在某些版本需显式设置
+   - 使用 @supports 检测，不支持 background-clip:text 的浏览器退化为纯色阴影 */
+.title-depth::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0.10em;
+  top: 0.10em;
+  z-index: -1;
+  pointer-events: none;
+  /* 回退：实心红色半透明阴影 */
+  color: rgba(209, 0, 0, 0.45);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--red) 0,
+    var(--red) 2px,
+    transparent 2px,
+    transparent 7px
+  );
+}
+
+/* 支持 background-clip: text 的浏览器用红色斜线纹理 */
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .title-depth::after {
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+.type-cyrillic {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.type-label {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+/* ============================================
+   照片蒙太奇
+   ============================================ */
+.photo-montage {
+  position: relative;
+  overflow: hidden;
+  /* isolation: isolate 创建独立层叠上下文，
+     确保 mix-blend-mode 在 Chrome/Firefox/Safari 中行为一致 */
+  isolation: isolate;
+}
+
+.photo-montage img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.65) contrast(1.1) brightness(0.6);
+  transition: filter 0.35s linear;
+}
+
+.photo-montage:hover img {
+  filter: grayscale(0) contrast(1) brightness(1) !important;
+}
+
+/* 彩色照片独立滤镜 — 用 class 而非 inline style，确保 hover 可覆盖 */
+.photo-img--color {
+  filter: grayscale(0.5) brightness(0.55);
+  transition: filter 0.35s linear;
+}
+
+.duotone-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--red);
+  mix-blend-mode: multiply;
+  opacity: 0.25;
+  pointer-events: none;
+  transition: opacity 0.3s linear;
+}
+
+.photo-montage:hover .duotone-overlay {
+  opacity: 0;
+}
+
+/* 照片几何裁剪 (含 -webkit- 前缀兼容旧 Safari)
+   裁切量 5%，兼顾构成主义角度与保留原图 */
+.clip-angle-tl {
+  -webkit-clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
+  clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
+}
+.clip-angle-br {
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+}
+.clip-angle-tr {
+  -webkit-clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 100%);
+  clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 100%);
+}
+
+/* ============================================
+   入场动画 (Intersection Observer)
+   ============================================ */
+.anim-y-60 {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity 0.5s cubic-bezier(0.2, 0, 0, 1),
+    transform 0.5s cubic-bezier(0.2, 0, 0, 1);
+}
+.anim-x--80 {
+  opacity: 0;
+  transform: translateX(-80px);
+  transition: opacity 0.5s cubic-bezier(0.2, 0, 0, 1),
+    transform 0.5s cubic-bezier(0.2, 0, 0, 1);
+}
+.anim-scale {
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 0.4s cubic-bezier(0.2, 0, 0, 1),
+    transform 0.4s cubic-bezier(0.2, 0, 0, 1);
+}
+.anim-line-x {
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.6s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.anim-y-60.visible,
+.anim-x--80.visible,
+.anim-scale.visible {
+  opacity: 1;
+  transform: translate(0) scale(1);
+}
+.anim-line-x.visible {
+  transform: scaleX(1);
+}
+
+/* stagger */
+.d-1 { transition-delay: 0.1s; }
+.d-2 { transition-delay: 0.2s; }
+.d-3 { transition-delay: 0.3s; }
+.d-4 { transition-delay: 0.4s; }
+.d-5 { transition-delay: 0.5s; }
+
+/* ============================================
+   Hover 交互
+   ============================================ */
+.hover-red {
+  transition: color 0.2s linear;
+}
+.hover-red:hover {
+  color: var(--red);
+}
+
+/* 下划线延伸 */
+.hover-line::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 3px;
+  background: var(--red);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1);
+}
+.hover-line:hover::after {
+  transform: scaleX(1);
+}
+
+/* 几何标记线 */
+.geo-marker {
+  display: inline-block;
+  width: 28px;
+  height: 4px;
+  background: var(--red);
+  margin-right: 16px;
+  transition: width 0.3s cubic-bezier(0.2, 0, 0, 1);
+  vertical-align: middle;
+}
+a:hover .geo-marker {
+  width: 56px;
+}
+
+/* 照片 hover 几何位移 */
+.photo-tilt:hover {
+  transform: rotate(0deg) !important;
+}
+
+/* ============================================
+   滚动指示三角
+   ============================================ */
+.scroll-arrow {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 16px solid var(--red);
+  animation: arrow-bob 2s linear infinite;
+}
+@keyframes arrow-bob {
+  0%, 100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  50%      { opacity: 0.3; transform: translateX(-50%) translateY(8px); }
+}
+
+/* ============================================
+   装饰斜线组
+   ============================================ */
+.diagonal-stripes {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transform: skewY(-30deg);
+}
+.diagonal-stripes span {
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: var(--red);
+}
+
+/* 构成主义圆 */
+.geo-circle {
+  border-radius: 50%;
+}
+
+/* 封底粗线 */
+.footer-bar {
+  position: absolute;
+  left: 0;
+  bottom: 12%;
+  width: 100%;
+  height: 5px;
+  background: var(--fg);
+}

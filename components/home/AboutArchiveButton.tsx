@@ -1,0 +1,18 @@
+import Link from "next/link";
+
+export function AboutArchiveButton() {
+  return (
+    <Link
+      href="/archive"
+      className="group inline-flex items-center gap-3 border-4 border-[var(--fg)] bg-[var(--fg)] px-7 py-3.5 font-mono text-sm tracking-widest text-[var(--paper-cream)] uppercase no-underline shadow-[4px_4px_0_0_#D10000] transition-all duration-200 hover:border-[#D10000] hover:bg-[#D10000] hover:shadow-[6px_6px_0_0_var(--fg)] hover:text-[var(--paper-cream)]"
+    >
+      翻阅档案
+      <span
+        className="inline-block transition-transform duration-200 group-hover:translate-x-1"
+        aria-hidden
+      >
+        →
+      </span>
+    </Link>
+  );
+}
