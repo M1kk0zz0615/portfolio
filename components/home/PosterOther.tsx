@@ -147,7 +147,7 @@ export function PosterOther() {
           fontSize: "clamp(0.6rem, 0.8cqw, 0.7rem)",
         }}
       >
-        <a href="#" className="text-[#8C8C8C] hover-red no-underline transition-colors duration-200">
+        <a href="https://space.bilibili.com/39276639?spm_id_from=333.1007.0.0" target="_blank" rel="noopener noreferrer" className="text-[#8C8C8C] hover-red no-underline transition-colors duration-200">
           Bilibili
         </a>
         <span className="text-[#D10000] select-none">·</span>
