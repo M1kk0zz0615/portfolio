@@ -119,18 +119,25 @@ body {
     scroll-snap-type: none;
     overflow-y: auto;
     height: auto;
-    min-height: 100dvh;
+    min-height: auto;
   }
 
   .poster {
     scroll-snap-align: none;
     scroll-snap-stop: normal;
-    /* 海报高度自适应内容，不小于视口 */
+    /* 海报高度完全自适应内容，不强制撑满视口 */
     height: auto;
-    min-height: 100dvh;
+    min-height: auto;
     overflow: visible;
     /* 移动端 padding 防止内容贴边 */
-    padding: clamp(1rem, 4vw, 2rem);
+    padding: clamp(0.75rem, 3vw, 1.5rem);
+    padding-bottom: clamp(1.5rem, 5vw, 3rem);
+  }
+
+  /* 海报间分隔线 — 替代原来强制 100dvh 撑开的留白 */
+  .poster + .poster {
+    border-top: 2px solid var(--fg);
+    border-top-color: rgba(13, 13, 13, 0.08);
   }
 
   /* 标题字号上限收紧 */

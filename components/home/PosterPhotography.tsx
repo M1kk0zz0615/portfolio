@@ -172,7 +172,7 @@ export function PosterPhotography() {
       </div>
 
       {/* ====== 移动端+平板 (<1024px) — flex-col 纵向布局 ====== */}
-      <div className="lg:hidden relative z-10 flex w-full flex-col px-4 pt-20 sm:px-8 sm:pt-28">
+      <div className="lg:hidden relative z-10 flex w-full flex-col px-4 pt-16 sm:px-8 sm:pt-20">
         {/* 档案编号 */}
         <div
           className="anim-y-60 font-mono text-xs tracking-widest text-[#B0B0B0] uppercase mb-2"

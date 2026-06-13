@@ -43,7 +43,7 @@ export function PosterAbout() {
 
       {/* 主内容区 — 左右平衡 */}
       <div
-        className="relative z-10 mx-auto grid h-full w-full max-w-6xl items-start gap-6 pl-4 pr-4 pt-20 sm:pl-8 sm:pr-6 sm:pt-32 md:pl-20 md:pr-10 lg:grid-cols-2 lg:gap-8 lg:pt-74"
+        className="relative z-10 mx-auto grid h-full w-full max-w-6xl items-start gap-6 pl-4 pr-4 pt-16 sm:pl-8 sm:pr-6 sm:pt-20 md:pl-20 md:pr-10 lg:grid-cols-2 lg:gap-8 lg:pt-74"
       >
         {/* 左侧：标题 + 按钮 — z-10 确保在 Logo 色块之上 */}
         <div
