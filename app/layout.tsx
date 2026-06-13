@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "数字视觉档案",
+  title: "Mikko的数字档案",
   description: "摄影师与影像创作者的个人视觉档案",
 };
 
