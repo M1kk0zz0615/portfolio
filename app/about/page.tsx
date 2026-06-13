@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useScrollReveal } from "@/app/hooks/useScrollReveal";
 import { ScrollArrow } from "@/components/ScrollArrow";
@@ -108,9 +109,11 @@ export default function AboutPage() {
                 zIndex: 0,
               }}
             />
-            <img
+            <Image
               src="/avatar/1.jpg"
               alt="刘俊宁"
+              width={160}
+              height={160}
               className="anim-scale d-3 relative z-10 w-full h-auto"
               style={{
                 clipPath: "polygon(0 3%, 100% 0, 100% 97%, 0 100%)",

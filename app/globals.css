@@ -14,9 +14,9 @@
   --gray-mid: #9A8B78;
   --gray-light: #C9B89A;
   --gray-dark: #3D3228;
-  /* Noto Sans SC 优先（Google Fonts 加载），统一跨平台渲染
+  /* Noto Sans SC 通过 next/font 本地化加载（--font-noto-sc），统一跨平台渲染
      回退：macOS 苹方 → Windows 微软雅黑 → 黑体 → 系统 sans-serif */
-  --font-display: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", "Heiti SC", sans-serif;
+  --font-display: var(--font-noto-sc), "PingFang SC", "Microsoft YaHei", "Heiti SC", sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {

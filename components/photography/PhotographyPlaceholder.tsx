@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import Image from "next/image";
 import { Lightbox } from "@/components/Lightbox";
 
 type PlaceholderVariant = "hero" | "documentary" | "creative" | "commissioned" | "color" | "bw" | "landscape" | "street";
@@ -22,24 +23,13 @@ function InnerPattern({ variant }: { variant: PlaceholderVariant }) {
           <div
             className="geo-circle absolute"
             style={{
-              width: "48%",
-              height: "48%",
-              border: "2px solid",
-              borderColor: "var(--red)",
-              opacity: 0.4,
-              background:
-                "radial-gradient(circle, rgba(209,0,0,0.15) 0%, transparent 70%)",
+              width: "48%", height: "48%", border: "2px solid", borderColor: "var(--red)",
+              opacity: 0.4, background: "radial-gradient(circle, rgba(209,0,0,0.15) 0%, transparent 70%)",
             }}
           />
           <div
             className="geo-circle absolute"
-            style={{
-              width: "28%",
-              height: "28%",
-              border: "1px solid",
-              borderColor: "var(--red)",
-              opacity: 0.25,
-            }}
+            style={{ width: "28%", height: "28%", border: "1px solid", borderColor: "var(--red)", opacity: 0.25 }}
           />
         </div>
       );
@@ -47,158 +37,62 @@ function InnerPattern({ variant }: { variant: PlaceholderVariant }) {
     case "documentary":
       return (
         <div className="absolute inset-0 flex items-center justify-center bg-[var(--gray-light)]">
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage:
-                "repeating-linear-gradient(0deg, transparent, transparent 28px, rgba(13,13,13,0.08) 28px, rgba(13,13,13,0.08) 29px), repeating-linear-gradient(90deg, transparent, transparent 28px, rgba(13,13,13,0.08) 28px, rgba(13,13,13,0.08) 29px)",
-            }}
-          />
-          <div
-            className="absolute bg-[#D10000]"
-            style={{ left: "32%", top: "38%", width: "10px", height: "10px" }}
-          />
+          <div className="absolute inset-0"
+            style={{ backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 28px, rgba(13,13,13,0.08) 28px, rgba(13,13,13,0.08) 29px), repeating-linear-gradient(90deg, transparent, transparent 28px, rgba(13,13,13,0.08) 28px, rgba(13,13,13,0.08) 29px)" }} />
+          <div className="absolute bg-[#D10000]" style={{ left: "32%", top: "38%", width: "10px", height: "10px" }} />
         </div>
       );
 
     case "creative":
       return (
         <div className="absolute inset-0 flex items-center justify-center bg-[var(--gray-light)]">
-          <div
-            className="absolute"
-            style={{
-              width: "55%",
-              height: "45%",
-              border: "2px solid",
-              borderColor: "var(--red)",
-              opacity: 0.3,
-              background: "rgba(209,0,0,0.08)",
-              transform: "rotate(-20deg)",
-            }}
-          />
-          <div
-            className="absolute"
-            style={{
-              width: "45%",
-              height: "55%",
-              border: "2px solid",
-              borderColor: "var(--red)",
-              opacity: 0.3,
-              background: "rgba(209,0,0,0.06)",
-              transform: "rotate(15deg)",
-            }}
-          />
+          <div className="absolute" style={{ width: "55%", height: "45%", border: "2px solid", borderColor: "var(--red)", opacity: 0.3, background: "rgba(209,0,0,0.08)", transform: "rotate(-20deg)" }} />
+          <div className="absolute" style={{ width: "45%", height: "55%", border: "2px solid", borderColor: "var(--red)", opacity: 0.3, background: "rgba(209,0,0,0.06)", transform: "rotate(15deg)" }} />
         </div>
       );
 
     case "commissioned":
       return (
         <div className="absolute inset-0 flex items-center justify-center bg-[var(--gray-light)]">
-          <div
-            className="absolute"
-            style={{
-              inset: "8%",
-              border: "2px solid",
-              borderColor: "var(--fg)",
-              opacity: 0.12,
-            }}
-          />
-          <div
-            className="absolute"
-            style={{
-              width: "60%",
-              height: "60%",
-              border: "1px solid",
-              borderColor: "var(--red)",
-              opacity: 0.2,
-            }}
-          />
-          <div
-            className="geo-circle absolute bg-[#D10000]"
-            style={{ width: "6px", height: "6px", opacity: 0.6 }}
-          />
+          <div className="absolute" style={{ inset: "8%", border: "2px solid", borderColor: "var(--fg)", opacity: 0.12 }} />
+          <div className="absolute" style={{ width: "60%", height: "60%", border: "1px solid", borderColor: "var(--red)", opacity: 0.2 }} />
+          <div className="geo-circle absolute bg-[#D10000]" style={{ width: "6px", height: "6px", opacity: 0.6 }} />
         </div>
       );
 
     case "color":
       return (
         <div className="absolute inset-0 flex items-center justify-center bg-[var(--gray-light)]">
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "repeating-linear-gradient(30deg, transparent, transparent 16px, rgba(209,0,0,0.06) 16px, rgba(209,0,0,0.06) 18px)",
-            }}
-          />
-          <div
-            className="geo-circle absolute"
-            style={{
-              width: "40%",
-              height: "40%",
-              border: "2px solid var(--red)",
-              opacity: 0.25,
-            }}
-          />
+          <div className="absolute inset-0"
+            style={{ background: "repeating-linear-gradient(30deg, transparent, transparent 16px, rgba(209,0,0,0.06) 16px, rgba(209,0,0,0.06) 18px)" }} />
+          <div className="geo-circle absolute"
+            style={{ width: "40%", height: "40%", border: "2px solid var(--red)", opacity: 0.25 }} />
         </div>
       );
 
     case "landscape":
       return (
         <div className="absolute inset-0 flex items-center justify-center bg-[var(--gray-light)]">
-          <div
-            className="absolute"
-            style={{
-              width: "50%",
-              height: "40%",
-              border: "2px solid var(--red)",
-              opacity: 0.25,
-            }}
-          />
-          <div
-            className="absolute"
-            style={{
-              left: 0,
-              bottom: "30%",
-              width: "100%",
-              height: "3px",
-              background: "var(--red)",
-              opacity: 0.3,
-            }}
-          />
+          <div className="absolute" style={{ width: "50%", height: "40%", border: "2px solid var(--red)", opacity: 0.25 }} />
+          <div className="absolute" style={{ left: 0, bottom: "30%", width: "100%", height: "3px", background: "var(--red)", opacity: 0.3 }} />
         </div>
       );
 
     case "street":
       return (
         <div className="absolute inset-0 flex items-center justify-center bg-[var(--gray-light)]">
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "repeating-linear-gradient(-45deg, transparent, transparent 12px, rgba(209,0,0,0.08) 12px, rgba(209,0,0,0.08) 14px)",
-            }}
-          />
-          <div
-            className="absolute bg-[#D10000]"
-            style={{ width: "8px", height: "24px", opacity: 0.4 }}
-          />
+          <div className="absolute inset-0"
+            style={{ background: "repeating-linear-gradient(-45deg, transparent, transparent 12px, rgba(209,0,0,0.08) 12px, rgba(209,0,0,0.08) 14px)" }} />
+          <div className="absolute bg-[#D10000]" style={{ width: "8px", height: "24px", opacity: 0.4 }} />
         </div>
       );
 
     case "bw":
       return (
         <div className="absolute inset-0 flex items-center justify-center bg-[var(--gray-light)]">
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "repeating-linear-gradient(0deg, transparent, transparent 20px, rgba(13,13,13,0.06) 20px, rgba(13,13,13,0.06) 21px), repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(13,13,13,0.06) 20px, rgba(13,13,13,0.06) 21px)",
-            }}
-          />
-          <div
-            className="absolute bg-[var(--fg)]"
-            style={{ width: "12px", height: "12px", opacity: 0.15 }}
-          />
+          <div className="absolute inset-0"
+            style={{ background: "repeating-linear-gradient(0deg, transparent, transparent 20px, rgba(13,13,13,0.06) 20px, rgba(13,13,13,0.06) 21px), repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(13,13,13,0.06) 20px, rgba(13,13,13,0.06) 21px)" }} />
+          <div className="absolute bg-[var(--fg)]" style={{ width: "12px", height: "12px", opacity: 0.15 }} />
         </div>
       );
   }
@@ -223,13 +117,10 @@ export function PhotographyPlaceholder({
   };
 
   const clipClass =
-    clip === "tl"
-      ? "clip-angle-tl"
-      : clip === "br"
-        ? "clip-angle-br"
-        : clip === "tr"
-          ? "clip-angle-tr"
-          : "";
+    clip === "tl" ? "clip-angle-tl"
+    : clip === "br" ? "clip-angle-br"
+    : clip === "tr" ? "clip-angle-tr"
+    : "";
 
   return (
     <>
@@ -251,11 +142,17 @@ export function PhotographyPlaceholder({
         onClick={handleClick}
       >
         {src ? (
-          <img
-            src={src}
-            alt=""
-            className={`absolute inset-0 w-full h-full object-cover ${variant === "color" ? "photo-img--color" : ""}`}
-          />
+          /* next/image fill 需要 relative 父容器 */
+          <div className="relative w-full h-full">
+            <Image
+              src={src}
+              alt=""
+              fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 280px"
+              className={`object-cover ${variant === "color" ? "photo-img--color" : ""}`}
+              loading="lazy"
+            />
+          </div>
         ) : (
           <InnerPattern variant={variant} />
         )}

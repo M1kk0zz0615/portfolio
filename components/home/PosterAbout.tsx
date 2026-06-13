@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useScrollReveal } from "@/app/hooks/useScrollReveal";
 import { AboutArchiveButton } from "./AboutArchiveButton";
 import { AboutPosterTitle } from "./AboutPosterTitle";
@@ -103,9 +104,12 @@ export function PosterAbout() {
               <div className="anim-scale d-3 absolute bg-[#8B0000]" style={{ left: "14%", bottom: "16%", width: "22%", height: "18%" }} />
             </div>
             {/* Logo */}
-            <img
+            <Image
               src="/mikkologo/logo.png"
               alt="Mikko"
+              width={260}
+              height={260}
+              priority
               className="anim-scale d-4 relative z-10 w-full h-auto"
             />
             {/* 粗黑斜线 — 穿越色块区，从右往左绘制，基于内层固定容器定位 */}

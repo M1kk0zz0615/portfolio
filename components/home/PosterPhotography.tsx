@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useScrollReveal } from "@/app/hooks/useScrollReveal";
 import { Lightbox } from "@/components/Lightbox";
@@ -91,7 +92,7 @@ export function PosterPhotography() {
           onMouseLeave={(e) => (e.currentTarget.style.transform = "rotate(-6deg)")}
           onClick={() => openLightbox("/photos/cover/1.jpg", photo1Ref.current)}
         >
-          <img src="/photos/cover/1.jpg" alt="" className="absolute inset-0 w-full h-full object-cover"
+          <img loading="lazy" src="/photos/cover/1.jpg" alt="" className="absolute inset-0 w-full h-full object-cover"
             style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} />
           <div className="duotone-overlay" />
         </div>
@@ -110,7 +111,7 @@ export function PosterPhotography() {
           onMouseLeave={(e) => (e.currentTarget.style.transform = "rotate(4deg)")}
           onClick={() => openLightbox("/photos/cover/2.jpg", photo2Ref.current)}
         >
-          <img src="/photos/cover/2.jpg" alt="" className="absolute inset-0 w-full h-full object-cover"
+          <img loading="lazy" src="/photos/cover/2.jpg" alt="" className="absolute inset-0 w-full h-full object-cover"
             style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} />
           <div className="duotone-overlay" />
         </div>
@@ -129,7 +130,7 @@ export function PosterPhotography() {
           onMouseLeave={(e) => (e.currentTarget.style.transform = "rotate(-3deg)")}
           onClick={() => openLightbox("/photos/cover/3.jpg", photo3Ref.current)}
         >
-          <img src="/photos/cover/3.jpg" alt="" className="absolute inset-0 w-full h-full object-cover"
+          <img loading="lazy" src="/photos/cover/3.jpg" alt="" className="absolute inset-0 w-full h-full object-cover"
             style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} />
           <div className="absolute left-0 top-[55%] h-[4px] w-full bg-[#D10000]" />
           <div className="duotone-overlay" />
@@ -203,8 +204,8 @@ export function PosterPhotography() {
             style={{ transform: "rotate(-3deg)", minWidth: 0 }}
             onClick={() => openLightbox("/photos/cover/1.jpg", photo1Ref.current)}
           >
-            <img src="/photos/cover/1.jpg" alt="" className="absolute inset-0 w-full h-full object-cover"
-              style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} />
+            <Image src="/photos/cover/1.jpg" alt="" fill sizes="(max-width: 767px) 50vw, 26vw" className="object-cover"
+              style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} loading="lazy" />
             <div className="duotone-overlay" />
           </div>
           <div
@@ -213,8 +214,8 @@ export function PosterPhotography() {
             style={{ transform: "rotate(2deg)", minWidth: 0 }}
             onClick={() => openLightbox("/photos/cover/2.jpg", photo2Ref.current)}
           >
-            <img src="/photos/cover/2.jpg" alt="" className="absolute inset-0 w-full h-full object-cover"
-              style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} />
+            <Image src="/photos/cover/2.jpg" alt="" fill sizes="(max-width: 767px) 50vw, 26vw" className="object-cover"
+              style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} loading="lazy" />
             <div className="duotone-overlay" />
           </div>
         </div>
@@ -231,8 +232,8 @@ export function PosterPhotography() {
           }}
           onClick={() => openLightbox("/photos/cover/3.jpg", photo3Ref.current)}
         >
-          <img src="/photos/cover/3.jpg" alt="" className="absolute inset-0 w-full h-full object-cover"
-            style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} />
+          <Image src="/photos/cover/3.jpg" alt="" fill sizes="80vw" className="object-cover"
+            style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} loading="lazy" />
           <div className="absolute left-0 top-[55%] h-[3px] w-full bg-[#D10000]" />
           <div className="duotone-overlay" />
         </div>

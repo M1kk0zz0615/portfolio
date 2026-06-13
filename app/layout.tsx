@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Noto_Sans_SC } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -10,6 +10,15 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+// Noto Sans SC 改用 next/font 本地化加载，消除 Google Fonts 外部请求延迟
+const notoSansSC = Noto_Sans_SC({
+  weight: "900",
+  subsets: ["latin"],
+  display: "swap",
+  preload: true,
+  variable: "--font-noto-sc",
 });
 
 export const metadata: Metadata = {
@@ -31,25 +40,8 @@ export default function RootLayout({
   return (
     <html
       lang="zh-CN"
-      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${notoSansSC.variable} antialiased`}
     >
-      <head>
-        {/* Noto Sans SC 统一中文字体渲染，消除 macOS 苹方与 Windows 微软雅黑之间的字面率差异 */}
-        <link
-          rel="preconnect"
-          href="https://fonts.googleapis.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@900&display=swap"
-          rel="stylesheet"
-        />
-      </head>
       <body className="m-0 p-0">{children}</body>
     </html>
   );
