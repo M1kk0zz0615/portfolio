@@ -14,15 +14,13 @@ export function Lightbox({ src, originRect, onClose }: LightboxProps) {
   const [zoom, setZoom] = useState(1);
   const [flipDone, setFlipDone] = useState(false); // FLIP 动画结束后关闭 transform transition
 
-  // 用 ref 存拖拽/平移状态，避免 setState 触发重渲染
-  const panRef = useRef({ x: 0, y: 0 });
+  // 拖拽/平移状态
+  const [pan, setPan] = useState({ x: 0, y: 0 });
   const isDragging = useRef(false);
   const dragStart = useRef({ x: 0, y: 0 });
-  const panAtDragStart = useRef({ x: 0, y: 0 });
+  const panAtDragStartState = useRef({ x: 0, y: 0 });
   const hasDragged = useRef(false);
-  // React state 仅用于驱动 cursor 样式和提示文字
   const [dragging, setDragging] = useState(false);
-  const [, setPanTick] = useState(0); // 仅用于同步 panRef → 渲染
 
   const imageRef = useRef<HTMLImageElement>(null);
 
@@ -65,8 +63,6 @@ export function Lightbox({ src, originRect, onClose }: LightboxProps) {
   const scaleW = maxW / originRect.width;
   const scaleH = maxH / originRect.height;
   const fitScale = Math.min(scaleW, scaleH);
-  const finalW = originRect.width * fitScale;
-  const finalH = originRect.height * fitScale;
 
   // 图片始终定位在原点位置，FLIP 靠 transform 完成
   const baseLeft = originRect.left;
@@ -90,8 +86,7 @@ export function Lightbox({ src, originRect, onClose }: LightboxProps) {
     setZoom(prev => {
       const next = Math.min(5, Math.max(0.5, prev + delta));
       if (next <= 1.05) {
-        panRef.current = { x: 0, y: 0 };
-        setPanTick(t => t + 1);
+        setPan({ x: 0, y: 0 });
       }
       return next;
     });
@@ -108,10 +103,10 @@ export function Lightbox({ src, originRect, onClose }: LightboxProps) {
     isDragging.current = true;
     hasDragged.current = false;
     dragStart.current = { x: e.clientX, y: e.clientY };
-    panAtDragStart.current = { ...panRef.current };
+    panAtDragStartState.current = pan;
     latestMouse.current = { x: e.clientX, y: e.clientY };
     setDragging(true);
-  }, [zoom]);
+  }, [zoom, pan]);
 
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
@@ -126,11 +121,10 @@ export function Lightbox({ src, originRect, onClose }: LightboxProps) {
       // RAF 保证每帧只更新一次，但始终用最新鼠标位置
       if (!rafId.current) {
         rafId.current = requestAnimationFrame(() => {
-          panRef.current = {
-            x: panAtDragStart.current.x + (latestMouse.current.x - dragStart.current.x),
-            y: panAtDragStart.current.y + (latestMouse.current.y - dragStart.current.y),
-          };
-          setPanTick(t => t + 1);
+          setPan({
+            x: panAtDragStartState.current.x + (latestMouse.current.x - dragStart.current.x),
+            y: panAtDragStartState.current.y + (latestMouse.current.y - dragStart.current.y),
+          });
           rafId.current = 0;
         });
       }
@@ -157,8 +151,7 @@ export function Lightbox({ src, originRect, onClose }: LightboxProps) {
     if (hasDragged.current) return;
     if (zoom > 1.05) {
       setZoom(1);
-      panRef.current = { x: 0, y: 0 };
-      setPanTick(t => t + 1);
+      setPan({ x: 0, y: 0 });
     } else {
       close();
     }
@@ -166,8 +159,8 @@ export function Lightbox({ src, originRect, onClose }: LightboxProps) {
 
   // —— 图片样式 ——————————————
   // transform 合并：translate 在前 scale 在后，pan 不受 scale 影响 = 1:1 跟手
-  const totalX = flipT.x + panRef.current.x;
-  const totalY = flipT.y + panRef.current.y;
+  const totalX = flipT.x + pan.x;
+  const totalY = flipT.y + pan.y;
   const totalScale = flipT.s * zoom;
   const imgTransform = `translate(${totalX}px, ${totalY}px) scale(${totalScale})`;
 
