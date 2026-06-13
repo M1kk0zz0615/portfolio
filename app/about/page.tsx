@@ -307,7 +307,14 @@ export default function AboutPage() {
             </p>
             <p>
               <span className="type-label text-[var(--fg)]/30 mr-4">GitHub</span>
-              <span className="text-[var(--fg)]/35">暂定</span>
+              <a
+                href="https://github.com/M1kk0zz0615"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[var(--fg)]/70 hover:text-[#D10000] no-underline transition-colors duration-200"
+              >
+                github.com/M1kk0zz0615
+              </a>
             </p>
             <p>
               <span className="type-label text-[var(--fg)]/30 mr-4">Bilibili</span>
