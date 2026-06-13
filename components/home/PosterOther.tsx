@@ -1,10 +1,23 @@
 "use client";
 
+import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import { useScrollReveal } from "@/app/hooks/useScrollReveal";
+import { Lightbox } from "@/components/Lightbox";
 
 export function PosterOther() {
   const ref = useScrollReveal<HTMLDivElement>(0.3);
+  const wechatRef = useRef<HTMLAnchorElement>(null);
+  const [wechatLightbox, setWechatLightbox] = useState<{ src: string; rect: DOMRect } | null>(null);
+
+  const openWechat = useCallback(() => {
+    if (wechatRef.current) {
+      setWechatLightbox({
+        src: "/photos/wechat/mmqrcode1781334663008.png",
+        rect: wechatRef.current.getBoundingClientRect(),
+      });
+    }
+  }, []);
 
   return (
     <section
@@ -151,7 +164,12 @@ export function PosterOther() {
           Bilibili
         </a>
         <span className="text-[#D10000] select-none">·</span>
-        <a href="#" className="text-[#8C8C8C] hover-red no-underline transition-colors duration-200">
+        <a
+          ref={wechatRef}
+          href="#"
+          onClick={(e) => { e.preventDefault(); openWechat(); }}
+          className="text-[#8C8C8C] hover-red no-underline transition-colors duration-200"
+        >
           WeChat
         </a>
         <span className="text-[#D10000] select-none">·</span>
@@ -162,6 +180,11 @@ export function PosterOther() {
 
       {/* 底部黑色粗线 — 封底 */}
       <div className="footer-bar z-0" />
+
+      {/* 微信二维码灯箱 */}
+      {wechatLightbox && (
+        <Lightbox src={wechatLightbox.src} originRect={wechatLightbox.rect} onClose={() => setWechatLightbox(null)} />
+      )}
     </section>
   );
 }
