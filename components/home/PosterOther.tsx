@@ -178,7 +178,7 @@ export function PosterOther() {
         {/* 找到我 + 向下箭头 */}
         <div className="flex items-center gap-2">
           <span
-            className="type-label text-[#8C8C8C]"
+            className="type-label text-[var(--fg)] font-bold"
             style={{ fontSize: "clamp(0.55rem, 0.7cqw, 0.65rem)", letterSpacing: "0.2em" }}
           >
             找到我
