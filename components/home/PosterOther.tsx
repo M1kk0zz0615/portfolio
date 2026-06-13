@@ -179,7 +179,7 @@ export function PosterOther() {
         <div className="flex items-center gap-2">
           <span
             className="type-label text-[var(--fg)] font-bold"
-            style={{ fontSize: "clamp(0.55rem, 0.7cqw, 0.65rem)", letterSpacing: "0.2em" }}
+            style={{ fontSize: "clamp(0.65rem, 0.85cqw, 0.8rem)", letterSpacing: "0.2em" }}
           >
             找到我
           </span>
