@@ -166,10 +166,10 @@ export default function DigitalPage() {
         <SectionHeader title="在场" cyrillic="COMMISSIONED" />
 
         <div
-          className="grid gap-4 md:gap-6"
+          className="grid gap-3 sm:gap-4 md:gap-6"
           style={{
-            gridTemplateColumns: "repeat(auto-fill, minmax(clamp(140px, 22vw, 280px), 1fr))",
-            gridAutoRows: "clamp(100px, 16vw, 200px)",
+            gridTemplateColumns: "repeat(auto-fill, minmax(clamp(120px, 38vw, 280px), 1fr))",
+            gridAutoRows: "clamp(90px, 28vw, 200px)",
           }}
         >
           {COMMISSIONED_PHOTOS.map((p, i) => (
@@ -207,10 +207,10 @@ export default function DigitalPage() {
         <SectionHeader title="风光" cyrillic="LANDSCAPE" />
 
         <div
-          className="grid gap-4 md:gap-6"
+          className="grid gap-3 sm:gap-4 md:gap-6"
           style={{
-            gridTemplateColumns: "repeat(auto-fill, minmax(clamp(140px, 22vw, 280px), 1fr))",
-            gridAutoRows: "clamp(100px, 16vw, 200px)",
+            gridTemplateColumns: "repeat(auto-fill, minmax(clamp(120px, 38vw, 280px), 1fr))",
+            gridAutoRows: "clamp(90px, 28vw, 200px)",
           }}
         >
           {LANDSCAPE_PHOTOS.map((p, i) => (
@@ -248,10 +248,10 @@ export default function DigitalPage() {
         <SectionHeader title="街头" cyrillic="STREET" markerColor="var(--fg)" />
 
         <div
-          className="grid gap-4 md:gap-6"
+          className="grid gap-3 sm:gap-4 md:gap-6"
           style={{
-            gridTemplateColumns: "repeat(auto-fill, minmax(clamp(140px, 22vw, 280px), 1fr))",
-            gridAutoRows: "clamp(100px, 16vw, 200px)",
+            gridTemplateColumns: "repeat(auto-fill, minmax(clamp(120px, 38vw, 280px), 1fr))",
+            gridAutoRows: "clamp(90px, 28vw, 200px)",
           }}
         >
           {STREET_PHOTOS.map((p, i) => (

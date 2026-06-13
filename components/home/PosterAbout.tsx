@@ -43,7 +43,7 @@ export function PosterAbout() {
 
       {/* 主内容区 — 左右平衡 */}
       <div
-        className="relative z-10 mx-auto grid h-full w-full max-w-6xl items-start gap-10 pl-12 pr-6 pt-74 md:pl-20 md:pr-10 lg:grid-cols-2 lg:gap-8 lg:pt-74"
+        className="relative z-10 mx-auto grid h-full w-full max-w-6xl items-start gap-6 pl-4 pr-4 pt-20 sm:pl-8 sm:pr-6 sm:pt-32 md:pl-20 md:pr-10 lg:grid-cols-2 lg:gap-8 lg:pt-74"
       >
         {/* 左侧：标题 + 按钮 — z-10 确保在 Logo 色块之上 */}
         <div
@@ -67,7 +67,7 @@ export function PosterAbout() {
           </p>
 
           {/* 标题区右下角 — 翻阅档案按钮 */}
-          <div className="anim-y-60 d-3 absolute bottom-12 right-0">
+          <div className="anim-y-60 d-3 mt-6 flex justify-end lg:absolute lg:bottom-12 lg:right-0">
             <AboutArchiveButton />
           </div>
         </div>
@@ -76,7 +76,7 @@ export function PosterAbout() {
         <div
           className="order-2 flex items-center justify-center lg:order-none lg:absolute lg:right-[6%] lg:top-[16%] lg:h-[50%] lg:w-[35%]"
         >
-          <div className="relative" style={{ width: "clamp(160px, 28cqw, 260px)" }}>
+          <div className="relative" style={{ width: "clamp(120px, 40vw, 260px)", maxWidth: "260px" }}>
             {/* 红褐色大不规则体块 — 底层 */}
             <div
               className="anim-scale d-1 absolute bg-[#8B4A3A]"

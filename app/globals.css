@@ -111,6 +111,111 @@ body {
 }
 
 /* ============================================
+   移动端 (<768px) — 海报容器与全局调整
+   ============================================ */
+@media (max-width: 767px) {
+  .poster-container {
+    /* 关闭 scroll-snap，让滚动自由 */
+    scroll-snap-type: none;
+    overflow-y: auto;
+    height: auto;
+    min-height: 100dvh;
+  }
+
+  .poster {
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+    /* 海报高度自适应内容，不小于视口 */
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+    /* 移动端 padding 防止内容贴边 */
+    padding: clamp(1rem, 4vw, 2rem);
+  }
+
+  /* 标题字号上限收紧 */
+  .type-display {
+    /* 继承原来的 weight/line-height，仅收紧极端字号 */
+    letter-spacing: -0.02em;
+  }
+
+  /* 俄文标注在移动端略微缩小 */
+  .type-cyrillic {
+    letter-spacing: 0.2em;
+  }
+
+  .type-label {
+    letter-spacing: 0.04em;
+  }
+
+  /* 装饰斜线组缩小 */
+  .diagonal-stripes {
+    gap: 8px;
+    transform: skewY(-20deg);
+  }
+  .diagonal-stripes span {
+    width: 50px;
+    height: 3px;
+  }
+
+  /* 滚动箭头缩小 */
+  .scroll-arrow {
+    bottom: 16px;
+    border-left-width: 8px;
+    border-right-width: 8px;
+    border-top-width: 12px;
+  }
+
+  /* 封底粗线变窄 */
+  .footer-bar {
+    height: 3px;
+  }
+
+  /* 入场动画幅度减半 */
+  .anim-y-60 {
+    --shift: 30px;
+    transform: translateY(var(--shift));
+  }
+  .anim-x--80 {
+    --shift: -40px;
+    transform: translateX(var(--shift));
+  }
+  @keyframes arrow-bob-mobile {
+    0%, 100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+    50%      { opacity: 0.3; transform: translateX(-50%) translateY(4px); }
+  }
+  .scroll-arrow {
+    animation: arrow-bob-mobile 2s linear infinite;
+  }
+}
+
+/* ============================================
+   小屏手机额外收紧 (<400px)
+   ============================================ */
+@media (max-width: 399px) {
+  .poster {
+    padding: 0.8rem;
+    min-height: auto;
+    padding-bottom: 3rem;
+  }
+
+  .scroll-arrow {
+    display: none;
+  }
+
+  .geo-marker {
+    width: 20px;
+    height: 3px;
+    margin-right: 10px;
+  }
+
+  /* 小屏上极端字号进一步压制 */
+  .type-display {
+    letter-spacing: -0.01em;
+  }
+}
+
+/* ============================================
    中文展示字体预设
    ============================================ */
 .type-display {
