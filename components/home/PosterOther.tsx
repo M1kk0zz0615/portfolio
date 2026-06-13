@@ -141,7 +141,7 @@ export function PosterOther() {
         className="anim-y-60 d-2 absolute flex flex-col gap-8 select-none z-10"
         style={{ left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}
       >
-        <Link href="/index" className="group flex items-center no-underline">
+        <Link href="/browse" className="group flex items-center no-underline">
           <span className="geo-marker" />
           <span className="type-display hover-red" style={{ fontSize: "clamp(2.5rem, 5cqw, 5rem)" }}>
             索引
