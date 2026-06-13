@@ -148,6 +148,7 @@ export function PhotographyPlaceholder({
               src={src}
               alt=""
               fill
+              unoptimized
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 280px"
               className={`object-cover ${variant === "color" ? "photo-img--color" : ""}`}
               loading="lazy"
