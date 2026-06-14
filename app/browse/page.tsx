@@ -18,27 +18,33 @@ interface IndexEntry {
 const ENTRIES: IndexEntry[] = [
   {
     num: "01",
+    title: "ARCHIVE",
+    href: "/archive",
+    desc: ["刘俊宁", "Computer Science · Photography · Video"],
+  },
+  {
+    num: "02",
+    title: "BUILD LOG",
+    href: "/?to=build-log",
+    desc: ["计算机科学课程项目", "从底层硬件到上层应用"],
+  },
+  {
+    num: "03",
     title: "PHOTOGRAPHY",
     href: "/photography/film",
     desc: ["Creative · Street Photography", "Film Photography", "Landscape Studies"],
   },
   {
-    num: "02",
-    title: "FILM",
+    num: "04",
+    title: "CINEMA",
     href: "/video/work",
     desc: ["Video Projects", "Experimental Shorts"],
   },
   {
-    num: "03",
+    num: "05",
     title: "PROJECTS",
-    href: "https://github.com/M1kk0zz0615/portfolio",
+    href: "https://github.com/M1kk0zz0615",
     desc: ["GitHub Repositories", "Code · Tools · Experiments"],
-  },
-  {
-    num: "04",
-    title: "ABOUT",
-    href: "/about",
-    desc: ["刘俊宁", "Computer Science · Photography · Video"],
   },
 ];
 

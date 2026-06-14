@@ -30,13 +30,11 @@ export function PosterAbout() {
         style={{ bottom: "12%", width: "100%" }}
       />
 
-      {/* 档案编号 — 独立定位 */}
+      {/* 档案编号 — 独立定位（移动端回归文档流避免与标题重叠） */}
       <div
-        className="anim-y-60 absolute z-20 font-mono text-xs tracking-widest text-[#B0B0B0] uppercase"
-        style={{
-          left: "clamp(1.5rem, 6cqw, 8%)",
-          top: "19%",
-        }}
+        className="anim-y-60 z-20 font-mono text-xs tracking-widest text-[#B0B0B0] uppercase
+          absolute left-[clamp(1.5rem,6cqw,8%)] top-[19%]
+          max-[767px]:relative max-[767px]:left-4 max-[767px]:top-0 max-[767px]:mb-2"
       >
         <span className="text-[#D10000]">档案</span>
         <span className="mx-2 text-[var(--fg)]">01</span>
@@ -131,9 +129,9 @@ export function PosterAbout() {
         </div>
       </div>
 
-      {/* 俄文标注 */}
+      {/* 俄文标注 — 移动端隐藏避免与 Logo 重叠 */}
       <span
-        className="anim-y-60 d-2 type-cyrillic absolute z-10 text-[#B0B0B0] select-none"
+        className="anim-y-60 d-2 type-cyrillic absolute z-10 text-[#B0B0B0] select-none hidden md:inline"
         style={{
           right: "8%",
           bottom: "18%",

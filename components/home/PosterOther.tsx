@@ -48,7 +48,7 @@ export function PosterOther() {
           style={{ left: "clamp(1.5rem, 6cqw, 8%)", top: "19%" }}
         >
           <span className="text-[#D10000]">档案</span>
-          <span className="mx-2 text-[var(--fg)]">04</span>
+          <span className="mx-2 text-[var(--fg)]">05</span>
         </div>
 
         {/* 左上角空心正方形 */}
@@ -121,7 +121,7 @@ export function PosterOther() {
         {/* 档案编号 */}
         <div className="anim-y-60 self-start font-mono text-xs tracking-widest text-[#B0B0B0] uppercase mb-8">
           <span className="text-[#D10000]">档案</span>
-          <span className="mx-2 text-[var(--fg)]">04</span>
+          <span className="mx-2 text-[var(--fg)]">05</span>
         </div>
 
         {/* 两个链接 — 居中竖排 */}

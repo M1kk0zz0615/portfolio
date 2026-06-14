@@ -20,7 +20,7 @@ export function PosterVideo() {
           style={{ left: "clamp(1.5rem, 6cqw, 8%)", top: "19%" }}
         >
           <span className="text-[#D10000]">档案</span>
-          <span className="mx-2 text-[var(--fg)]">03</span>
+          <span className="mx-2 text-[var(--fg)]">04</span>
         </div>
 
         {/* Lissitzky 几何 — 左上角 */}
@@ -122,7 +122,7 @@ export function PosterVideo() {
         {/* 档案编号 */}
         <div className="anim-y-60 font-mono text-xs tracking-widest text-[#B0B0B0] uppercase mb-2">
           <span className="text-[#D10000]">档案</span>
-          <span className="mx-2 text-[var(--fg)]">03</span>
+          <span className="mx-2 text-[var(--fg)]">04</span>
         </div>
 
         {/* 俄文 */}

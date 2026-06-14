@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useScrollReveal } from "@/app/hooks/useScrollReveal";
@@ -9,13 +9,6 @@ import { Lightbox } from "@/components/Lightbox";
 export function PosterPhotography() {
   const ref = useScrollReveal<HTMLDivElement>(0.3);
   const [lightbox, setLightbox] = useState<{ src: string; rect: DOMRect } | null>(null);
-  const photo1Ref = useRef<HTMLDivElement>(null);
-  const photo2Ref = useRef<HTMLDivElement>(null);
-  const photo3Ref = useRef<HTMLDivElement>(null);
-
-  const openLightbox = useCallback((src: string, el: HTMLDivElement | null) => {
-    if (el) setLightbox({ src, rect: el.getBoundingClientRect() });
-  }, []);
 
   return (
     <section
@@ -23,7 +16,7 @@ export function PosterPhotography() {
       className="poster flex items-center bg-paper text-[var(--fg)]"
       aria-label="摄影档案"
     >
-      {/* ====== 桌面端 (>1024px) — 绝对定位海报布局 ====== */}
+      {/* ====== 桌面端 (>1034px) — 绝对定位海报布局 ====== */}
       <div className="hidden lg:contents">
         {/* 档案编号 */}
         <div
@@ -34,7 +27,7 @@ export function PosterPhotography() {
           }}
         >
           <span className="text-[#D10000]">档案</span>
-          <span className="mx-2 text-[var(--fg)]">02</span>
+          <span className="mx-2 text-[var(--fg)]">03</span>
         </div>
 
         {/* 黑色对角线 */}
@@ -80,19 +73,17 @@ export function PosterPhotography() {
 
         {/* 照片 1 */}
         <div
-          ref={photo1Ref}
-          className="anim-scale d-3 photo-montage clip-angle-tl absolute bg-[var(--bg-muted)] cursor-pointer z-[5]"
+className="anim-scale d-3 photo-montage clip-angle-tl absolute bg-[var(--bg-muted)] cursor-pointer z-[5]"
           style={{
             left: "16%", top: "7%",
             width: "clamp(160px, 26cqw, 340px)", height: "clamp(120px, 20cqw, 260px)",
-            transform: "rotate(-6deg)",
-            transition: "transform 0.3s cubic-bezier(0.2,0,0,1)",
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.transform = "rotate(0deg)")}
-          onMouseLeave={(e) => (e.currentTarget.style.transform = "rotate(-6deg)")}
-          onClick={() => openLightbox("/photos/cover/1.jpg", photo1Ref.current)}
+          onClick={(e) => {
+            const el = e.currentTarget;
+            setLightbox({ src: "/photos/cover/1.jpg", rect: el.getBoundingClientRect() });
+          }}
         >
-          <div className="relative w-full h-full">
+          <div className="relative w-full h-full rotate-[-6deg] hover:rotate-0 transition-transform duration-300" style={{ transitionTimingFunction: "cubic-bezier(0.2,0,0,1)" }}>
             <Image src="/photos/cover/1.jpg" alt="" fill sizes="340px" className="object-cover"
               style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} loading="lazy" />
           </div>
@@ -101,19 +92,17 @@ export function PosterPhotography() {
 
         {/* 照片 2 */}
         <div
-          ref={photo2Ref}
-          className="anim-scale d-4 photo-montage clip-angle-br absolute bg-[var(--bg-muted)] cursor-pointer z-[5]"
+className="anim-scale d-4 photo-montage clip-angle-br absolute bg-[var(--bg-muted)] cursor-pointer z-[5]"
           style={{
             right: "-10%", top: "9%",
             width: "clamp(140px, 22cqw, 280px)", height: "clamp(160px, 24cqw, 310px)",
-            transform: "rotate(4deg)",
-            transition: "transform 0.3s cubic-bezier(0.2,0,0,1)",
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.transform = "rotate(0deg)")}
-          onMouseLeave={(e) => (e.currentTarget.style.transform = "rotate(4deg)")}
-          onClick={() => openLightbox("/photos/cover/2.jpg", photo2Ref.current)}
+          onClick={(e) => {
+            const el = e.currentTarget;
+            setLightbox({ src: "/photos/cover/2.jpg", rect: el.getBoundingClientRect() });
+          }}
         >
-          <div className="relative w-full h-full">
+          <div className="relative w-full h-full rotate-[4deg] hover:rotate-0 transition-transform duration-300" style={{ transitionTimingFunction: "cubic-bezier(0.2,0,0,1)" }}>
             <Image src="/photos/cover/2.jpg" alt="" fill sizes="280px" className="object-cover"
               style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} loading="lazy" />
           </div>
@@ -122,19 +111,17 @@ export function PosterPhotography() {
 
         {/* 照片 3 */}
         <div
-          ref={photo3Ref}
-          className="anim-scale d-5 photo-montage clip-angle-tr absolute bg-[var(--bg-muted)] cursor-pointer z-[5]"
+className="anim-scale d-5 photo-montage clip-angle-tr absolute bg-[var(--bg-muted)] cursor-pointer z-[5]"
           style={{
             right: "0%", bottom: "10%",
             width: "clamp(150px, 24cqw, 310px)", height: "clamp(110px, 16cqw, 210px)",
-            transform: "rotate(-3deg)",
-            transition: "transform 0.3s cubic-bezier(0.2,0,0,1)",
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.transform = "rotate(0deg)")}
-          onMouseLeave={(e) => (e.currentTarget.style.transform = "rotate(-3deg)")}
-          onClick={() => openLightbox("/photos/cover/3.jpg", photo3Ref.current)}
+          onClick={(e) => {
+            const el = e.currentTarget;
+            setLightbox({ src: "/photos/cover/3.jpg", rect: el.getBoundingClientRect() });
+          }}
         >
-          <div className="relative w-full h-full">
+          <div className="relative w-full h-full rotate-[-3deg] hover:rotate-0 transition-transform duration-300" style={{ transitionTimingFunction: "cubic-bezier(0.2,0,0,1)" }}>
             <Image src="/photos/cover/3.jpg" alt="" fill sizes="310px" className="object-cover"
               style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} loading="lazy" />
           </div>
@@ -178,14 +165,14 @@ export function PosterPhotography() {
         <div className="scroll-arrow z-30" />
       </div>
 
-      {/* ====== 移动端+平板 (<1024px) — flex-col 纵向布局 ====== */}
+      {/* ====== 移动端+平板 (<1034px) — flex-col 纵向布局 ====== */}
       <div className="lg:hidden relative z-10 flex w-full flex-col px-4 pt-16 sm:px-8 sm:pt-20">
         {/* 档案编号 */}
         <div
           className="anim-y-60 font-mono text-xs tracking-widest text-[#B0B0B0] uppercase mb-2"
         >
           <span className="text-[#D10000]">档案</span>
-          <span className="mx-2 text-[var(--fg)]">02</span>
+          <span className="mx-2 text-[var(--fg)]">03</span>
         </div>
 
         {/* 俄文 + 主标题 */}
@@ -205,20 +192,24 @@ export function PosterPhotography() {
         {/* 移动端：2张照片并排 */}
         <div className="flex gap-2 sm:gap-3 mb-6" style={{ height: "clamp(160px, 42vw, 280px)" }}>
           <div
-            ref={photo1Ref}
-            className="anim-scale d-2 photo-montage clip-angle-tl bg-[var(--bg-muted)] cursor-pointer flex-1"
+    className="anim-scale d-2 photo-montage clip-angle-tl bg-[var(--bg-muted)] cursor-pointer flex-1"
             style={{ transform: "rotate(-3deg)", minWidth: 0 }}
-            onClick={() => openLightbox("/photos/cover/1.jpg", photo1Ref.current)}
+            onClick={(e) => {
+            const el = e.currentTarget;
+            setLightbox({ src: "/photos/cover/1.jpg", rect: el.getBoundingClientRect() });
+          }}
           >
             <Image src="/photos/cover/1.jpg" alt="" fill sizes="(max-width: 767px) 50vw, 300px" className="object-cover"
               style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} loading="lazy" />
             <div className="duotone-overlay" />
           </div>
           <div
-            ref={photo2Ref}
-            className="anim-scale d-3 photo-montage clip-angle-tr bg-[var(--bg-muted)] cursor-pointer flex-1"
+    className="anim-scale d-3 photo-montage clip-angle-tr bg-[var(--bg-muted)] cursor-pointer flex-1"
             style={{ transform: "rotate(2deg)", minWidth: 0 }}
-            onClick={() => openLightbox("/photos/cover/2.jpg", photo2Ref.current)}
+            onClick={(e) => {
+            const el = e.currentTarget;
+            setLightbox({ src: "/photos/cover/2.jpg", rect: el.getBoundingClientRect() });
+          }}
           >
             <Image src="/photos/cover/2.jpg" alt="" fill sizes="(max-width: 767px) 50vw, 300px" className="object-cover"
               style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} loading="lazy" />
@@ -228,15 +219,17 @@ export function PosterPhotography() {
 
         {/* 第三张照片 — 单独一行，宽幅 */}
         <div
-          ref={photo3Ref}
-          className="anim-scale d-4 photo-montage clip-angle-br bg-[var(--bg-muted)] cursor-pointer mb-6"
+className="anim-scale d-4 photo-montage clip-angle-br bg-[var(--bg-muted)] cursor-pointer mb-6"
           style={{
             height: "clamp(140px, 36vw, 240px)",
             width: "80%",
             transform: "rotate(-2deg)",
             alignSelf: "flex-end",
           }}
-          onClick={() => openLightbox("/photos/cover/3.jpg", photo3Ref.current)}
+          onClick={(e) => {
+            const el = e.currentTarget;
+            setLightbox({ src: "/photos/cover/3.jpg", rect: el.getBoundingClientRect() });
+          }}
         >
           <Image src="/photos/cover/3.jpg" alt="" fill sizes="(max-width: 767px) 80vw, 310px" className="object-cover"
             style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} loading="lazy" />

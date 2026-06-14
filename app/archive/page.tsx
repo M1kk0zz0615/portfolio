@@ -1,9 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useScrollReveal } from "@/app/hooks/useScrollReveal";
 import { ScrollArrow } from "@/components/ScrollArrow";
+import { Lightbox } from "@/components/Lightbox";
+import { buildLogProjects } from "@/data/buildLogProjects";
 
 function SectionMark({ label }: { label: string }) {
   return (
@@ -27,21 +30,29 @@ function ProjectCard({
   tech,
   desc,
   highlights,
+  githubUrl,
   delay,
 }: {
   title: string;
   tech: string;
   desc: string;
   highlights: string[];
+  githubUrl: string;
   delay: string;
 }) {
   return (
-    <div className={`anim-y-60 ${delay} relative border-l-[3px] border-[#D10000]/30 pl-5 py-2 hover:border-[#D10000] transition-colors duration-200`}>
+    <a
+      href={githubUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`anim-y-60 ${delay} group relative border-l-[3px] border-[#D10000]/30 pl-5 py-2 hover:border-[#D10000] transition-colors duration-200 block no-underline`}
+    >
       <h3
-        className="type-display text-[#9B1B1B]"
+        className="type-display text-[#9B1B1B] group-hover:text-[#D10000] transition-colors duration-200"
         style={{ fontSize: "clamp(1.4rem, 2.2vw, 1.7rem)", lineHeight: 1.2 }}
       >
         {title}
+        <span className="text-[#D10000] opacity-0 group-hover:opacity-100 transition-opacity duration-200 ml-1">↗</span>
       </h3>
       <span
         className="type-label text-[#5C5044] mt-1 block"
@@ -67,12 +78,13 @@ function ProjectCard({
           </li>
         ))}
       </ul>
-    </div>
+    </a>
   );
 }
 
-export default function AboutPage() {
+export default function ArchivePage() {
   const ref = useScrollReveal<HTMLDivElement>(0.1);
+  const [avatarLightbox, setAvatarLightbox] = useState<{ src: string; rect: DOMRect } | null>(null);
 
   return (
     <main className="bg-paper text-[var(--fg)] min-h-screen" ref={ref}>
@@ -127,34 +139,33 @@ export default function AboutPage() {
           </div>
 
           {/* 右侧：头像 — 构成主义裁切 + 红色块（与 about 页不同角度） */}
-          <div
-            className="anim-scale d-3 relative shrink-0 cursor-pointer"
-            style={{
-              width: "clamp(120px, 22vw, 200px)",
-              transform: "rotate(-2deg)",
-              transition: "transform 0.3s cubic-bezier(0.2,0,0,1)",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.transform = "rotate(0deg)")}
-            onMouseLeave={(e) => (e.currentTarget.style.transform = "rotate(-2deg)")}
-          >
-            {/* 红色不规则底块 — 右下偏移 */}
+          <div className="anim-scale d-3 shrink-0" style={{ width: "clamp(120px, 22vw, 200px)" }}>
             <div
-              className="absolute bg-[#D10000]"
-              style={{
-                left: "3%",
-                top: "4%",
-                right: "-10%",
-                bottom: "-6%",
-                clipPath: "polygon(0 5%, 96% 0, 100% 95%, 5% 100%, 0 55%)",
-                opacity: 0.55,
-                zIndex: 0,
+              className="relative cursor-pointer rotate-[-2deg] hover:rotate-0 hover:scale-120 transition-transform duration-300"
+              style={{ transitionTimingFunction: "cubic-bezier(0.2,0,0,1)" }}
+              onClick={(e) => {
+                const el = e.currentTarget;
+                setAvatarLightbox({ src: "/avatar/2.jpg", rect: el.getBoundingClientRect() });
               }}
-            />
-            {/* 照片 */}
-            <Image
-              src="/avatar/1.jpg"
-              alt="刘俊宁"
-              width={200}
+            >
+              {/* 红色不规则底块 — 右下偏移 */}
+              <div
+                className="absolute bg-[#D10000]"
+                style={{
+                  left: "3%",
+                  top: "4%",
+                  right: "-10%",
+                  bottom: "-6%",
+                  clipPath: "polygon(0 5%, 96% 0, 100% 95%, 5% 100%, 0 55%)",
+                  opacity: 0.55,
+                  zIndex: 0,
+                }}
+              />
+              {/* 照片 */}
+              <Image
+                src="/avatar/1.jpg"
+                alt="刘俊宁"
+                width={200}
               height={200}
               className="relative z-10 w-full h-auto"
               style={{
@@ -162,6 +173,7 @@ export default function AboutPage() {
                 filter: "grayscale(0) contrast(1) brightness(1)",
               }}
             />
+            </div>
           </div>
         </div>
 
@@ -187,7 +199,8 @@ export default function AboutPage() {
               <p className="text-[var(--fg)]">广东工业大学 · 计算机科学与技术</p>
               <p className="text-[#5C5044]">本科大二 · 2024—至今</p>
               <p className="text-[#5C5044]">籍贯：广东</p>
-              <p className="text-[#5C5044]">电话：13790025736</p>
+              <p className="text-[#5C5044]">邮箱：934331621@qq.com</p>
+              <p className="text-[#5C5044]">微信：Mikko0615</p>
             </div>
           </div>
 
@@ -227,12 +240,12 @@ export default function AboutPage() {
         <div className="anim-scale d-3 geo-circle absolute bg-[#D10000] z-0" style={{ right: "8%", top: "20%", width: "10px", height: "10px" }} />
         <div className="anim-line-x d-2 absolute h-[3px] bg-[var(--fg)]/12 origin-right z-0" style={{ right: "0%", top: "35%", width: "12%", transform: "rotate(-8deg)" }} />
 
-        <SectionMark label="EDUCATION" />
+        <SectionMark label="COURSEWORK" />
         <h2
           className="anim-y-60 d-1 type-display mb-4"
           style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.5rem)" }}
         >
-          教育背景
+          核心课程
         </h2>
         <div className="anim-y-60 d-2 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 mt-6">
           {[
@@ -241,7 +254,7 @@ export default function AboutPage() {
           ].map((course) => (
             <span
               key={course}
-              className="type-label border border-[var(--fg)]/10 px-3 py-2 text-center hover:border-[#D10000]/40 hover:text-[#D10000] transition-colors duration-200"
+              className="type-label border border-[var(--fg)]/10 px-3 py-2 text-center"
               style={{ fontSize: "clamp(1.05rem, 1.25vw, 1.15rem)" }}
             >
               {course}
@@ -279,51 +292,17 @@ export default function AboutPage() {
         </h2>
 
         <div className="space-y-8">
-          <ProjectCard
-            title="个人摄影与视频作品集网站"
-            tech="Next.js · TypeScript · TailwindCSS · Vercel"
-            desc="独立设计并开发个人作品集网站，用于展示摄影作品、视频作品及个人经历。"
-            highlights={[
-              "基于 Next.js 构建响应式网站",
-              "实现摄影作品分类展示与视频作品归档",
-              "采用构成主义风格视觉设计",
-              "使用 Cursor、Claude Code 等 AI 工具辅助开发",
-            ]}
-            delay="d-2"
-          />
-          <ProjectCard
-            title="8位CPU设计与实现"
-            tech="计算机组成原理"
-            desc="完成8位硬布线CPU与8位微程序CPU设计，实现指令取值、译码与执行流程。"
-            highlights={[
-              "完成运算器和控制器设计",
-              "实现CPU指令执行过程模拟",
-              "理解硬布线控制与微程序控制原理",
-            ]}
-            delay="d-3"
-          />
-          <ProjectCard
-            title="银行家算法资源管理系统"
-            tech="C语言 · 操作系统"
-            desc="实现银行家算法资源分配系统，模拟多进程资源申请与分配过程。"
-            highlights={[
-              "实现资源分配矩阵维护与安全状态检测",
-              "实现资源请求合法性验证",
-              "深入理解死锁避免机制",
-            ]}
-            delay="d-3"
-          />
-          <ProjectCard
-            title="实时任务调度模拟系统"
-            tech="C语言 · 操作系统"
-            desc="基于最低松弛度优先（LLF）调度算法，实现实时任务调度模拟系统。"
-            highlights={[
-              "实现任务动态优先级调整与调度模拟",
-              "分析不同任务负载下的调度结果",
-              "理解实时操作系统调度机制",
-            ]}
-            delay="d-4"
-          />
+          {buildLogProjects.map((project, i) => (
+            <ProjectCard
+              key={project.id}
+              title={project.title}
+              tech={project.tech}
+              desc={project.desc}
+              highlights={project.highlights}
+              githubUrl={project.githubUrl}
+              delay={`d-${i + 2}`}
+            />
+          ))}
         </div>
       </section>
 
@@ -478,7 +457,7 @@ export default function AboutPage() {
         </h2>
         <p
           className="anim-y-60 d-2 text-[var(--fg)] leading-relaxed max-w-2xl"
-          style={{ fontSize: "clamp(1rem, 1.2vw, 1.05rem)" }}
+          style={{ fontSize: "clamp(1.15rem, 1.4vw, 1.25rem)" }}
         >
           具备扎实的计算机基础知识和较强的学习能力，对软件开发、操作系统及计算机底层原理具有浓厚兴趣。
           拥有丰富的校园媒体实践经历，兼具技术能力与审美素养，具备良好的沟通协作能力和责任心。
@@ -493,6 +472,11 @@ export default function AboutPage() {
         </div>
       </section>
       <ScrollArrow />
+
+      {/* 头像彩蛋 Lightbox */}
+      {avatarLightbox && (
+        <Lightbox src={avatarLightbox.src} originRect={avatarLightbox.rect} onClose={() => setAvatarLightbox(null)} />
+      )}
     </main>
   );
 }

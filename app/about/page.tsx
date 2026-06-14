@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useScrollReveal } from "@/app/hooks/useScrollReveal";
 import { ScrollArrow } from "@/components/ScrollArrow";
+import { Lightbox } from "@/components/Lightbox";
 
 /* ============================================
    排版组件
@@ -50,6 +52,7 @@ function SectionTitle({
 
 export default function AboutPage() {
   const ref = useScrollReveal<HTMLDivElement>(0.1);
+  const [avatarLightbox, setAvatarLightbox] = useState<{ src: string; rect: DOMRect } | null>(null);
 
   return (
     <main
@@ -96,7 +99,15 @@ export default function AboutPage() {
             </p>
           </div>
           {/* 头像 — 构成主义裁切 */}
-          <div className="anim-scale d-2 relative shrink-0" style={{ width: "clamp(100px, 18vw, 160px)" }}>
+          <div className="anim-scale d-2 shrink-0" style={{ width: "clamp(100px, 18vw, 160px)" }}>
+            <div
+              className="relative cursor-pointer rotate-[-1deg] hover:rotate-0 hover:scale-120 transition-transform duration-300"
+              style={{ transitionTimingFunction: "cubic-bezier(0.2,0,0,1)" }}
+              onClick={(e) => {
+                const el = e.currentTarget;
+                setAvatarLightbox({ src: "/avatar/2.jpg", rect: el.getBoundingClientRect() });
+              }}
+            >
             <div
               className="absolute bg-[#D10000]"
               style={{
@@ -120,6 +131,7 @@ export default function AboutPage() {
                 filter: "grayscale(0.3) contrast(1.05)",
               }}
             />
+            </div>
           </div>
         </div>
 
@@ -346,6 +358,11 @@ export default function AboutPage() {
         </div>
       </div>
       <ScrollArrow />
+
+      {/* 头像彩蛋 Lightbox */}
+      {avatarLightbox && (
+        <Lightbox src={avatarLightbox.src} originRect={avatarLightbox.rect} onClose={() => setAvatarLightbox(null)} />
+      )}
     </main>
   );
 }

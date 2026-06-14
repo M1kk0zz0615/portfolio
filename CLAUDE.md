@@ -12,7 +12,7 @@
 
 - 对角线统治一切 —— 没有水平居中的标题，没有规整的卡片网格
 - 文字就是图形 —— 中文字号大到溢出屏幕，西文用作结构装饰
-- 红黑白 —— 除此之外几乎不出现其他颜色
+- 红黑白为主，底色为暖纸米棕 —— 像旧画册般温润的纸质感
 - 照片蒙太奇 —— 图片被裁剪、旋转、叠加，像 Rodchenko 用剪刀和浆糊拼出来
 - 几何构件 —— 圆、线、条、三角不是装饰，是建筑结构
 - 工业感 —— 粗粝、直接、有力。不是苹果店，是印刷厂。
@@ -46,21 +46,38 @@
 
 ## 配色
 
-### 苏维埃调色板
+### 暖纸调色板（实际采用）
+
+底色采用暖纸米棕系，替代纯白——像翻阅旧画册一样的温润纸感。
 
 ```
 红色 — #D10000 (主), #FF2200 (亮红), #8B0000 (深红)
-黑色 — #0D0D0D (纯黑), #1A1A1A (暖黑)
-白色 — #F7F7F7 (纸白), #FFFFFF (纯白)
-灰色 — #B0B0B0 (中灰), #E0E0E0 (浅灰), #333333 (深灰)
+暖黑 — #0D0D0D (纯黑), #3D3228 (暖棕黑)
+暖纸 — #E8DCC8 (纸黄底 bg), #D4C4A8 (纸深 bg-muted), #F5EDE0 (纸白 paper-cream)
+灰色 — #9A8B78 (中灰 mid), #C9B89A (浅灰 light), #B0B0B0 (冷灰,少用)
 ```
+
+### CSS 变量映射
+
+| 变量 | 颜色 | 用途 |
+|------|------|------|
+| `--bg` | #E8DCC8 | 页面背景 |
+| `--bg-muted` | #D4C4A8 | 照片占位 / 次要背景 |
+| `--paper-cream` | #F5EDE0 | 暗底上的亮文字 |
+| `--fg` | #0D0D0D | 主文字 |
+| `--red` | #D10000 | 几何构件 / 关键标题 / hover |
+| `--red-bright` | #FF2200 | 亮红强调 |
+| `--red-deep` | #8B0000 | 深红 |
+| `--gray-mid` | #9A8B78 | 次要文字 |
+| `--gray-light` | #C9B89A | 占位背景 |
+| `--gray-dark` | #3D3228 | 暖黑色文字 |
 
 ### 使用法则
 
 - 红色只出现在：几何色块、关键标题、hover 状态、分割线。
-- 白色为主背景，黑色为主文字。
-- 灰色用于辅助线和次要信息，但尽量少用——构成主义讨厌暧昧。
-- 暗色模式：黑白反转，红色不变。
+- 暖纸色为全局背景，黑色为主文字。
+- 灰色（暖棕）用于辅助线和次要信息，但尽量少用——构成主义讨厌暧昧。
+- 暗色模式：背景反转深棕，文字变暖白，红色不变。
 
 ---
 
@@ -90,11 +107,11 @@
 
 ---
 
-## 首页设计 —— 四张海报
+## 首页设计 —— 五张海报
 
-首页 = 四屏纵向排列，每屏 100vh，scroll-snap 吸附。
+首页 = 五屏纵向排列，每屏 100vh，scroll-snap 吸附。
 
-**不是**四个「版块」，是**四张海报**。每张有独立的构成逻辑。
+**不是**五个「版块」，是**五张海报**。每张有独立的构成逻辑。
 
 ---
 
@@ -146,7 +163,62 @@
 
 ---
 
-### 海报 ② — 「摄影档案」
+### 海报 ② — 「构建日志」
+
+**构成逻辑**：工业档案卡片式布局
+
+```
+┌──────────────────────────────────────┐
+│                                      │
+│    АРХИВ СБОРКИ                      │
+│    构建日志        BUILD LOG         │
+│                                      │
+│         ▼ 01                         │
+│    ┌──────────────┐                  │
+│    │ 项目标题      │                 │
+│    │ 技术栈 · 简介 │                 │
+│    └──────────────┘                  │
+│              ▼ 02                    │
+│         ┌──────────────┐            │
+│         │ 项目标题      │           │
+│         └──────────────┘            │
+│                    ▼ 03             │
+│               ┌──────────────┐      │
+│               │ 项目标题      │     │
+│               └──────────────┘      │
+│                          ▼ 04       │
+│                     ┌──────────────┐│
+│                     │ 项目标题      ││
+│                     └──────────────┘│
+│                                      │
+│    МЕТОД — ЭКСПЕРИМЕНТ              │
+│                                      │
+└──────────────────────────────────────┘
+```
+
+**详细规格**：
+
+- **构图**：左上标题区 + 对角线排布的四张项目卡片，卡片沿对角线从左上到右下阶梯排列。
+- **标题组**：俄文标注 `АРХИВ СБОРКИ` 红色 + 「构建日志」中文大标题 skewX(-4deg) + `BUILD LOG` 英文标签。
+- **项目卡片**：每张卡片前有一个红色三角箭头（`border` hack），左侧有红色竖线（3px），hover 时红色线变亮、箭头弹跳。卡片含：编号（红色西里尔文）、学科标签、项目标题、技术栈、简介。卡片整体 hover 上浮 18px。
+- **几何构件**：红色对角线横贯画面底部、多重半透明红色块散布在中央空白区、小圆点和细线点缀。
+- **右下角大字**：`МЕТОД — ЭКСПЕРИМЕНТ` 超大号西里尔文，深红低透明度，作为背景纹理。
+- **数据来源**：`data/buildLogProjects.ts`，每个项目指向 GitHub。
+
+**尺寸与位置**：
+
+| 元素 | 位置 | 尺寸 |
+|------|------|------|
+| 标题组 | left: clamp(1rem,8cqw,12%), top: 22% | — |
+| 卡片 01 | left: 2%, top: 67% | w: clamp(280px,28cqw,380px) |
+| 卡片 02 | left: 28%, top: 53% | w: clamp(280px,28cqw,380px) |
+| 卡片 03 | left: 54%, top: 39% | w: clamp(280px,28cqw,380px) |
+| 卡片 04 | left: 80%, top: 25% | w: clamp(280px,28cqw,380px) |
+| 红色对角线 | left: 15%, bottom: 6% | w: 88%, h: 3px, rotate(-16deg) |
+
+---
+
+### 海报 ③ — 「摄影档案」
 
 **构成逻辑**：Rodchenko 式摄影蒙太奇
 
@@ -203,7 +275,7 @@
 
 ---
 
-### 海报 ③ — 「影像档案」
+### 海报 ④ — 「影像档案」
 
 **构成逻辑**：Lissitzky Proun + 苏联电影海报
 
@@ -256,7 +328,7 @@
 
 ---
 
-### 海报 ④ — 「其他」
+### 海报 ⑤ — 「其他」
 
 **构成逻辑**：至上主义终章 —— 极简几何
 
@@ -325,11 +397,11 @@
 
 ### 暗色模式
 
-- 背景：`#0D0D0D`
-- 文字：`#F7F7F7`
+- 背景：`#4A3F35`（深棕暖调）
+- 文字：`#F0E6D6`（暖白）
 - 红保持不变
 - 图片可能需要略微提亮
-- 几何构件颜色反转（黑→白，保留红色）
+- 几何构件颜色反转（暖黑→暖白，保留红色）
 
 ### 响应式策略
 
@@ -351,20 +423,24 @@
 │
 ├── 海报① 关于我的一切  ──→  /about (简历页)
 │
-├── 海报② 摄影档案      ──→  /photography (摄影总览)
-│   ├── /photography/film/documentary   (胶片·纪实)
-│   ├── /photography/film/creative      (胶片·创意)
-│   ├── /photography/digital/commissioned (数码·在场)
-│   ├── /photography/digital/documentary (数码·纪实)
-│   └── /photography/digital/creative    (数码·创意)
+├── 海报② 构建日志      ──→  /archive (项目归档详情)
 │
-├── 海报③ 影像档案      ──→  /video (影像总览)
-│   ├── /video/work      (工作影像)
-│   └── /video/personal  (个人影像)
+├── 海报③ 摄影档案      ──→  /photography (摄影总览)
+│   ├── /photography/film               (胶片暗房)
+│   │   ├── /photography/film/documentary   (胶片·纪实)
+│   │   └── /photography/film/creative      (胶片·创意)
+│   └── /photography/digital             (数码明室)
+│       ├── /photography/digital/commissioned (数码·在场)
+│       ├── /photography/digital/documentary (数码·纪实)
+│       └── /photography/digital/creative    (数码·创意)
 │
-└── 海报④ 其他
-    ├── /index (索引 — 全部内容的纯文字目录)
-    └── 社交媒体链接 (外链)
+├── 海报④ 影像档案      ──→  /video (影像总览)
+│   ├── /video/work      (受托)
+│   └── /video/personal  (闲影)
+│
+└── 海报⑤ 其他
+    ├── /browse (索引导航)
+    └── 社交媒体链接 (Bilibili / WeChat / Instagram)
 ```
 
 ---
@@ -391,18 +467,16 @@
 ## 路由结构
 
 ```
-/                                          — 首页（4 张海报 scroll-snap）
+/                                          — 首页（5 张海报 scroll-snap）
 /photography                               — 摄影总览
-/photography/film/documentary              — 胶片·纪实
-/photography/film/creative                 — 胶片·创意
-/photography/digital/commissioned          — 数码·在场
-/photography/digital/documentary           — 数码·纪实
-/photography/digital/creative              — 数码·创意
+/photography/film                          — 胶片暗房
+/photography/digital                       — 数码明室
 /video                                     — 影像总览
-/video/work                                — 工作影像
-/video/personal                            — 个人影像
-/about                                     — 关于我的一切 / CV
-/index                                     — 索引导航
+/video/work                                — 受托
+/video/personal                            — 闲影
+/about                                     — 关于我的一切
+/archive                                   — 构建日志详情
+/browse                                    — 索引导航
 ```
 
 ---
@@ -412,11 +486,43 @@
 ```
 my-portfolio/
 ├── app/
-│   ├── globals.css          — 全局样式 + Tailwind + CSS 变量
-│   ├── layout.tsx           — 根布局（字体加载）
-│   └── page.tsx             — 首页（当前为默认模板，待替换）
-├── public/                  — 静态资源
-├── package.json             — Next.js 16 + React 19 + Tailwind 4
+│   ├── globals.css              — 全局样式 + Tailwind + CSS 变量（暖纸色）
+│   ├── layout.tsx               — 根布局（字体加载：Geist + Noto Sans SC）
+│   ├── page.tsx                 — 首页（5 张海报 scroll-snap）
+│   ├── hooks/
+│   │   └── useScrollReveal.ts   — Intersection Observer 入场动画
+│   ├── about/
+│   │   └── page.tsx             — 关于我
+│   ├── archive/
+│   │   └── page.tsx             — 构建日志详情
+│   ├── browse/
+│   │   └── page.tsx             — 索引导航
+│   ├── photography/
+│   │   ├── film/page.tsx        — 胶片暗房
+│   │   └── digital/page.tsx    — 数码明室
+│   └── video/
+│       ├── work/page.tsx        — 受托
+│       └── personal/page.tsx    — 闲影
+├── components/
+│   ├── home/
+│   │   ├── PosterAbout.tsx      — 海报①
+│   │   ├── PosterBuildLog.tsx   — 海报②
+│   │   ├── PosterPhotography.tsx — 海报③
+│   │   ├── PosterVideo.tsx      — 海报④
+│   │   ├── PosterOther.tsx      — 海报⑤
+│   │   ├── AboutArchiveButton.tsx
+│   │   ├── AboutPosterTitle.tsx
+│   │   └── ConstructivistGeometry.tsx
+│   ├── Lightbox.tsx             — 照片 FLIP 灯箱
+│   ├── ScrollArrow.tsx          — 滚动指示三角
+│   ├── photography/
+│   │   └── PhotographyPlaceholder.tsx
+│   └── video/
+│       └── VideoCard.tsx
+├── data/
+│   └── buildLogProjects.ts     — 构建日志项目数据
+├── public/                      — 静态资源 (照片/logo/视频封面)
+├── package.json                 — Next.js 16 + React 19 + Tailwind 4
 ├── next.config.ts
 ├── tsconfig.json
 ├── postcss.config.mjs
