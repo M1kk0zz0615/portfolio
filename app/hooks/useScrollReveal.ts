@@ -19,18 +19,39 @@ export function useScrollReveal<T extends HTMLElement>(threshold = 0.25) {
 
     if (animEls.length === 0) return;
 
+    // 已经是可见的元素直接显示，不做动画（避免首次加载大量动画卡死主线程）
+    const viewH = window.innerHeight;
+    animEls.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < viewH && rect.bottom > 0) {
+        // 已在视口内：跳过动画直接显示
+        el.style.transition = "none";
+        el.classList.add("visible");
+        // 强制重排后恢复 transition，让后续 hover 等交互正常
+        void el.offsetHeight;
+        el.style.transition = "";
+      }
+    });
+
+    // 对剩下的元素（初始不在视口内）建立观察器
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
           }
         });
       },
       { threshold }
     );
 
-    animEls.forEach((el) => observer.observe(el));
+    animEls.forEach((el) => {
+      // 只观察尚未显示的元素
+      if (!el.classList.contains("visible")) {
+        observer.observe(el);
+      }
+    });
 
     return () => observer.disconnect();
   }, [threshold]);
