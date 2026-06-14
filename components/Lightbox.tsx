@@ -92,6 +92,37 @@ export function Lightbox({ src, originRect, onClose }: LightboxProps) {
     });
   }, []);
 
+  // —— 双指捏合缩放 ——————————————————
+  const pinchStart = useRef<{ dist: number; zoom: number } | null>(null);
+
+  const getTouchDist = (touches: React.TouchList | TouchList) => {
+    const dx = touches[0].clientX - touches[1].clientX;
+    const dy = touches[0].clientY - touches[1].clientY;
+    return Math.hypot(dx, dy);
+  };
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      pinchStart.current = { dist: getTouchDist(e.touches), zoom };
+    }
+  }, [zoom]);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    if (e.touches.length === 2 && pinchStart.current) {
+      e.preventDefault();
+      const newDist = getTouchDist(e.touches);
+      const scale = newDist / pinchStart.current.dist;
+      const next = Math.min(5, Math.max(0.5, pinchStart.current.zoom * scale));
+      setZoom(next);
+      if (next <= 1.05) setPan({ x: 0, y: 0 });
+    }
+  }, []);
+
+  const handleTouchEnd = useCallback(() => {
+    pinchStart.current = null;
+  }, []);
+
   // —— 拖拽（RAF 节流，latestMouse ref 保证跟手）————
   const rafId = useRef(0);
   const latestMouse = useRef({ x: 0, y: 0 });
@@ -177,6 +208,9 @@ export function Lightbox({ src, originRect, onClose }: LightboxProps) {
       }}
       onClick={close}
       onWheel={handleWheel}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
       aria-label="关闭全屏预览"
       role="dialog"
       aria-modal="true"
@@ -237,7 +271,7 @@ export function Lightbox({ src, originRect, onClose }: LightboxProps) {
           opacity: phase === "active" ? 1 : 0,
         }}
       >
-        滚轮缩放{zoom > 1.05 ? " · 拖拽平移 · 单击归位" : " · 单击关闭"} · ESC
+        {zoom > 1.05 ? "拖拽平移 · 单击归位" : "滚轮/捏合缩放 · 单击关闭"} · ESC
       </div>
     </div>
   );
