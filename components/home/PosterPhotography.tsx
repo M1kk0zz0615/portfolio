@@ -89,11 +89,11 @@ className="anim-scale d-3 photo-montage clip-angle-tl absolute bg-[var(--bg-mute
           }}
           onClick={(e) => {
             const el = e.currentTarget;
-            setLightbox({ src: "/photos/cover/1.webp", rect: el.getBoundingClientRect() });
+            setLightbox({ src: "/photos/cover/1.jpg", rect: el.getBoundingClientRect() });
           }}
         >
           <div className="relative w-full h-full rotate-[-6deg] hover:rotate-0 transition-transform duration-300" style={{ transitionTimingFunction: "cubic-bezier(0.2,0,0,1)" }}>
-            <Image src="/photos/cover/1.webp" alt="" fill sizes="340px" className="object-cover"
+            <Image src="/photos/cover/1.jpg" alt="" fill sizes="340px" className="object-cover"
               style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} loading="lazy" />
           </div>
           <div className="duotone-overlay" />
@@ -108,11 +108,11 @@ className="anim-scale d-4 photo-montage clip-angle-br absolute bg-[var(--bg-mute
           }}
           onClick={(e) => {
             const el = e.currentTarget;
-            setLightbox({ src: "/photos/cover/2.webp", rect: el.getBoundingClientRect() });
+            setLightbox({ src: "/photos/cover/2.jpg", rect: el.getBoundingClientRect() });
           }}
         >
           <div className="relative w-full h-full rotate-[4deg] hover:rotate-0 transition-transform duration-300" style={{ transitionTimingFunction: "cubic-bezier(0.2,0,0,1)" }}>
-            <Image src="/photos/cover/2.webp" alt="" fill sizes="280px" className="object-cover"
+            <Image src="/photos/cover/2.jpg" alt="" fill sizes="280px" className="object-cover"
               style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} loading="lazy" />
           </div>
           <div className="duotone-overlay" />
@@ -127,11 +127,11 @@ className="anim-scale d-5 photo-montage clip-angle-tr absolute bg-[var(--bg-mute
           }}
           onClick={(e) => {
             const el = e.currentTarget;
-            setLightbox({ src: "/photos/cover/3.webp", rect: el.getBoundingClientRect() });
+            setLightbox({ src: "/photos/cover/3.jpg", rect: el.getBoundingClientRect() });
           }}
         >
           <div className="relative w-full h-full rotate-[-3deg] hover:rotate-0 transition-transform duration-300" style={{ transitionTimingFunction: "cubic-bezier(0.2,0,0,1)" }}>
-            <Image src="/photos/cover/3.webp" alt="" fill sizes="310px" className="object-cover"
+            <Image src="/photos/cover/3.jpg" alt="" fill sizes="310px" className="object-cover"
               style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} loading="lazy" />
           </div>
           <div className="absolute left-0 top-[55%] h-[4px] w-full bg-[#D10000]" />
@@ -214,10 +214,10 @@ className="anim-scale d-5 photo-montage clip-angle-tr absolute bg-[var(--bg-mute
             style={{ transform: "rotate(-3deg)", minWidth: 0 }}
             onClick={(e) => {
             const el = e.currentTarget;
-            setLightbox({ src: "/photos/cover/1.webp", rect: el.getBoundingClientRect() });
+            setLightbox({ src: "/photos/cover/1.jpg", rect: el.getBoundingClientRect() });
           }}
           >
-            <Image src="/photos/cover/1.webp" alt="" fill sizes="(max-width: 767px) 50vw, 300px" className="object-cover"
+            <Image src="/photos/cover/1.jpg" alt="" fill sizes="(max-width: 767px) 50vw, 300px" className="object-cover"
               style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} loading="lazy" />
             <div className="duotone-overlay" />
           </div>
@@ -226,10 +226,10 @@ className="anim-scale d-5 photo-montage clip-angle-tr absolute bg-[var(--bg-mute
             style={{ transform: "rotate(2deg)", minWidth: 0 }}
             onClick={(e) => {
             const el = e.currentTarget;
-            setLightbox({ src: "/photos/cover/2.webp", rect: el.getBoundingClientRect() });
+            setLightbox({ src: "/photos/cover/2.jpg", rect: el.getBoundingClientRect() });
           }}
           >
-            <Image src="/photos/cover/2.webp" alt="" fill sizes="(max-width: 767px) 50vw, 300px" className="object-cover"
+            <Image src="/photos/cover/2.jpg" alt="" fill sizes="(max-width: 767px) 50vw, 300px" className="object-cover"
               style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} loading="lazy" />
             <div className="duotone-overlay" />
           </div>
@@ -246,10 +246,10 @@ className="anim-scale d-4 photo-montage clip-angle-br bg-[var(--bg-muted)] curso
           }}
           onClick={(e) => {
             const el = e.currentTarget;
-            setLightbox({ src: "/photos/cover/3.webp", rect: el.getBoundingClientRect() });
+            setLightbox({ src: "/photos/cover/3.jpg", rect: el.getBoundingClientRect() });
           }}
         >
-          <Image src="/photos/cover/3.webp" alt="" fill sizes="(max-width: 767px) 80vw, 310px" className="object-cover"
+          <Image src="/photos/cover/3.jpg" alt="" fill sizes="(max-width: 767px) 80vw, 310px" className="object-cover"
             style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} loading="lazy" />
           <div className="absolute left-0 top-[55%] h-[3px] w-full bg-[#D10000]" />
           <div className="duotone-overlay" />

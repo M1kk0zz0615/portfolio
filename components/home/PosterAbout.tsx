@@ -449,7 +449,7 @@ export function PosterAbout() {
 
           <div className="relative z-10" style={{ width: "418px", maxWidth: "95vw" }}>
             <img
-              src="/mikkologo/miko.webp"
+              src="/mikkologo/miko.png"
               alt="Mikko"
               className="anim-scale d-4 relative w-full h-auto"
             />

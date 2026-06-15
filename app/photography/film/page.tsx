@@ -10,26 +10,26 @@ type FilmPhoto = { src: string; w: string; h: string; rot: string; clip: "tl" | 
 
 // 彩色胶片 — 10张（8横 + 2竖）
 const COLOR_PHOTOS: FilmPhoto[] = [
-  { src: "/photos/film/color/000002.webp", w: "clamp(140px, 22vw, 280px)", h: "clamp(100px, 16vw, 200px)", rot: "-3deg", clip: "tl" as const },
-  { src: "/photos/film/color/1%20(27)2.webp", w: "clamp(130px, 20vw, 260px)", h: "clamp(200px, 30vw, 380px)", rot: "1deg", clip: "br" as const, span: 2 },
-  { src: "/photos/film/color/000029.webp", w: "clamp(160px, 24vw, 320px)", h: "clamp(110px, 18vw, 220px)", rot: "-1.5deg", clip: "tr" as const },
-  { src: "/photos/film/color/890d0ef0fib606a69dd87bde0f7758dc.webp", w: "clamp(120px, 19vw, 240px)", h: "clamp(200px, 30vw, 380px)", rot: "-2deg", clip: "tl" as const, span: 2 },
-  { src: "/photos/film/color/000040.webp", w: "clamp(150px, 23vw, 300px)", h: "clamp(100px, 16vw, 200px)", rot: "-2deg", clip: "br" as const },
-  { src: "/photos/film/color/1%20(20).webp", w: "clamp(110px, 18vw, 230px)", h: "clamp(120px, 19vw, 240px)", rot: "1deg", clip: "tr" as const },
-  { src: "/photos/film/color/1%20(27).webp", w: "clamp(140px, 22vw, 280px)", h: "clamp(110px, 18vw, 220px)", rot: "-2deg", clip: "tl" as const },
-  { src: "/photos/film/color/1%20(29)(1).webp", w: "clamp(120px, 20vw, 260px)", h: "clamp(130px, 21vw, 270px)", rot: "2.5deg", clip: "br" as const },
-  { src: "/photos/film/color/1%20(31).webp", w: "clamp(160px, 25vw, 330px)", h: "clamp(100px, 16vw, 200px)", rot: "-1deg", clip: "tr" as const },
-  { src: "/photos/film/color/1%20(35).webp", w: "clamp(130px, 21vw, 270px)", h: "clamp(120px, 19vw, 240px)", rot: "2deg", clip: "tl" as const },
+  { src: "/photos/film/color/000002.jpg", w: "clamp(140px, 22vw, 280px)", h: "clamp(100px, 16vw, 200px)", rot: "-3deg", clip: "tl" as const },
+  { src: "/photos/film/color/1%20(27)2.jpg", w: "clamp(130px, 20vw, 260px)", h: "clamp(200px, 30vw, 380px)", rot: "1deg", clip: "br" as const, span: 2 },
+  { src: "/photos/film/color/000029.jpg", w: "clamp(160px, 24vw, 320px)", h: "clamp(110px, 18vw, 220px)", rot: "-1.5deg", clip: "tr" as const },
+  { src: "/photos/film/color/890d0ef0fib606a69dd87bde0f7758dc.jpg", w: "clamp(120px, 19vw, 240px)", h: "clamp(200px, 30vw, 380px)", rot: "-2deg", clip: "tl" as const, span: 2 },
+  { src: "/photos/film/color/000040.jpg", w: "clamp(150px, 23vw, 300px)", h: "clamp(100px, 16vw, 200px)", rot: "-2deg", clip: "br" as const },
+  { src: "/photos/film/color/1%20(20).jpg", w: "clamp(110px, 18vw, 230px)", h: "clamp(120px, 19vw, 240px)", rot: "1deg", clip: "tr" as const },
+  { src: "/photos/film/color/1%20(27).jpg", w: "clamp(140px, 22vw, 280px)", h: "clamp(110px, 18vw, 220px)", rot: "-2deg", clip: "tl" as const },
+  { src: "/photos/film/color/1%20(29)(1).jpg", w: "clamp(120px, 20vw, 260px)", h: "clamp(130px, 21vw, 270px)", rot: "2.5deg", clip: "br" as const },
+  { src: "/photos/film/color/1%20(31).jpg", w: "clamp(160px, 25vw, 330px)", h: "clamp(100px, 16vw, 200px)", rot: "-1deg", clip: "tr" as const },
+  { src: "/photos/film/color/1%20(35).jpg", w: "clamp(130px, 21vw, 270px)", h: "clamp(120px, 19vw, 240px)", rot: "2deg", clip: "tl" as const },
 ];
 
 // 黑白胶片 — 6张（全横构图）
 const BW_PHOTOS: FilmPhoto[] = [
-  { src: "/photos/film/b%26w/000005.webp", w: "clamp(130px, 22vw, 280px)", h: "clamp(130px, 22vw, 280px)", rot: "-4deg", clip: "br" as const },
-  { src: "/photos/film/b%26w/000021.webp", w: "clamp(150px, 24vw, 310px)", h: "clamp(110px, 18vw, 220px)", rot: "2.5deg", clip: "tl" as const },
-  { src: "/photos/film/b%26w/000023.webp", w: "clamp(140px, 23vw, 290px)", h: "clamp(120px, 20vw, 250px)", rot: "-2deg", clip: "tr" as const },
-  { src: "/photos/film/b%26w/000036.webp", w: "clamp(140px, 23vw, 300px)", h: "clamp(120px, 19vw, 240px)", rot: "3.5deg", clip: "tl" as const },
-  { src: "/photos/film/b%26w/000045.webp", w: "clamp(160px, 25vw, 330px)", h: "clamp(110px, 18vw, 220px)", rot: "-1deg", clip: "br" as const },
-  { src: "/photos/film/b%26w/000047.webp", w: "clamp(150px, 24vw, 310px)", h: "clamp(110px, 18vw, 220px)", rot: "2deg", clip: "tl" as const },
+  { src: "/photos/film/b%26w/000005.jpg", w: "clamp(130px, 22vw, 280px)", h: "clamp(130px, 22vw, 280px)", rot: "-4deg", clip: "br" as const },
+  { src: "/photos/film/b%26w/000021.jpg", w: "clamp(150px, 24vw, 310px)", h: "clamp(110px, 18vw, 220px)", rot: "2.5deg", clip: "tl" as const },
+  { src: "/photos/film/b%26w/000023.jpg", w: "clamp(140px, 23vw, 290px)", h: "clamp(120px, 20vw, 250px)", rot: "-2deg", clip: "tr" as const },
+  { src: "/photos/film/b%26w/000036.jpg", w: "clamp(140px, 23vw, 300px)", h: "clamp(120px, 19vw, 240px)", rot: "3.5deg", clip: "tl" as const },
+  { src: "/photos/film/b%26w/000045.jpg", w: "clamp(160px, 25vw, 330px)", h: "clamp(110px, 18vw, 220px)", rot: "-1deg", clip: "br" as const },
+  { src: "/photos/film/b%26w/000047.jpg", w: "clamp(150px, 24vw, 310px)", h: "clamp(110px, 18vw, 220px)", rot: "2deg", clip: "tl" as const },
 ];
 
 export default function FilmPage() {

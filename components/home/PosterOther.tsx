@@ -28,7 +28,7 @@ export function PosterOther() {
         toJSON: () => ({}),
       };
       setWechatLightbox({
-        src: "/photos/wechat/mmqrcode1781334663008.webp",
+        src: "/photos/wechat/mmqrcode1781334663008.png",
         rect: virtualRect,
       });
     }

@@ -10,31 +10,31 @@ type DigitalPhoto = { src: string; rot: string; clip: "tl" | "br" | "tr"; span?:
 
 // 竖图 span:2 占两行，横图 span:1
 const COMMISSIONED_PHOTOS: DigitalPhoto[] = [
-  { src: "/photos/digital/work/1781326254378.webp", rot: "-1deg", clip: "br" as const },
-  { src: "/photos/digital/work/DSC03078.webp", rot: "2deg", clip: "tl" as const },
-  { src: "/photos/digital/work/DSC03095.webp", rot: "-2deg", clip: "tr" as const },
-  { src: "/photos/digital/work/DSC03124.webp", rot: "1deg", clip: "br" as const },
-  { src: "/photos/digital/work/DSC03130.webp", rot: "-1deg", clip: "tl" as const },
-  { src: "/photos/digital/work/DSC03165.webp", rot: "2deg", clip: "tr" as const },
+  { src: "/photos/digital/work/1781326254378.jpg", rot: "-1deg", clip: "br" as const },
+  { src: "/photos/digital/work/DSC03078.jpg", rot: "2deg", clip: "tl" as const },
+  { src: "/photos/digital/work/DSC03095.jpg", rot: "-2deg", clip: "tr" as const },
+  { src: "/photos/digital/work/DSC03124.jpg", rot: "1deg", clip: "br" as const },
+  { src: "/photos/digital/work/DSC03130.jpg", rot: "-1deg", clip: "tl" as const },
+  { src: "/photos/digital/work/DSC03165.jpg", rot: "2deg", clip: "tr" as const },
 ];
 
 const LANDSCAPE_PHOTOS: DigitalPhoto[] = [
-  { src: "/photos/digital/landscape/1.webp", rot: "-2deg", clip: "tl" as const, span: 2 },
-  { src: "/photos/digital/landscape/2.webp", rot: "2.5deg", clip: "br" as const, span: 2 },
-  { src: "/photos/digital/landscape/6436259C7AC9B87CBA8B7D9F56F87650.webp", rot: "-1deg", clip: "tr" as const },
-  { src: "/photos/digital/landscape/D15447C749809A59FE4E708E4F25BE64.webp", rot: "3deg", clip: "tl" as const },
+  { src: "/photos/digital/landscape/1.jpg", rot: "-2deg", clip: "tl" as const, span: 2 },
+  { src: "/photos/digital/landscape/2.jpg", rot: "2.5deg", clip: "br" as const, span: 2 },
+  { src: "/photos/digital/landscape/6436259C7AC9B87CBA8B7D9F56F87650.jpg", rot: "-1deg", clip: "tr" as const },
+  { src: "/photos/digital/landscape/D15447C749809A59FE4E708E4F25BE64.jpg", rot: "3deg", clip: "tl" as const },
 ];
 
 const STREET_PHOTOS: DigitalPhoto[] = [
-  { src: "/photos/digital/street/3C808CD630D3762524689C8369E03F9D.webp", rot: "-3.5deg", clip: "br" as const },
-  { src: "/photos/digital/street/3.webp", rot: "2deg", clip: "tl" as const, span: 2 },
-  { src: "/photos/digital/street/4773508DFF53256DC4386FD8783D247E.webp", rot: "-1.5deg", clip: "tr" as const },
-  { src: "/photos/digital/street/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_2026-06-13_125431_663.webp", rot: "3deg", clip: "tl" as const },
-  { src: "/photos/digital/street/6.webp", rot: "-2deg", clip: "br" as const, span: 2 },
-  { src: "/photos/digital/street/4.webp", rot: "1deg", clip: "tr" as const, span: 2 },
-  { src: "/photos/digital/street/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_2026-06-13_125852_923.webp", rot: "-2deg", clip: "tl" as const },
-  { src: "/photos/digital/street/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_2026-06-13_132119_928.webp", rot: "2deg", clip: "br" as const },
-  { src: "/photos/digital/street/5.webp", rot: "-1deg", clip: "tr" as const, span: 2 },
+  { src: "/photos/digital/street/3C808CD630D3762524689C8369E03F9D.jpg", rot: "-3.5deg", clip: "br" as const },
+  { src: "/photos/digital/street/3.jpg", rot: "2deg", clip: "tl" as const, span: 2 },
+  { src: "/photos/digital/street/4773508DFF53256DC4386FD8783D247E.jpg", rot: "-1.5deg", clip: "tr" as const },
+  { src: "/photos/digital/street/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_2026-06-13_125431_663.jpg", rot: "3deg", clip: "tl" as const },
+  { src: "/photos/digital/street/6.jpg", rot: "-2deg", clip: "br" as const, span: 2 },
+  { src: "/photos/digital/street/4.jpg", rot: "1deg", clip: "tr" as const, span: 2 },
+  { src: "/photos/digital/street/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_2026-06-13_125852_923.jpg", rot: "-2deg", clip: "tl" as const },
+  { src: "/photos/digital/street/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_2026-06-13_132119_928.jpg", rot: "2deg", clip: "br" as const },
+  { src: "/photos/digital/street/5.jpg", rot: "-1deg", clip: "tr" as const, span: 2 },
 ];
 
 function SectionHeader({ title, cyrillic, markerColor = "var(--red)" }: {
