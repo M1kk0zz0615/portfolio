@@ -21,27 +21,27 @@ export function PosterAbout() {
       {/* 页面顶部横向粗线 */}
       <div
         className="anim-line-x absolute left-[2%] h-[3px] bg-[var(--fg)] z-0 hidden md:block"
-        style={{ top: "3%", width: "96%" }}
+        style={{ top: "3%", width: "96%", opacity: 0.7 }}
       />
 
       {/* 左上角 L 型框架 — 加粗 */}
       <div className="anim-line-x absolute z-0 hidden md:block"
-        style={{ left: "2%", top: "3%", width: "clamp(36px, 5cqw, 64px)", height: "3px", background: "var(--fg)" }}
+        style={{ left: "2%", top: "3%", width: "clamp(36px, 5cqw, 64px)", height: "3px", background: "var(--fg)", opacity: 1 }}
       />
       <div className="anim-line-x d-1 absolute z-0 hidden md:block"
-        style={{ left: "2%", top: "3%", width: "3px", height: "clamp(36px, 5cqw, 64px)", background: "var(--fg)" }}
+        style={{ left: "2%", top: "3%", width: "3px", height: "clamp(36px, 5cqw, 64px)", background: "var(--fg)", opacity: 1 }}
       />
 
       {/* 右侧垂直辅助线 — 更粗更明显 */}
       <div
         className="anim-line-x d-2 absolute right-[6%] w-[2px] bg-[var(--fg)] z-0 hidden md:block"
-        style={{ top: "10%", height: "70%" }}
+        style={{ top: "10%", height: "70%", opacity: 0.7 }}
       />
 
       {/* 底部不闭合横线 — 加粗加对比 */}
       <div
         className="anim-line-x d-3 absolute left-[3%] h-[3px] bg-[var(--fg)] z-0 hidden md:block"
-        style={{ bottom: "5%", width: "clamp(80px, 14cqw, 180px)" }}
+        style={{ bottom: "5%", width: "clamp(80px, 14cqw, 180px)", opacity: 0.7 }}
       />
       <div
         className="anim-line-x d-3 absolute right-[3%] h-[3px] bg-[#D10000] z-0 hidden md:block"
@@ -60,8 +60,8 @@ export function PosterAbout() {
           className={`anim-scale d-${i + 1} absolute z-0 hidden md:block`}
           style={{ ...pos, width: "clamp(14px, 2cqw, 22px)", height: "clamp(14px, 2cqw, 22px)" }}
         >
-          <div style={{ position: "absolute", left: "50%", top: 0, width: "1px", height: "100%", background: "var(--fg)", transform: "translateX(-50%)" }} />
-          <div style={{ position: "absolute", top: "50%", left: 0, height: "1px", width: "100%", background: "var(--fg)", transform: "translateY(-50%)" }} />
+          <div style={{ position: "absolute", left: "50%", top: 0, width: "1px", height: "100%", background: "var(--fg)", transform: "translateX(-50%)", opacity: 1 }} />
+          <div style={{ position: "absolute", top: "50%", left: 0, height: "1px", width: "100%", background: "var(--fg)", transform: "translateY(-50%)", opacity: 1 }} />
         </div>
       ))}
 
@@ -134,6 +134,7 @@ export function PosterAbout() {
           width: "clamp(36px, 5cqw, 64px)",
           height: "3px",
           background: "var(--fg)",
+          opacity: 1,
         }}
         aria-hidden="true"
       />
@@ -145,6 +146,7 @@ export function PosterAbout() {
           width: "3px",
           height: "clamp(36px, 5cqw, 64px)",
           background: "var(--fg)",
+          opacity: 1,
         }}
         aria-hidden="true"
       />
@@ -158,6 +160,7 @@ export function PosterAbout() {
           width: "clamp(20px, 3cqw, 40px)",
           height: "2px",
           background: "var(--fg)",
+          opacity: 0.7,
         }}
         aria-hidden="true"
       />
@@ -288,7 +291,7 @@ export function PosterAbout() {
       {/* 黑色粗方块 — Lissitzky 式几何锚 */}
       <div
         className="anim-scale d-2 absolute z-[1] hidden md:block"
-        style={{ right: "6%", top: "20%", width: "clamp(18px, 2.5cqw, 32px)", height: "clamp(18px, 2.5cqw, 32px)", background: "var(--fg)" }}
+        style={{ right: "6%", top: "20%", width: "clamp(18px, 2.5cqw, 32px)", height: "clamp(18px, 2.5cqw, 32px)", background: "var(--fg)", opacity: 0.7 }}
       />
 
       {/* 网格点阵 — 沿右辅助线，更明显 */}
@@ -302,7 +305,7 @@ export function PosterAbout() {
             width: "6px",
             height: "6px",
             background: i % 2 === 0 ? "#D10000" : "var(--fg)",
-            opacity: 1,
+            opacity: i % 2 === 0 ? 1 : 0.7,
           }}
         />
       ))}
@@ -319,7 +322,7 @@ export function PosterAbout() {
         style={{
           left: "calc(2% + clamp(36px, 5cqw, 64px) + 10px)",
           top: "calc(3% + clamp(36px, 5cqw, 64px) - 6px)",
-          width: "10px", height: "10px", background: "var(--fg)",
+          width: "10px", height: "10px", background: "var(--fg)", opacity: 1,
         }}
       />
 
