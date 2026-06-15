@@ -26,6 +26,260 @@ export function PosterBuildLog() {
           }}
         />
 
+        {/* ═══════════════════════════════════════════
+            FRAME SYSTEM — 制图框架
+            ═══════════════════════════════════════════ */}
+
+        {/* 页面顶部横向粗线 */}
+        <div
+          className="anim-line-x absolute left-[2%] h-[3px] bg-[var(--fg)] z-0"
+          style={{ top: "3%", width: "96%" }}
+        />
+
+        {/* 左上角 L 型框架 */}
+        <div className="anim-line-x absolute z-0"
+          style={{ left: "2%", top: "3%", width: "clamp(36px, 5cqw, 64px)", height: "3px", background: "var(--fg)" }}
+        />
+        <div className="anim-line-x d-1 absolute z-0"
+          style={{ left: "2%", top: "3%", width: "3px", height: "clamp(36px, 5cqw, 64px)", background: "var(--fg)" }}
+        />
+
+        {/* 底部横线 — 左侧黑色 + 右侧红色 */}
+        <div
+          className="anim-line-x d-3 absolute left-[3%] h-[3px] bg-[var(--fg)] z-0"
+          style={{ bottom: "5%", width: "clamp(80px, 14cqw, 180px)" }}
+        />
+        <div
+          className="anim-line-x d-3 absolute right-[3%] h-[3px] bg-[#D10000] z-0"
+          style={{ bottom: "5%", width: "clamp(80px, 14cqw, 180px)", opacity: 0.5 }}
+        />
+
+        {/* ── 四角裁切线 ── */}
+        {[
+          { l: "2%", t: "3%" },
+          { r: "2%", t: "3%" },
+          { l: "2%", b: "4.5%" },
+          { r: "2%", b: "4.5%" },
+        ].map((pos, i) => (
+          <div
+            key={i}
+            className={`anim-scale d-${i + 1} absolute z-0`}
+            style={{ ...pos, width: "clamp(14px, 2cqw, 22px)", height: "clamp(14px, 2cqw, 22px)" }}
+          >
+            <div style={{ position: "absolute", left: "50%", top: 0, width: "1px", height: "100%", background: "var(--fg)", transform: "translateX(-50%)" }} />
+            <div style={{ position: "absolute", top: "50%", left: 0, height: "1px", width: "100%", background: "var(--fg)", transform: "translateY(-50%)" }} />
+          </div>
+        ))}
+
+        {/* ── Registration Mark · 四角套准标记 ── */}
+        {[
+          { left: "1.2%", top: "2.5%" },
+          { right: "1.2%", top: "2.5%" },
+          { left: "1.2%", bottom: "4%" },
+          { right: "1.2%", bottom: "4%" },
+        ].map((pos, i) => (
+          <div
+            key={`reg-${i}`}
+            className={`anim-scale d-${i + 1} absolute z-0`}
+            style={{
+              ...pos,
+              width: "clamp(16px, 2.2cqw, 24px)",
+              height: "clamp(16px, 2.2cqw, 24px)",
+            }}
+            aria-hidden="true"
+          >
+            <div style={{ position: "absolute", inset: 0, borderRadius: "50%", border: "1px solid var(--fg)", opacity: 1 }} />
+            <div style={{ position: "absolute", left: "50%", top: 0, width: "1px", height: "100%", background: "var(--fg)", opacity: 1, transform: "translateX(-50%)" }} />
+            <div style={{ position: "absolute", top: "50%", left: 0, height: "1px", width: "100%", background: "var(--fg)", opacity: 1, transform: "translateY(-50%)" }} />
+          </div>
+        ))}
+
+        {/* ── 断裂边框 · 右下角 L 型 ── */}
+        <div className="anim-line-x d-2 absolute z-0"
+          style={{ right: "2%", bottom: "4.5%", width: "clamp(36px, 5cqw, 64px)", height: "3px", background: "var(--fg)" }}
+          aria-hidden="true"
+        />
+        <div className="anim-line-x d-3 absolute z-0"
+          style={{ right: "2%", bottom: "4.5%", width: "3px", height: "clamp(36px, 5cqw, 64px)", background: "var(--fg)" }}
+          aria-hidden="true"
+        />
+
+        {/* ── 断裂边框 · 右上角横线段 ── */}
+        <div className="anim-line-x d-1 absolute z-0"
+          style={{ right: "2%", top: "3%", width: "clamp(20px, 3cqw, 40px)", height: "2px", background: "var(--fg)" }}
+          aria-hidden="true"
+        />
+
+        {/* ── 对齐辅助线 · 右缘刻度标记 ── */}
+        {[0.22, 0.38, 0.54, 0.7].map((ratio, i) => (
+          <div key={`tick-r-${i}`} className={`anim-line-x d-${i + 1} absolute z-0`}
+            style={{
+              right: "2.5%", top: `${8 + ratio * 72}%`,
+              width: "clamp(6px, 1cqw, 12px)", height: "1px",
+              background: i % 2 === 0 ? "var(--fg)" : "#D10000",
+              opacity: i % 2 === 0 ? 1 : 0.25,
+            }}
+            aria-hidden="true"
+          />
+        ))}
+
+        {/* ── 对齐辅助线 · 左缘刻度标记 ── */}
+        {[0.3, 0.5, 0.7].map((ratio, i) => (
+          <div key={`tick-l-${i}`} className={`anim-line-x d-${i + 2} absolute z-0`}
+            style={{
+              left: "2.5%", top: `${12 + ratio * 68}%`,
+              width: "clamp(5px, 0.8cqw, 10px)", height: "1px",
+              background: "var(--fg)", opacity: 1,
+            }}
+            aria-hidden="true"
+          />
+        ))}
+
+        {/* ── 坐标标记 · 四角字母编号 ── */}
+        {[
+          { left: "2.8%", top: "4.8%", label: "A" },
+          { right: "3.8%", top: "4.8%", label: "B" },
+          { left: "2.8%", bottom: "5.2%", label: "C" },
+          { right: "3.8%", bottom: "5.2%", label: "D" },
+        ].map(({ label, ...pos }, i) => (
+          <div key={`coord-${i}`} className={`anim-y-60 d-${i + 1} absolute z-0`}
+            style={{
+              ...pos,
+              fontSize: "clamp(0.45rem, 0.5cqw, 0.6rem)",
+              fontFamily: "var(--font-geist-mono)",
+              color: "var(--fg)",
+              opacity: 1,
+              letterSpacing: "0.05em",
+            }}
+            aria-hidden="true"
+          >
+            {label}
+          </div>
+        ))}
+
+        {/* ── 左侧竖排西里尔文 ── */}
+        <div
+          className="anim-y-60 d-3 absolute z-[2] select-none"
+          style={{
+            left: "2.8%", top: "68%",
+            fontSize: "clamp(0.85rem, 1cqw, 1.1rem)",
+            fontFamily: "var(--font-geist-mono)",
+            color: "var(--fg)",
+            letterSpacing: "0.3em",
+            transform: "rotate(90deg)",
+            transformOrigin: "left top",
+            whiteSpace: "nowrap",
+          }}
+          aria-hidden="true"
+        >
+          АРХИВ 02
+        </div>
+
+        {/* ═══════════════════════════════════════════
+            CONSTRUCTIVIST GRAPHICS — 构成主义图形
+            ═══════════════════════════════════════════ */}
+
+        {/* 左侧红色粗竖条 — 结构锚 */}
+        <div
+          className="anim-line-x d-1 absolute left-[2%] w-[4px] bg-[#D10000] z-[1]"
+          style={{ top: "16%", height: "28%", opacity: 0.55 }}
+        />
+
+        {/* 红色水平对齐线 */}
+        <div
+          className="anim-line-x d-2 absolute left-0 h-[2px] bg-[#D10000] z-[1]"
+          style={{ top: "28%", width: "22%", opacity: 0.4 }}
+        />
+        <div
+          className="anim-line-x d-3 absolute left-[2%] h-[2px] bg-[#D10000] z-[1]"
+          style={{ top: "47%", width: "16%", opacity: 0.35 }}
+        />
+
+        {/* 黑色粗方块 — Lissitzky 式几何锚 */}
+        <div
+          className="anim-scale d-2 absolute z-[1]"
+          style={{ right: "6%", top: "20%", width: "clamp(18px, 2.5cqw, 32px)", height: "clamp(18px, 2.5cqw, 32px)", background: "var(--fg)" }}
+        />
+
+        {/* 网格点阵 — 沿右辅助线 */}
+        {[0.18, 0.35, 0.55, 0.72].map((ratio, i) => (
+          <div key={i} className={`anim-scale d-${i + 2} absolute z-[1]`}
+            style={{
+              right: "calc(6% - 2px)", top: `${10 + ratio * 70}%`,
+              width: "6px", height: "6px",
+              background: i % 2 === 0 ? "#D10000" : "var(--fg)", opacity: 1,
+            }}
+          />
+        ))}
+
+        {/* 右下角小红方块锚点 */}
+        <div
+          className="anim-scale d-4 absolute z-[1]"
+          style={{ right: "2.5%", bottom: "4.8%", width: "clamp(10px, 1.5cqw, 16px)", height: "clamp(10px, 1.5cqw, 16px)", background: "#D10000", opacity: 0.6 }}
+        />
+
+        {/* 左上 L 角内侧黑锚点 */}
+        <div
+          className="anim-scale d-2 absolute z-[1]"
+          style={{
+            left: "calc(2% + clamp(36px, 5cqw, 64px) + 10px)",
+            top: "calc(3% + clamp(36px, 5cqw, 64px) - 6px)",
+            width: "10px", height: "10px", background: "var(--fg)",
+          }}
+        />
+
+        {/* ═══════════════════════════════════════════
+            EDITORIAL SYSTEM — 编辑设计系统
+            ═══════════════════════════════════════════ */}
+
+        {/* 右下角坐标 */}
+        <div
+          className="anim-y-60 d-3 absolute z-[5] type-label select-none flex items-baseline gap-3"
+          style={{
+            right: "clamp(1rem, 2.5cqw, 3rem)", bottom: "2.2%",
+            fontSize: "clamp(0.55rem, 0.65cqw, 0.7rem)",
+            letterSpacing: "0.15em", color: "var(--fg)",
+          }}
+        >
+          <span>N 23° 08′</span>
+          <span style={{ width: "1px", height: "0.8em", background: "#D10000", opacity: 0.6 }} />
+          <span>E 113° 22′</span>
+        </div>
+
+        {/* 时间编码 */}
+        <div
+          className="anim-y-60 d-4 absolute z-[5] type-label select-none"
+          style={{
+            left: "clamp(1rem, 2.5cqw, 3rem)", bottom: "2.2%",
+            fontSize: "clamp(0.55rem, 0.6cqw, 0.65rem)",
+            letterSpacing: "0.12em", color: "var(--fg)",
+          }}
+        >
+          2026-06-15 / REV B
+        </div>
+
+        {/* 印刷编号 — 右下角超大低透明度 */}
+        <div
+          className="absolute z-[1] select-none"
+          style={{
+            right: "4%", bottom: "4%",
+            fontSize: "clamp(10rem, 22cqw, 26rem)",
+            fontWeight: 900,
+            color: "var(--fg)",
+            opacity: 0.035,
+            lineHeight: 0.85,
+            letterSpacing: "-0.05em",
+            fontFamily: "var(--font-geist-mono)",
+          }}
+          aria-hidden="true"
+        >
+          02
+        </div>
+
+        {/* ═══════════════════════════════════════════
+            内容区
+            ═══════════════════════════════════════════ */}
+
         {/* 档案编号 — 模块标签样式 */}
         <div
           className="anim-y-60 absolute z-20 font-mono text-xs tracking-widest uppercase"
@@ -151,10 +405,6 @@ export function PosterBuildLog() {
         })}
 
         {/* 中间偏上空区 — 色块组 */}
-        <div
-          className="anim-scale d-2 pointer-events-none absolute bg-[#D10000]/10 z-0"
-          style={{ right: "14%", top: "33%", width: "clamp(100px,13cqw,200px)", height: "clamp(80px,10cqh,150px)" }}
-        />
         <div
           className="anim-scale d-2 pointer-events-none absolute bg-[#D10000]/8 z-0"
           style={{

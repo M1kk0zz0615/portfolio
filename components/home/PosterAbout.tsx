@@ -21,31 +21,31 @@ export function PosterAbout() {
       {/* 页面顶部横向粗线 */}
       <div
         className="anim-line-x absolute left-[2%] h-[3px] bg-[var(--fg)] z-0 hidden md:block"
-        style={{ top: "3%", width: "96%", opacity: 0.35 }}
+        style={{ top: "3%", width: "96%" }}
       />
 
       {/* 左上角 L 型框架 — 加粗 */}
       <div className="anim-line-x absolute z-0 hidden md:block"
-        style={{ left: "2%", top: "3%", width: "clamp(36px, 5cqw, 64px)", height: "3px", background: "var(--fg)", opacity: 0.4 }}
+        style={{ left: "2%", top: "3%", width: "clamp(36px, 5cqw, 64px)", height: "3px", background: "var(--fg)" }}
       />
       <div className="anim-line-x d-1 absolute z-0 hidden md:block"
-        style={{ left: "2%", top: "3%", width: "3px", height: "clamp(36px, 5cqw, 64px)", background: "var(--fg)", opacity: 0.4 }}
+        style={{ left: "2%", top: "3%", width: "3px", height: "clamp(36px, 5cqw, 64px)", background: "var(--fg)" }}
       />
 
       {/* 右侧垂直辅助线 — 更粗更明显 */}
       <div
         className="anim-line-x d-2 absolute right-[6%] w-[2px] bg-[var(--fg)] z-0 hidden md:block"
-        style={{ top: "10%", height: "70%", opacity: 0.18 }}
+        style={{ top: "10%", height: "70%" }}
       />
 
       {/* 底部不闭合横线 — 加粗加对比 */}
       <div
         className="anim-line-x d-3 absolute left-[3%] h-[3px] bg-[var(--fg)] z-0 hidden md:block"
-        style={{ bottom: "5%", width: "clamp(80px, 14cqw, 180px)", opacity: 0.3 }}
+        style={{ bottom: "5%", width: "clamp(80px, 14cqw, 180px)" }}
       />
       <div
         className="anim-line-x d-3 absolute right-[3%] h-[3px] bg-[#D10000] z-0 hidden md:block"
-        style={{ bottom: "5%", width: "clamp(80px, 14cqw, 180px)", opacity: 0.5 }}
+        style={{ bottom: "5%", width: "clamp(80px, 14cqw, 180px)" }}
       />
 
       {/* 裁切线 — 加粗加深 */}
@@ -60,8 +60,8 @@ export function PosterAbout() {
           className={`anim-scale d-${i + 1} absolute z-0 hidden md:block`}
           style={{ ...pos, width: "clamp(14px, 2cqw, 22px)", height: "clamp(14px, 2cqw, 22px)" }}
         >
-          <div style={{ position: "absolute", left: "50%", top: 0, width: "1px", height: "100%", background: "var(--fg)", opacity: 0.3, transform: "translateX(-50%)" }} />
-          <div style={{ position: "absolute", top: "50%", left: 0, height: "1px", width: "100%", background: "var(--fg)", opacity: 0.3, transform: "translateY(-50%)" }} />
+          <div style={{ position: "absolute", left: "50%", top: 0, width: "1px", height: "100%", background: "var(--fg)", transform: "translateX(-50%)" }} />
+          <div style={{ position: "absolute", top: "50%", left: 0, height: "1px", width: "100%", background: "var(--fg)", transform: "translateY(-50%)" }} />
         </div>
       ))}
 
@@ -94,7 +94,7 @@ export function PosterAbout() {
               inset: 0,
               borderRadius: "50%",
               border: "1px solid var(--fg)",
-              opacity: 0.22,
+              opacity: 1,
             }}
           />
           {/* 十字线 */}
@@ -106,7 +106,7 @@ export function PosterAbout() {
               width: "1px",
               height: "100%",
               background: "var(--fg)",
-              opacity: 0.22,
+              opacity: 1,
               transform: "translateX(-50%)",
             }}
           />
@@ -118,7 +118,7 @@ export function PosterAbout() {
               height: "1px",
               width: "100%",
               background: "var(--fg)",
-              opacity: 0.22,
+              opacity: 1,
               transform: "translateY(-50%)",
             }}
           />
@@ -134,7 +134,6 @@ export function PosterAbout() {
           width: "clamp(36px, 5cqw, 64px)",
           height: "3px",
           background: "var(--fg)",
-          opacity: 0.3,
         }}
         aria-hidden="true"
       />
@@ -146,7 +145,6 @@ export function PosterAbout() {
           width: "3px",
           height: "clamp(36px, 5cqw, 64px)",
           background: "var(--fg)",
-          opacity: 0.3,
         }}
         aria-hidden="true"
       />
@@ -160,7 +158,6 @@ export function PosterAbout() {
           width: "clamp(20px, 3cqw, 40px)",
           height: "2px",
           background: "var(--fg)",
-          opacity: 0.25,
         }}
         aria-hidden="true"
       />
@@ -193,7 +190,7 @@ export function PosterAbout() {
             width: "clamp(5px, 0.8cqw, 10px)",
             height: "1px",
             background: "var(--fg)",
-            opacity: 0.16,
+            opacity: 1,
           }}
           aria-hidden="true"
         />
@@ -214,7 +211,7 @@ export function PosterAbout() {
             fontSize: "clamp(0.45rem, 0.5cqw, 0.6rem)",
             fontFamily: "var(--font-geist-mono)",
             color: "var(--fg)",
-            opacity: 0.18,
+            opacity: 1,
             letterSpacing: "0.05em",
           }}
           aria-hidden="true"
@@ -231,8 +228,7 @@ export function PosterAbout() {
           top: "72%",
           fontSize: "clamp(0.85rem, 1cqw, 1.1rem)",
           fontFamily: "var(--font-geist-mono)",
-          color: "var(--gray-mid)",
-          opacity: 0.65,
+          color: "var(--fg)",
           letterSpacing: "0.3em",
           transform: "rotate(90deg)",
           transformOrigin: "left top",
@@ -265,10 +261,34 @@ export function PosterAbout() {
         style={{ top: "47%", width: "16%", opacity: 0.35 }}
       />
 
+      {/* 状态文字 — 两条红线之间 */}
+      <div
+        className="anim-y-60 d-3 absolute z-[5] select-none hidden md:block"
+        style={{
+          left: "clamp(2rem, 5cqw, 5.5rem)",
+          top: "30%",
+          fontSize: "clamp(0.65rem, 0.78cqw, 0.85rem)",
+          fontFamily: "var(--font-geist-mono)",
+          color: "var(--fg)",
+          opacity: 0.5,
+          fontWeight: 700,
+          lineHeight: 1.7,
+          letterSpacing: "0.06em",
+        }}
+        aria-hidden="true"
+      >
+        <div style={{ marginBottom: "0.3em", letterSpacing: "0.12em" }}>CURRENTLY：</div>
+        <div>期末烧脑中</div>
+        <div>优化 Mikko Portfolio v2</div>
+        <div>幻想成为画画大师</div>
+        <div style={{ marginTop: "0.8em", letterSpacing: "0.12em" }}>Listening:</div>
+        <div>Кино</div>
+      </div>
+
       {/* 黑色粗方块 — Lissitzky 式几何锚 */}
       <div
         className="anim-scale d-2 absolute z-[1] hidden md:block"
-        style={{ right: "6%", top: "20%", width: "clamp(18px, 2.5cqw, 32px)", height: "clamp(18px, 2.5cqw, 32px)", background: "var(--fg)", opacity: 0.5 }}
+        style={{ right: "6%", top: "20%", width: "clamp(18px, 2.5cqw, 32px)", height: "clamp(18px, 2.5cqw, 32px)", background: "var(--fg)" }}
       />
 
       {/* 网格点阵 — 沿右辅助线，更明显 */}
@@ -282,7 +302,7 @@ export function PosterAbout() {
             width: "6px",
             height: "6px",
             background: i % 2 === 0 ? "#D10000" : "var(--fg)",
-            opacity: 0.45,
+            opacity: 1,
           }}
         />
       ))}
@@ -299,7 +319,7 @@ export function PosterAbout() {
         style={{
           left: "calc(2% + clamp(36px, 5cqw, 64px) + 10px)",
           top: "calc(3% + clamp(36px, 5cqw, 64px) - 6px)",
-          width: "10px", height: "10px", background: "var(--fg)", opacity: 0.4,
+          width: "10px", height: "10px", background: "var(--fg)",
         }}
       />
 
@@ -325,7 +345,6 @@ export function PosterAbout() {
           fontSize: "clamp(0.6rem, 0.75cqw, 0.75rem)",
           letterSpacing: "0.4em",
           color: "var(--fg)",
-          opacity: 0.28,
           writingMode: "vertical-rl",
           gap: "0.5em",
         }}
@@ -344,7 +363,6 @@ export function PosterAbout() {
           fontSize: "clamp(0.55rem, 0.65cqw, 0.7rem)",
           letterSpacing: "0.15em",
           color: "var(--fg)",
-          opacity: 0.35,
         }}
       >
         <span>N 23° 08′</span>
@@ -361,7 +379,6 @@ export function PosterAbout() {
           fontSize: "clamp(0.55rem, 0.6cqw, 0.65rem)",
           letterSpacing: "0.12em",
           color: "var(--fg)",
-          opacity: 0.3,
         }}
       >
         2026-06-15 / REV A
@@ -407,7 +424,7 @@ export function PosterAbout() {
             用胶片与像素，记录在场与想象
           </p>
 
-          <div className="anim-y-60 d-3 mt-6 flex justify-start lg:absolute lg:bottom-44 lg:-right-4">
+          <div className="anim-y-60 d-3 mt-6 flex justify-start lg:absolute lg:bottom-44 lg:left-[43%]">
             <AboutArchiveButton />
           </div>
         </div>
@@ -466,10 +483,10 @@ export function PosterAbout() {
         style={{
           right: "4%",
           bottom: "4%",
-          fontSize: "clamp(14rem, 32cqw, 38rem)",
+          fontSize: "clamp(12rem, 27cqw, 32rem)",
           fontWeight: 900,
           color: "var(--fg)",
-          opacity: 0.035,
+          opacity: 0.045,
           lineHeight: 0.85,
           letterSpacing: "-0.05em",
           fontFamily: "var(--font-geist-mono)",
@@ -481,7 +498,7 @@ export function PosterAbout() {
 
       {/* 俄文标注 */}
       <span
-        className="anim-y-60 d-2 type-cyrillic absolute z-10 text-[#B0B0B0] select-none hidden md:inline"
+        className="anim-y-60 d-2 type-cyrillic absolute z-10 text-[var(--fg)] select-none hidden md:inline"
         style={{
           right: "8%",
           bottom: "18%",
