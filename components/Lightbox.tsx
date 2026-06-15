@@ -104,6 +104,7 @@ export function Lightbox({ src, originRect, onClose }: LightboxProps) {
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     if (e.touches.length === 2) {
       e.preventDefault();
+      e.stopPropagation();
       pinchStart.current = { dist: getTouchDist(e.touches), zoom };
     }
   }, [zoom]);
@@ -111,11 +112,15 @@ export function Lightbox({ src, originRect, onClose }: LightboxProps) {
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
     if (e.touches.length === 2 && pinchStart.current) {
       e.preventDefault();
+      e.stopPropagation();
       const newDist = getTouchDist(e.touches);
       const scale = newDist / pinchStart.current.dist;
       const next = Math.min(5, Math.max(0.5, pinchStart.current.zoom * scale));
       setZoom(next);
       if (next <= 1.05) setPan({ x: 0, y: 0 });
+    } else {
+      // 单指时也阻止默认行为，防止双击放大等浏览器手势
+      e.preventDefault();
     }
   }, []);
 
@@ -205,6 +210,9 @@ export function Lightbox({ src, originRect, onClose }: LightboxProps) {
         transition: "background 0.35s cubic-bezier(0.2,0,0,1)",
         // 用 will-change 告知浏览器即将合成，避免首次绘制延迟
         willChange: "background",
+        // 禁止浏览器默认手势：双指缩放 / 双击放大 / 滑动导航
+        touchAction: "none",
+        overscrollBehavior: "none",
       }}
       onClick={close}
       onWheel={handleWheel}
@@ -245,6 +253,7 @@ export function Lightbox({ src, originRect, onClose }: LightboxProps) {
           height: baseH,
           transform: imgTransform,
           transformOrigin: "center center",
+          touchAction: "none",
           transition: phase === "exit"
             ? "transform 0.35s cubic-bezier(0.2,0,0,1), opacity 0.3s linear"
             : !flipDone
