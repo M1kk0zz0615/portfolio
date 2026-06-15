@@ -18,16 +18,25 @@ export function PosterPhotography() {
     >
       {/* ====== 桌面端 (>1034px) — 绝对定位海报布局 ====== */}
       <div className="hidden lg:contents">
-        {/* 档案编号 */}
+        {/* 档案编号 — 模块标签样式 */}
         <div
-          className="anim-y-60 absolute z-20 font-mono text-xs tracking-widest text-[#B0B0B0] uppercase"
+          className="anim-y-60 absolute z-20 font-mono text-xs tracking-widest uppercase"
           style={{
             left: "clamp(1.5rem, 6cqw, 8%)",
             top: "19%",
           }}
         >
-          <span className="text-[#D10000]">档案</span>
-          <span className="mx-2 text-[var(--fg)]">03</span>
+          <span style={{
+            display: "inline-block",
+            width: "clamp(14px, 1.8cqw, 22px)",
+            height: "3px",
+            background: "#D10000",
+            verticalAlign: "middle",
+            marginRight: "0.5em",
+          }} />
+          <span style={{ color: "var(--fg)", opacity: 0.55 }}>№</span>
+          <span style={{ color: "#D10000", margin: "0 0.35em", fontWeight: 700 }}>03</span>
+          <span style={{ color: "var(--fg)", fontWeight: 700 }}>— СЕКЦИЯ C</span>
         </div>
 
         {/* 黑色对角线 */}
@@ -80,11 +89,11 @@ className="anim-scale d-3 photo-montage clip-angle-tl absolute bg-[var(--bg-mute
           }}
           onClick={(e) => {
             const el = e.currentTarget;
-            setLightbox({ src: "/photos/cover/1.jpg", rect: el.getBoundingClientRect() });
+            setLightbox({ src: "/photos/cover/1.webp", rect: el.getBoundingClientRect() });
           }}
         >
           <div className="relative w-full h-full rotate-[-6deg] hover:rotate-0 transition-transform duration-300" style={{ transitionTimingFunction: "cubic-bezier(0.2,0,0,1)" }}>
-            <Image src="/photos/cover/1.jpg" alt="" fill sizes="340px" className="object-cover"
+            <Image src="/photos/cover/1.webp" alt="" fill sizes="340px" className="object-cover"
               style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} loading="lazy" />
           </div>
           <div className="duotone-overlay" />
@@ -99,11 +108,11 @@ className="anim-scale d-4 photo-montage clip-angle-br absolute bg-[var(--bg-mute
           }}
           onClick={(e) => {
             const el = e.currentTarget;
-            setLightbox({ src: "/photos/cover/2.jpg", rect: el.getBoundingClientRect() });
+            setLightbox({ src: "/photos/cover/2.webp", rect: el.getBoundingClientRect() });
           }}
         >
           <div className="relative w-full h-full rotate-[4deg] hover:rotate-0 transition-transform duration-300" style={{ transitionTimingFunction: "cubic-bezier(0.2,0,0,1)" }}>
-            <Image src="/photos/cover/2.jpg" alt="" fill sizes="280px" className="object-cover"
+            <Image src="/photos/cover/2.webp" alt="" fill sizes="280px" className="object-cover"
               style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} loading="lazy" />
           </div>
           <div className="duotone-overlay" />
@@ -118,11 +127,11 @@ className="anim-scale d-5 photo-montage clip-angle-tr absolute bg-[var(--bg-mute
           }}
           onClick={(e) => {
             const el = e.currentTarget;
-            setLightbox({ src: "/photos/cover/3.jpg", rect: el.getBoundingClientRect() });
+            setLightbox({ src: "/photos/cover/3.webp", rect: el.getBoundingClientRect() });
           }}
         >
           <div className="relative w-full h-full rotate-[-3deg] hover:rotate-0 transition-transform duration-300" style={{ transitionTimingFunction: "cubic-bezier(0.2,0,0,1)" }}>
-            <Image src="/photos/cover/3.jpg" alt="" fill sizes="310px" className="object-cover"
+            <Image src="/photos/cover/3.webp" alt="" fill sizes="310px" className="object-cover"
               style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} loading="lazy" />
           </div>
           <div className="absolute left-0 top-[55%] h-[4px] w-full bg-[#D10000]" />
@@ -167,12 +176,21 @@ className="anim-scale d-5 photo-montage clip-angle-tr absolute bg-[var(--bg-mute
 
       {/* ====== 移动端+平板 (<1034px) — flex-col 纵向布局 ====== */}
       <div className="lg:hidden relative z-10 flex w-full flex-col px-4 pt-16 sm:px-8 sm:pt-20">
-        {/* 档案编号 */}
+        {/* 档案编号 — 模块标签样式 */}
         <div
-          className="anim-y-60 font-mono text-xs tracking-widest text-[#B0B0B0] uppercase mb-2"
+          className="anim-y-60 font-mono text-xs tracking-widest uppercase mb-2"
         >
-          <span className="text-[#D10000]">档案</span>
-          <span className="mx-2 text-[var(--fg)]">03</span>
+          <span style={{
+            display: "inline-block",
+            width: "clamp(14px, 3cqw, 22px)",
+            height: "3px",
+            background: "#D10000",
+            verticalAlign: "middle",
+            marginRight: "0.5em",
+          }} />
+          <span style={{ color: "var(--fg)", opacity: 0.55 }}>№</span>
+          <span style={{ color: "#D10000", margin: "0 0.35em", fontWeight: 700 }}>03</span>
+          <span style={{ color: "var(--fg)", fontWeight: 700 }}>— СЕКЦИЯ C</span>
         </div>
 
         {/* 俄文 + 主标题 */}
@@ -196,10 +214,10 @@ className="anim-scale d-5 photo-montage clip-angle-tr absolute bg-[var(--bg-mute
             style={{ transform: "rotate(-3deg)", minWidth: 0 }}
             onClick={(e) => {
             const el = e.currentTarget;
-            setLightbox({ src: "/photos/cover/1.jpg", rect: el.getBoundingClientRect() });
+            setLightbox({ src: "/photos/cover/1.webp", rect: el.getBoundingClientRect() });
           }}
           >
-            <Image src="/photos/cover/1.jpg" alt="" fill sizes="(max-width: 767px) 50vw, 300px" className="object-cover"
+            <Image src="/photos/cover/1.webp" alt="" fill sizes="(max-width: 767px) 50vw, 300px" className="object-cover"
               style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} loading="lazy" />
             <div className="duotone-overlay" />
           </div>
@@ -208,10 +226,10 @@ className="anim-scale d-5 photo-montage clip-angle-tr absolute bg-[var(--bg-mute
             style={{ transform: "rotate(2deg)", minWidth: 0 }}
             onClick={(e) => {
             const el = e.currentTarget;
-            setLightbox({ src: "/photos/cover/2.jpg", rect: el.getBoundingClientRect() });
+            setLightbox({ src: "/photos/cover/2.webp", rect: el.getBoundingClientRect() });
           }}
           >
-            <Image src="/photos/cover/2.jpg" alt="" fill sizes="(max-width: 767px) 50vw, 300px" className="object-cover"
+            <Image src="/photos/cover/2.webp" alt="" fill sizes="(max-width: 767px) 50vw, 300px" className="object-cover"
               style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} loading="lazy" />
             <div className="duotone-overlay" />
           </div>
@@ -228,10 +246,10 @@ className="anim-scale d-4 photo-montage clip-angle-br bg-[var(--bg-muted)] curso
           }}
           onClick={(e) => {
             const el = e.currentTarget;
-            setLightbox({ src: "/photos/cover/3.jpg", rect: el.getBoundingClientRect() });
+            setLightbox({ src: "/photos/cover/3.webp", rect: el.getBoundingClientRect() });
           }}
         >
-          <Image src="/photos/cover/3.jpg" alt="" fill sizes="(max-width: 767px) 80vw, 310px" className="object-cover"
+          <Image src="/photos/cover/3.webp" alt="" fill sizes="(max-width: 767px) 80vw, 310px" className="object-cover"
             style={{ filter: "grayscale(0.65) contrast(1.1) brightness(0.85)" }} loading="lazy" />
           <div className="absolute left-0 top-[55%] h-[3px] w-full bg-[#D10000]" />
           <div className="duotone-overlay" />

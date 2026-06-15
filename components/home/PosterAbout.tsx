@@ -12,124 +12,474 @@ export function PosterAbout() {
     <section
       ref={ref}
       className="poster bg-paper text-[var(--fg)]"
-      aria-label="关于我的一切"
+      aria-label="关于迷蔻紫的一切"
     >
-      {/* 顶部装饰线 */}
+      {/* ═══════════════════════════════════════════
+          FRAME SYSTEM — 制图框架
+          ═══════════════════════════════════════════ */}
+
+      {/* 页面顶部横向粗线 */}
       <div
-        className="anim-line-x absolute left-[6%] h-[4px] bg-[var(--fg)] z-0"
-        style={{ top: "10%", width: "28%" }}
-      />
-      <div
-        className="anim-line-x d-1 absolute h-[4px] bg-[#D10000] z-0"
-        style={{ right: "6%", top: "10%", width: "28%" }}
+        className="anim-line-x absolute left-[2%] h-[3px] bg-[var(--fg)] z-0 hidden md:block"
+        style={{ top: "3%", width: "96%", opacity: 0.35 }}
       />
 
-      {/* 底部红线 */}
-      <div
-        className="anim-line-x d-2 absolute left-0 h-[4px] bg-[#D10000] z-0"
-        style={{ bottom: "12%", width: "100%" }}
+      {/* 左上角 L 型框架 — 加粗 */}
+      <div className="anim-line-x absolute z-0 hidden md:block"
+        style={{ left: "2%", top: "3%", width: "clamp(36px, 5cqw, 64px)", height: "3px", background: "var(--fg)", opacity: 0.4 }}
+      />
+      <div className="anim-line-x d-1 absolute z-0 hidden md:block"
+        style={{ left: "2%", top: "3%", width: "3px", height: "clamp(36px, 5cqw, 64px)", background: "var(--fg)", opacity: 0.4 }}
       />
 
-      {/* 档案编号 — 独立定位（移动端回归文档流避免与标题重叠） */}
+      {/* 右侧垂直辅助线 — 更粗更明显 */}
       <div
-        className="anim-y-60 z-20 font-mono text-xs tracking-widest text-[#B0B0B0] uppercase
+        className="anim-line-x d-2 absolute right-[6%] w-[2px] bg-[var(--fg)] z-0 hidden md:block"
+        style={{ top: "10%", height: "70%", opacity: 0.18 }}
+      />
+
+      {/* 底部不闭合横线 — 加粗加对比 */}
+      <div
+        className="anim-line-x d-3 absolute left-[3%] h-[3px] bg-[var(--fg)] z-0 hidden md:block"
+        style={{ bottom: "5%", width: "clamp(80px, 14cqw, 180px)", opacity: 0.3 }}
+      />
+      <div
+        className="anim-line-x d-3 absolute right-[3%] h-[3px] bg-[#D10000] z-0 hidden md:block"
+        style={{ bottom: "5%", width: "clamp(80px, 14cqw, 180px)", opacity: 0.5 }}
+      />
+
+      {/* 裁切线 — 加粗加深 */}
+      {[
+        { l: "2%", t: "3%" },
+        { r: "2%", t: "3%" },
+        { l: "2%", b: "4.5%" },
+        { r: "2%", b: "4.5%" },
+      ].map((pos, i) => (
+        <div
+          key={i}
+          className={`anim-scale d-${i + 1} absolute z-0 hidden md:block`}
+          style={{ ...pos, width: "clamp(14px, 2cqw, 22px)", height: "clamp(14px, 2cqw, 22px)" }}
+        >
+          <div style={{ position: "absolute", left: "50%", top: 0, width: "1px", height: "100%", background: "var(--fg)", opacity: 0.3, transform: "translateX(-50%)" }} />
+          <div style={{ position: "absolute", top: "50%", left: 0, height: "1px", width: "100%", background: "var(--fg)", opacity: 0.3, transform: "translateY(-50%)" }} />
+        </div>
+      ))}
+
+      {/* ═══════════════════════════════════════════
+          技术制图标记 — 印刷套准 / 对齐 / 坐标
+          仅出现在边缘，不进入内容区
+          ═══════════════════════════════════════════ */}
+
+      {/* ── Registration Mark · 四角套准标记 ── */}
+      {[
+        { left: "1.2%", top: "2.5%" },
+        { right: "1.2%", top: "2.5%" },
+        { left: "1.2%", bottom: "4%" },
+        { right: "1.2%", bottom: "4%" },
+      ].map((pos, i) => (
+        <div
+          key={`reg-${i}`}
+          className={`anim-scale d-${i + 1} absolute z-0 hidden md:block`}
+          style={{
+            ...pos,
+            width: "clamp(16px, 2.2cqw, 24px)",
+            height: "clamp(16px, 2.2cqw, 24px)",
+          }}
+          aria-hidden="true"
+        >
+          {/* 外圆 */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              borderRadius: "50%",
+              border: "1px solid var(--fg)",
+              opacity: 0.22,
+            }}
+          />
+          {/* 十字线 */}
+          <div
+            style={{
+              position: "absolute",
+              left: "50%",
+              top: 0,
+              width: "1px",
+              height: "100%",
+              background: "var(--fg)",
+              opacity: 0.22,
+              transform: "translateX(-50%)",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: 0,
+              height: "1px",
+              width: "100%",
+              background: "var(--fg)",
+              opacity: 0.22,
+              transform: "translateY(-50%)",
+            }}
+          />
+        </div>
+      ))}
+
+      {/* ── 不闭合边框 · 右下角 L 型 ── */}
+      <div
+        className="anim-line-x d-2 absolute z-0 hidden md:block"
+        style={{
+          right: "2%",
+          bottom: "4.5%",
+          width: "clamp(36px, 5cqw, 64px)",
+          height: "3px",
+          background: "var(--fg)",
+          opacity: 0.3,
+        }}
+        aria-hidden="true"
+      />
+      <div
+        className="anim-line-x d-3 absolute z-0 hidden md:block"
+        style={{
+          right: "2%",
+          bottom: "4.5%",
+          width: "3px",
+          height: "clamp(36px, 5cqw, 64px)",
+          background: "var(--fg)",
+          opacity: 0.3,
+        }}
+        aria-hidden="true"
+      />
+
+      {/* ── 不闭合边框 · 右上角横线段 ── */}
+      <div
+        className="anim-line-x d-1 absolute z-0 hidden md:block"
+        style={{
+          right: "2%",
+          top: "3%",
+          width: "clamp(20px, 3cqw, 40px)",
+          height: "2px",
+          background: "var(--fg)",
+          opacity: 0.25,
+        }}
+        aria-hidden="true"
+      />
+
+      {/* ── 对齐辅助线 · 右缘刻度标记 ── */}
+      {[0.22, 0.38, 0.54, 0.7].map((ratio, i) => (
+        <div
+          key={`tick-r-${i}`}
+          className={`anim-line-x d-${i + 1} absolute z-0 hidden md:block`}
+          style={{
+            right: "2.5%",
+            top: `${8 + ratio * 72}%`,
+            width: "clamp(6px, 1cqw, 12px)",
+            height: "1px",
+            background: i % 2 === 0 ? "var(--fg)" : "#D10000",
+            opacity: i % 2 === 0 ? 0.18 : 0.25,
+          }}
+          aria-hidden="true"
+        />
+      ))}
+
+      {/* ── 对齐辅助线 · 左缘刻度标记 ── */}
+      {[0.3, 0.5, 0.7].map((ratio, i) => (
+        <div
+          key={`tick-l-${i}`}
+          className={`anim-line-x d-${i + 2} absolute z-0 hidden md:block`}
+          style={{
+            left: "2.5%",
+            top: `${12 + ratio * 68}%`,
+            width: "clamp(5px, 0.8cqw, 10px)",
+            height: "1px",
+            background: "var(--fg)",
+            opacity: 0.16,
+          }}
+          aria-hidden="true"
+        />
+      ))}
+
+      {/* ── 坐标标记 · 四角字母编号 ── */}
+      {[
+        { left: "2.8%", top: "4.8%", label: "A" },
+        { right: "3.8%", top: "4.8%", label: "B" },
+        { left: "2.8%", bottom: "5.2%", label: "C" },
+        { right: "3.8%", bottom: "5.2%", label: "D" },
+      ].map(({ label, ...pos }, i) => (
+        <div
+          key={`coord-${i}`}
+          className={`anim-y-60 d-${i + 1} absolute z-0 hidden md:block`}
+          style={{
+            ...pos,
+            fontSize: "clamp(0.45rem, 0.5cqw, 0.6rem)",
+            fontFamily: "var(--font-geist-mono)",
+            color: "var(--fg)",
+            opacity: 0.18,
+            letterSpacing: "0.05em",
+          }}
+          aria-hidden="true"
+        >
+          {label}
+        </div>
+      ))}
+
+      {/* ── 西里尔文档案标注 · 左缘红色竖线下方 ── */}
+      <div
+        className="anim-y-60 d-3 absolute z-[2] select-none hidden md:block"
+        style={{
+          left: "2.8%",
+          top: "72%",
+          fontSize: "clamp(0.85rem, 1cqw, 1.1rem)",
+          fontFamily: "var(--font-geist-mono)",
+          color: "var(--gray-mid)",
+          opacity: 0.65,
+          letterSpacing: "0.3em",
+          transform: "rotate(90deg)",
+          transformOrigin: "left top",
+          whiteSpace: "nowrap",
+        }}
+        aria-hidden="true"
+      >
+        АРХИВ 01
+      </div>
+
+      {/* ═══════════════════════════════════════════
+          CONSTRUCTIVIST GRAPHICS — 构成主义图形
+          ═══════════════════════════════════════════ */}
+
+      {/* 左侧红色粗竖条 — 沿左边缘，Rodchenko 式结构锚 */}
+      <div
+        className="anim-line-x d-1 absolute left-[2%] w-[4px] bg-[#D10000] z-[1] hidden md:block"
+        style={{ top: "16%", height: "28%", opacity: 0.55 }}
+      />
+
+      {/* 红色水平对齐线 — 加粗 */}
+      <div
+        className="anim-line-x d-2 absolute left-0 h-[2px] bg-[#D10000] z-[1] hidden md:block"
+        style={{ top: "28%", width: "22%", opacity: 0.4 }}
+      />
+
+      {/* 第二条红水平线 */}
+      <div
+        className="anim-line-x d-3 absolute left-[2%] h-[2px] bg-[#D10000] z-[1] hidden md:block"
+        style={{ top: "47%", width: "16%", opacity: 0.35 }}
+      />
+
+      {/* 黑色粗方块 — Lissitzky 式几何锚 */}
+      <div
+        className="anim-scale d-2 absolute z-[1] hidden md:block"
+        style={{ right: "6%", top: "20%", width: "clamp(18px, 2.5cqw, 32px)", height: "clamp(18px, 2.5cqw, 32px)", background: "var(--fg)", opacity: 0.5 }}
+      />
+
+      {/* 网格点阵 — 沿右辅助线，更明显 */}
+      {[0.18, 0.35, 0.55, 0.72].map((ratio, i) => (
+        <div
+          key={i}
+          className={`anim-scale d-${i + 2} absolute z-[1] hidden md:block`}
+          style={{
+            right: "calc(6% - 2px)",
+            top: `${10 + ratio * 70}%`,
+            width: "6px",
+            height: "6px",
+            background: i % 2 === 0 ? "#D10000" : "var(--fg)",
+            opacity: 0.45,
+          }}
+        />
+      ))}
+
+      {/* 右下角小红方块锚点 */}
+      <div
+        className="anim-scale d-4 absolute z-[1] hidden md:block"
+        style={{ right: "2.5%", bottom: "4.8%", width: "clamp(10px, 1.5cqw, 16px)", height: "clamp(10px, 1.5cqw, 16px)", background: "#D10000", opacity: 0.6 }}
+      />
+
+      {/* 左上 L 角内侧黑锚点 */}
+      <div
+        className="anim-scale d-2 absolute z-[1] hidden md:block"
+        style={{
+          left: "calc(2% + clamp(36px, 5cqw, 64px) + 10px)",
+          top: "calc(3% + clamp(36px, 5cqw, 64px) - 6px)",
+          width: "10px", height: "10px", background: "var(--fg)", opacity: 0.4,
+        }}
+      />
+
+      {/* 左侧中部黑色半透明块 — 对冲右侧 Logo 体量 */}
+      <div
+        className="anim-scale d-3 absolute z-[1] hidden md:block"
+        style={{
+          left: "4%", top: "55%", width: "clamp(30px, 4cqw, 50px)", height: "clamp(50px, 8cqw, 100px)",
+          background: "var(--fg)", opacity: 0.08,
+        }}
+      />
+
+      {/* ═══════════════════════════════════════════
+          EDITORIAL SYSTEM — 编辑设计系统
+          ═══════════════════════════════════════════ */}
+
+      {/* 左侧竖排文字 — 提高对比度 */}
+      <div
+        className="anim-y-60 d-2 absolute z-[5] type-cyrillic select-none hidden md:flex flex-col"
+        style={{
+          left: "clamp(0.5rem, 1cqw, 1rem)",
+          top: "14%",
+          fontSize: "clamp(0.6rem, 0.75cqw, 0.75rem)",
+          letterSpacing: "0.4em",
+          color: "var(--fg)",
+          opacity: 0.28,
+          writingMode: "vertical-rl",
+          gap: "0.5em",
+        }}
+      >
+        <span>ЛИЧНЫЙ</span>
+        <span>АРХИВ</span>
+        <span>2026</span>
+      </div>
+
+      {/* 右下角坐标 — 提高对比度 */}
+      <div
+        className="anim-y-60 d-3 absolute z-[5] type-label select-none hidden md:flex items-baseline gap-3"
+        style={{
+          right: "clamp(1rem, 2.5cqw, 3rem)",
+          bottom: "2.2%",
+          fontSize: "clamp(0.55rem, 0.65cqw, 0.7rem)",
+          letterSpacing: "0.15em",
+          color: "var(--fg)",
+          opacity: 0.35,
+        }}
+      >
+        <span>N 23° 08′</span>
+        <span style={{ width: "1px", height: "0.8em", background: "#D10000", opacity: 0.6 }} />
+        <span>E 113° 22′</span>
+      </div>
+
+      {/* 时间编码 — 提高对比度 */}
+      <div
+        className="anim-y-60 d-4 absolute z-[5] type-label select-none hidden md:block"
+        style={{
+          left: "clamp(1rem, 2.5cqw, 3rem)",
+          bottom: "2.2%",
+          fontSize: "clamp(0.55rem, 0.6cqw, 0.65rem)",
+          letterSpacing: "0.12em",
+          color: "var(--fg)",
+          opacity: 0.3,
+        }}
+      >
+        2026-06-15 / REV A
+      </div>
+
+      {/* ====== 原有元素 ====== */}
+
+      {/* 档案编号 — 模块标签样式 */}
+      <div
+        className="anim-y-60 z-20 font-mono text-xs tracking-widest uppercase
           absolute left-[clamp(1.5rem,6cqw,8%)] top-[19%]
           max-[767px]:relative max-[767px]:left-4 max-[767px]:top-0 max-[767px]:mb-2"
       >
-        <span className="text-[#D10000]">档案</span>
-        <span className="mx-2 text-[var(--fg)]">01</span>
+        <span style={{
+          display: "inline-block",
+          width: "clamp(14px, 1.8cqw, 22px)",
+          height: "3px",
+          background: "#D10000",
+          verticalAlign: "middle",
+          marginRight: "0.5em",
+        }} />
+        <span style={{ color: "var(--fg)", opacity: 0.55 }}>№</span>
+        <span style={{ color: "#D10000", margin: "0 0.35em", fontWeight: 700 }}>01</span>
+        <span style={{ color: "var(--fg)", fontWeight: 700 }}>— СЕКЦИЯ A</span>
       </div>
 
-      {/* 主内容区 — 左右平衡 */}
+      {/* 主内容区 */}
       <div
-        className="relative z-10 mx-auto grid h-full w-full max-w-6xl items-start gap-6 pl-4 pr-4 pt-16 sm:pl-8 sm:pr-6 sm:pt-20 md:pl-20 md:pr-10 lg:grid-cols-2 lg:gap-8 lg:pt-74"
+        className="relative z-10 mx-auto grid h-full w-full max-w-6xl items-start gap-6 pl-2 pr-4 pt-16 sm:pl-4 sm:pr-6 sm:pt-24 md:pl-0 md:pr-10 lg:grid-cols-2 lg:gap-8 lg:pt-[26rem]"
       >
-        {/* 左侧：标题 + 按钮 — z-10 确保在 Logo 色块之上 */}
+        {/* 左侧：标题 + 按钮 — 仅移动此列 */}
         <div
-          className="relative z-10 order-1 lg:order-none"
-          style={{
-            minHeight: "clamp(280px, 38vh, 400px)",
-          }}
+          className="relative z-10 order-1 lg:order-none lg:-ml-16 lg:mt-28"
+          style={{ minHeight: "clamp(280px, 38vh, 400px)" }}
         >
           <AboutPosterTitle />
 
-          <p
-            className="anim-y-60 d-1 mt-8 max-w-sm font-mono text-sm tracking-wide text-[var(--gray-dark)]"
-          >
+          <p className="anim-y-60 d-1 mt-8 max-w-sm font-mono text-base tracking-wide text-[var(--gray-dark)] ml-2">
             计算机学生 / 摄影师 / 影像创作者
           </p>
 
-          <p
-            className="anim-y-60 d-2 mt-4 max-w-md text-base leading-relaxed text-[var(--gray-dark)]/80 md:text-lg"
-          >
+          <p className="anim-y-60 d-2 mt-4 max-w-md text-lg leading-relaxed text-[var(--gray-dark)]/80 md:text-xl ml-2">
             用胶片与像素，记录在场与想象
           </p>
 
-          {/* 标题区右下角 — 翻阅档案按钮 */}
-          <div className="anim-y-60 d-3 mt-6 flex justify-end lg:absolute lg:bottom-12 lg:right-0">
+          <div className="anim-y-60 d-3 mt-6 flex justify-end lg:absolute lg:bottom-44 lg:-right-4">
             <AboutArchiveButton />
           </div>
         </div>
 
-        {/* 右侧：Logo + 底色块 + 黑斜线（打包为一个整体） */}
+        {/* 右侧：Logo 图案 */}
         <div
-          className="order-2 flex items-center justify-center lg:order-none lg:absolute lg:right-[6%] lg:top-[16%] lg:h-[50%] lg:w-[35%]"
+          className="order-2 flex items-center justify-center lg:order-none lg:absolute lg:right-[5%] lg:top-[10%] lg:h-[50%] lg:w-[35%]"
         >
-          <div className="relative" style={{ width: "clamp(120px, 40vw, 260px)", maxWidth: "260px" }}>
-            {/* 红褐色大不规则体块 — 底层 */}
-            <div
-              className="anim-scale d-1 absolute bg-[#8B4A3A]"
-              style={{
-                left: "-22%",
-                top: "-6%",
-                right: "0%",
-                bottom: "2%",
-                clipPath: "polygon(5% 0, 100% 4%, 96% 100%, 0% 97%, 2% 45%)",
-              }}
-            />
-            {/* 红色半透明类平行四边形 — 中层，右下偏移 */}
-            <div
-              className="anim-scale d-2 absolute bg-[#D10000]"
-              style={{
-                left: "35%",
-                top: "30%",
-                right: "-28%",
-                bottom: "-22%",
-                clipPath: "polygon(10% 0, 100% 5%, 93% 100%, 0% 95%)",
-                opacity: 0.7,
-              }}
-            >
-              <div className="anim-scale d-3 absolute bg-[#8B0000]" style={{ left: "14%", bottom: "16%", width: "22%", height: "18%" }} />
-            </div>
-            {/* Logo */}
-            <Image
-              src="/mikkologo/logo.png"
+          {/* ═══════════════════════════════════════════
+              LOGO 背景构成 — 红色构成主义矩形
+              ═══════════════════════════════════════════ */}
+
+          {/* 黑色矩形 — 右下方基底块 */}
+          <div
+            className="absolute hidden md:block"
+            style={{
+              left: "5%",
+              bottom: "5%",
+              width: "82%",
+              height: "48%",
+              background: "var(--fg)",
+              opacity: 0.07,
+            }}
+          />
+
+          {/* 红色裁切矩形 — 右上角被斜切 */}
+          <div
+            className="absolute hidden md:block"
+            style={{
+              right: "10%",
+              top: "8%",
+              width: "48%",
+              height: "42%",
+              background: "#D10000",
+              opacity: 0.06,
+              clipPath: "polygon(0 0, 100% 0, 100% 72%, 75% 100%, 0 100%)",
+            }}
+          />
+
+          <div className="relative z-10" style={{ width: "418px", maxWidth: "95vw" }}>
+            <img
+              src="/mikkologo/miko.webp"
               alt="Mikko"
-              width={260}
-              height={260}
-              priority
-              className="anim-scale d-4 relative z-10 w-full h-auto"
+              className="anim-scale d-4 relative w-full h-auto"
             />
-            {/* 粗黑斜线 — 穿越色块区，从右往左绘制，基于内层固定容器定位 */}
-            <div
-              className="absolute z-[15]"
-              style={{
-                right: "-50%",
-                bottom: "-12%",
-                width: "105%",
-                transform: "rotate(-25deg)",
-              }}
-            >
-              <div
-                className="anim-line-x d-3 h-[5px] bg-[var(--fg)] w-full"
-                style={{ transformOrigin: "right center" }}
-              />
-            </div>
           </div>
         </div>
       </div>
 
-      {/* 俄文标注 — 移动端隐藏避免与 Logo 重叠 */}
+      {/* ═══════════════════════════════════════════
+          印刷编号 — 右下角超大低透明度
+          杂志封面式背景信息层，非按钮/标签
+          ═══════════════════════════════════════════ */}
+      <div
+        className="absolute z-[1] select-none hidden md:block"
+        style={{
+          right: "4%",
+          bottom: "4%",
+          fontSize: "clamp(10rem, 22cqw, 26rem)",
+          fontWeight: 900,
+          color: "var(--fg)",
+          opacity: 0.035,
+          lineHeight: 0.85,
+          letterSpacing: "-0.05em",
+          fontFamily: "var(--font-geist-mono)",
+        }}
+        aria-hidden="true"
+      >
+        01
+      </div>
+
+      {/* 俄文标注 */}
       <span
         className="anim-y-60 d-2 type-cyrillic absolute z-10 text-[#B0B0B0] select-none hidden md:inline"
         style={{
@@ -141,6 +491,23 @@ export function PosterAbout() {
         ВСЁ ОБО МНЕ
       </span>
 
+      {/* 滚动引导文字 */}
+      <div
+        className="absolute left-1/2 z-30 select-none hidden md:block"
+        style={{
+          bottom: "60px",
+          transform: "translateX(-50%)",
+          fontFamily: "var(--font-geist-mono)",
+          fontSize: "0.75rem",
+          fontWeight: 700,
+          letterSpacing: "0.3em",
+          color: "var(--fg)",
+          textTransform: "uppercase",
+        }}
+        aria-hidden="true"
+      >
+        scroll down
+      </div>
       <div className="scroll-arrow z-30" />
     </section>
   );

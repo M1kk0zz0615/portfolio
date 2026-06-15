@@ -14,13 +14,22 @@ export function PosterVideo() {
     >
       {/* ====== 桌面端 (>1024px) — 绝对定位海报布局 ====== */}
       <div className="hidden lg:contents">
-        {/* 档案编号 */}
+        {/* 档案编号 — 模块标签样式 */}
         <div
-          className="anim-y-60 absolute z-20 font-mono text-xs tracking-widest text-[#B0B0B0] uppercase"
+          className="anim-y-60 absolute z-20 font-mono text-xs tracking-widest uppercase"
           style={{ left: "clamp(1.5rem, 6cqw, 8%)", top: "19%" }}
         >
-          <span className="text-[#D10000]">档案</span>
-          <span className="mx-2 text-[var(--fg)]">04</span>
+          <span style={{
+            display: "inline-block",
+            width: "clamp(14px, 1.8cqw, 22px)",
+            height: "3px",
+            background: "#D10000",
+            verticalAlign: "middle",
+            marginRight: "0.5em",
+          }} />
+          <span style={{ color: "var(--fg)", opacity: 0.55 }}>№</span>
+          <span style={{ color: "#D10000", margin: "0 0.35em", fontWeight: 700 }}>04</span>
+          <span style={{ color: "var(--fg)", fontWeight: 700 }}>— СЕКЦИЯ D</span>
         </div>
 
         {/* Lissitzky 几何 — 左上角 */}
@@ -119,10 +128,19 @@ export function PosterVideo() {
 
       {/* ====== 移动端+平板 (<1024px) — flex-col 纵向布局 ====== */}
       <div className="lg:hidden relative z-10 flex w-full flex-col px-4 pt-16 sm:px-8 sm:pt-20">
-        {/* 档案编号 */}
-        <div className="anim-y-60 font-mono text-xs tracking-widest text-[#B0B0B0] uppercase mb-2">
-          <span className="text-[#D10000]">档案</span>
-          <span className="mx-2 text-[var(--fg)]">04</span>
+        {/* 档案编号 — 模块标签样式 */}
+        <div className="anim-y-60 font-mono text-xs tracking-widest uppercase mb-2">
+          <span style={{
+            display: "inline-block",
+            width: "clamp(14px, 3cqw, 22px)",
+            height: "3px",
+            background: "#D10000",
+            verticalAlign: "middle",
+            marginRight: "0.5em",
+          }} />
+          <span style={{ color: "var(--fg)", opacity: 0.55 }}>№</span>
+          <span style={{ color: "#D10000", margin: "0 0.35em", fontWeight: 700 }}>04</span>
+          <span style={{ color: "var(--fg)", fontWeight: 700 }}>— СЕКЦИЯ D</span>
         </div>
 
         {/* 俄文 */}

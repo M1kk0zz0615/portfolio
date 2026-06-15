@@ -26,13 +26,22 @@ export function PosterBuildLog() {
           }}
         />
 
-        {/* 档案编号 */}
+        {/* 档案编号 — 模块标签样式 */}
         <div
-          className="anim-y-60 absolute z-20 font-mono text-xs tracking-widest text-[#B0B0B0] uppercase"
+          className="anim-y-60 absolute z-20 font-mono text-xs tracking-widest uppercase"
           style={{ left: "clamp(1.5rem, 6cqw, 8%)", top: "19%" }}
         >
-          <span className="text-[#D10000]">档案</span>
-          <span className="mx-2 text-[var(--fg)]">02</span>
+          <span style={{
+            display: "inline-block",
+            width: "clamp(14px, 1.8cqw, 22px)",
+            height: "3px",
+            background: "#D10000",
+            verticalAlign: "middle",
+            marginRight: "0.5em",
+          }} />
+          <span style={{ color: "var(--fg)", opacity: 0.55 }}>№</span>
+          <span style={{ color: "#D10000", margin: "0 0.35em", fontWeight: 700 }}>02</span>
+          <span style={{ color: "var(--fg)", fontWeight: 700 }}>— СЕКЦИЯ B</span>
         </div>
 
         {/* 标题组：西里尔文 + 主标题 + 英文 */}
@@ -217,9 +226,19 @@ export function PosterBuildLog() {
 
       {/* ====== 移动端 ====== */}
       <div className="lg:hidden relative z-10 flex w-full flex-col px-4 pt-24 pb-16 sm:px-8 sm:pt-28">
-        <div className="anim-y-60 font-mono text-xs tracking-widest text-[#B0B0B0] uppercase mb-6">
-          <span className="text-[#D10000]">档案</span>
-          <span className="mx-2 text-[var(--fg)]">02</span>
+        {/* 档案编号 — 模块标签样式 */}
+        <div className="anim-y-60 font-mono text-xs tracking-widest uppercase mb-6">
+          <span style={{
+            display: "inline-block",
+            width: "clamp(14px, 3cqw, 22px)",
+            height: "3px",
+            background: "#D10000",
+            verticalAlign: "middle",
+            marginRight: "0.5em",
+          }} />
+          <span style={{ color: "var(--fg)", opacity: 0.55 }}>№</span>
+          <span style={{ color: "#D10000", margin: "0 0.35em", fontWeight: 700 }}>02</span>
+          <span style={{ color: "var(--fg)", fontWeight: 700 }}>— СЕКЦИЯ B</span>
         </div>
         <div className="anim-y-60 d-1 flex flex-col">
           <span
