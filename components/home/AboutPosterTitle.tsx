@@ -3,10 +3,10 @@ const TITLE_CHARS = ["关", "于", "迷", "蔻", "紫", "的", "一", "切"] as 
 export function AboutPosterTitle() {
   return (
     <h1
-      className="type-display title-depth flex flex-wrap text-[var(--fg)] select-none"
+      className="type-display title-depth flex text-[var(--fg)] select-none whitespace-nowrap"
       data-text="关于迷蔻紫的一切"
       style={{
-        fontSize: "clamp(2.2rem, 7cqw, 5rem)",
+        fontSize: "clamp(1.8rem, 6.5cqw, 4.5rem)",
         gap: "0.04em 0.16em",
         lineHeight: 1.0,
       }}

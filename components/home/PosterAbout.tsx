@@ -394,7 +394,7 @@ export function PosterAbout() {
       >
         {/* 左侧：标题 + 按钮 — 仅移动此列 */}
         <div
-          className="relative z-10 order-1 lg:order-none lg:-ml-12 lg:mt-24 lg:max-w-[55cqw]"
+          className="relative z-10 order-1 lg:order-none lg:-ml-8 lg:mt-24 lg:max-w-[62cqw]"
           style={{ minHeight: "clamp(280px, 38vh, 400px)" }}
         >
           <AboutPosterTitle />
