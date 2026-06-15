@@ -395,6 +395,14 @@ body {
   transform: scaleX(0);
   transform-origin: left center;
   transition: transform 0.6s cubic-bezier(0.2, 0, 0, 1);
+  will-change: transform;
+}
+
+/* GPU 合成层 — 动画前将元素提升到独立图层，由 GPU 处理 transform/opacity，避免主线程重排重绘 */
+.anim-y-60,
+.anim-x--80,
+.anim-scale {
+  will-change: transform, opacity;
 }
 
 .anim-y-60.visible,
