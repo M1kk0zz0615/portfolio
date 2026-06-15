@@ -1,12 +1,14 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
+import { VideoEmbed } from "./VideoEmbed";
 
 interface VideoCardProps {
   title: string;
   description: string;
   platform: "Bilibili" | "视频号";
-  /** 填写视频链接后自动变为可点击状态 */
+  /** B站视频链接，填写后点击卡片弹出嵌入播放器 */
   href?: string;
   /** 封面图 URL，不传则显示占位图 */
   coverSrc?: string;
@@ -64,10 +66,14 @@ function VideoPlaceholder() {
 }
 
 export function VideoCard({ title, description, platform, href, coverSrc, delay }: VideoCardProps) {
+  const [embedOpen, setEmbedOpen] = useState(false);
   const isClickable = !!href;
 
   const card = (
-    <div className={`anim-y-60 ${delay} group cursor-${isClickable ? "pointer" : "default"}`}>
+    <div
+      className={`anim-y-60 ${delay} group ${isClickable ? "cursor-pointer" : "cursor-default"}`}
+      onClick={() => { if (isClickable) setEmbedOpen(true); }}
+    >
       {/* 封面 — 16:9 */}
       <div className="photo-montage relative w-full overflow-hidden border border-[var(--fg)]/08 bg-[var(--gray-light)]" style={{ aspectRatio: "16/9" }}>
         {coverSrc ? (
@@ -137,13 +143,12 @@ export function VideoCard({ title, description, platform, href, coverSrc, delay 
     </div>
   );
 
-  if (isClickable) {
-    return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className="no-underline text-[var(--fg)]">
-        {card}
-      </a>
-    );
-  }
-
-  return card;
+  return (
+    <>
+      {card}
+      {embedOpen && href && (
+        <VideoEmbed href={href} title={title} onClose={() => setEmbedOpen(false)} />
+      )}
+    </>
+  );
 }
