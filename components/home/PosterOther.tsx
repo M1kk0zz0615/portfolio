@@ -117,7 +117,7 @@ export function PosterOther() {
               style={{ fontSize: "clamp(0.6rem, 0.8cqw, 0.7rem)" }}>WeChat</a>
             <a href="https://www.xiaohongshu.com/user/profile/5d63437f000000000100a557" target="_blank" rel="noopener noreferrer"
               className="border border-[var(--fg)]/20 px-3 py-1.5 text-[var(--fg)] no-underline transition-all duration-200 hover:border-[#D10000] hover:text-[#D10000] hover:bg-[#D10000]/5"
-              style={{ fontSize: "clamp(0.6rem, 0.8cqw, 0.7rem)" }}>小红书</a>
+              style={{ fontSize: "clamp(0.6rem, 0.8cqw, 0.7rem)" }}>rednote</a>
           </div>
         </div>
 
