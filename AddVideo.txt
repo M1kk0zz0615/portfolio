@@ -1,0 +1,2 @@
+  node scripts/add-video.mjs "B站链接" work    # 工作影像
+  node scripts/add-video.mjs "B站链接" personal # 闲影
