@@ -33,21 +33,21 @@ export function PosterBuildLog() {
         {/* 页面顶部横向粗线 */}
         <div
           className="anim-line-x absolute left-[2%] h-[3px] bg-[var(--fg)] z-0"
-          style={{ top: "3%", width: "96%" }}
+          style={{ top: "3%", width: "96%", opacity: 0.5 }}
         />
 
         {/* 左上角 L 型框架 */}
         <div className="anim-line-x absolute z-0"
-          style={{ left: "2%", top: "3%", width: "clamp(36px, 5cqw, 64px)", height: "3px", background: "var(--fg)" }}
+          style={{ left: "2%", top: "3%", width: "clamp(36px, 5cqw, 64px)", height: "3px", background: "var(--fg)", opacity: 0.5 }}
         />
         <div className="anim-line-x d-1 absolute z-0"
-          style={{ left: "2%", top: "3%", width: "3px", height: "clamp(36px, 5cqw, 64px)", background: "var(--fg)" }}
+          style={{ left: "2%", top: "3%", width: "3px", height: "clamp(36px, 5cqw, 64px)", background: "var(--fg)", opacity: 0.5 }}
         />
 
         {/* 底部横线 — 左侧黑色 + 右侧红色 */}
         <div
           className="anim-line-x d-3 absolute left-[3%] h-[3px] bg-[var(--fg)] z-0"
-          style={{ bottom: "5%", width: "clamp(80px, 14cqw, 180px)" }}
+          style={{ bottom: "5%", width: "clamp(80px, 14cqw, 180px)", opacity: 0.5 }}
         />
         <div
           className="anim-line-x d-3 absolute right-[3%] h-[3px] bg-[#D10000] z-0"
@@ -96,17 +96,17 @@ export function PosterBuildLog() {
 
         {/* ── 断裂边框 · 右下角 L 型 ── */}
         <div className="anim-line-x d-2 absolute z-0"
-          style={{ right: "2%", bottom: "4.5%", width: "clamp(36px, 5cqw, 64px)", height: "3px", background: "var(--fg)" }}
+          style={{ right: "2%", bottom: "4.5%", width: "clamp(36px, 5cqw, 64px)", height: "3px", background: "var(--fg)", opacity: 0.5 }}
           aria-hidden="true"
         />
         <div className="anim-line-x d-3 absolute z-0"
-          style={{ right: "2%", bottom: "4.5%", width: "3px", height: "clamp(36px, 5cqw, 64px)", background: "var(--fg)" }}
+          style={{ right: "2%", bottom: "4.5%", width: "3px", height: "clamp(36px, 5cqw, 64px)", background: "var(--fg)", opacity: 0.5 }}
           aria-hidden="true"
         />
 
         {/* ── 断裂边框 · 右上角横线段 ── */}
         <div className="anim-line-x d-1 absolute z-0"
-          style={{ right: "2%", top: "3%", width: "clamp(20px, 3cqw, 40px)", height: "2px", background: "var(--fg)" }}
+          style={{ right: "2%", top: "3%", width: "clamp(20px, 3cqw, 40px)", height: "2px", background: "var(--fg)", opacity: 0.5 }}
           aria-hidden="true"
         />
 
@@ -117,7 +117,7 @@ export function PosterBuildLog() {
               right: "2.5%", top: `${8 + ratio * 72}%`,
               width: "clamp(6px, 1cqw, 12px)", height: "1px",
               background: i % 2 === 0 ? "var(--fg)" : "#D10000",
-              opacity: i % 2 === 0 ? 1 : 0.25,
+              opacity: i % 2 === 0 ? 0.5 : 0.25,
             }}
             aria-hidden="true"
           />
@@ -129,7 +129,7 @@ export function PosterBuildLog() {
             style={{
               left: "2.5%", top: `${12 + ratio * 68}%`,
               width: "clamp(5px, 0.8cqw, 10px)", height: "1px",
-              background: "var(--fg)", opacity: 1,
+              background: "var(--fg)", opacity: 0.5,
             }}
             aria-hidden="true"
           />
@@ -148,7 +148,7 @@ export function PosterBuildLog() {
               fontSize: "clamp(0.45rem, 0.5cqw, 0.6rem)",
               fontFamily: "var(--font-geist-mono)",
               color: "var(--fg)",
-              opacity: 1,
+              opacity: 0.5,
               letterSpacing: "0.05em",
             }}
             aria-hidden="true"
@@ -185,20 +185,11 @@ export function PosterBuildLog() {
           style={{ top: "16%", height: "28%", opacity: 0.55 }}
         />
 
-        {/* 红色水平对齐线 */}
-        <div
-          className="anim-line-x d-2 absolute left-0 h-[2px] bg-[#D10000] z-[1]"
-          style={{ top: "28%", width: "22%", opacity: 0.4 }}
-        />
-        <div
-          className="anim-line-x d-3 absolute left-[2%] h-[2px] bg-[#D10000] z-[1]"
-          style={{ top: "47%", width: "16%", opacity: 0.35 }}
-        />
 
         {/* 黑色粗方块 — Lissitzky 式几何锚 */}
         <div
           className="anim-scale d-2 absolute z-[1]"
-          style={{ right: "6%", top: "20%", width: "clamp(18px, 2.5cqw, 32px)", height: "clamp(18px, 2.5cqw, 32px)", background: "var(--fg)" }}
+          style={{ right: "6%", top: "20%", width: "clamp(18px, 2.5cqw, 32px)", height: "clamp(18px, 2.5cqw, 32px)", background: "var(--fg)", opacity: 0.5 }}
         />
 
         {/* 网格点阵 — 沿右辅助线 */}
@@ -207,7 +198,7 @@ export function PosterBuildLog() {
             style={{
               right: "calc(6% - 2px)", top: `${10 + ratio * 70}%`,
               width: "6px", height: "6px",
-              background: i % 2 === 0 ? "#D10000" : "var(--fg)", opacity: 1,
+              background: i % 2 === 0 ? "#D10000" : "var(--fg)", opacity: i % 2 === 0 ? 1 : 0.5,
             }}
           />
         ))}
@@ -224,7 +215,7 @@ export function PosterBuildLog() {
           style={{
             left: "calc(2% + clamp(36px, 5cqw, 64px) + 10px)",
             top: "calc(3% + clamp(36px, 5cqw, 64px) - 6px)",
-            width: "10px", height: "10px", background: "var(--fg)",
+            width: "10px", height: "10px", background: "var(--fg)", opacity: 0.5,
           }}
         />
 

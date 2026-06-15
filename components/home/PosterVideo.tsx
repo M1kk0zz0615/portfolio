@@ -123,6 +123,70 @@ export function PosterVideo() {
           活动记录 · 年度回顾 · 毕业纪念 · Vlog · 实验短片
         </p>
 
+        {/* ── 四角裁切线 ── */}
+        {[
+          { l: "2%", t: "3%" },
+          { r: "2%", t: "3%" },
+          { l: "2%", b: "4.5%" },
+          { r: "2%", b: "4.5%" },
+        ].map((pos, i) => (
+          <div key={i} className={`anim-scale d-${i + 1} absolute z-0`}
+            style={{ ...pos, width: "clamp(14px, 2cqw, 22px)", height: "clamp(14px, 2cqw, 22px)" }}>
+            <div style={{ position: "absolute", left: "50%", top: 0, width: "1px", height: "100%", background: "var(--fg)", transform: "translateX(-50%)" }} />
+            <div style={{ position: "absolute", top: "50%", left: 0, height: "1px", width: "100%", background: "var(--fg)", transform: "translateY(-50%)" }} />
+          </div>
+        ))}
+
+        {/* ── Registration Mark · 四角套准标记 ── */}
+        {[
+          { left: "1.2%", top: "2.5%" },
+          { right: "1.2%", top: "2.5%" },
+          { left: "1.2%", bottom: "4%" },
+          { right: "1.2%", bottom: "4%" },
+        ].map((pos, i) => (
+          <div key={`reg-${i}`} className={`anim-scale d-${i + 1} absolute z-0`}
+            style={{ ...pos, width: "clamp(16px, 2.2cqw, 24px)", height: "clamp(16px, 2.2cqw, 24px)" }}
+            aria-hidden="true">
+            <div style={{ position: "absolute", inset: 0, borderRadius: "50%", border: "1px solid var(--fg)", opacity: 1 }} />
+            <div style={{ position: "absolute", left: "50%", top: 0, width: "1px", height: "100%", background: "var(--fg)", opacity: 1, transform: "translateX(-50%)" }} />
+            <div style={{ position: "absolute", top: "50%", left: 0, height: "1px", width: "100%", background: "var(--fg)", opacity: 1, transform: "translateY(-50%)" }} />
+          </div>
+        ))}
+
+        {/* ── 左侧竖排西里尔文 ── */}
+        <div
+          className="anim-y-60 d-3 absolute z-[2] select-none"
+          style={{
+            left: "2.8%", top: "68%",
+            fontSize: "clamp(0.85rem, 1cqw, 1.1rem)",
+            fontFamily: "var(--font-geist-mono)",
+            color: "var(--fg)",
+            letterSpacing: "0.3em",
+            transform: "rotate(90deg)",
+            transformOrigin: "left top",
+            whiteSpace: "nowrap",
+          }}
+          aria-hidden="true">
+          АРХИВ 04
+        </div>
+
+        {/* 右下角大水印数字 */}
+        <div
+          className="absolute z-[1] select-none"
+          style={{
+            right: "4%", bottom: "4%",
+            fontSize: "clamp(10rem, 22cqw, 26rem)",
+            fontWeight: 900,
+            color: "var(--fg)",
+            opacity: 0.035,
+            lineHeight: 0.85,
+            letterSpacing: "-0.05em",
+            fontFamily: "var(--font-geist-mono)",
+          }}
+          aria-hidden="true">
+          04
+        </div>
+
         <div className="scroll-arrow z-30" />
       </div>
 
