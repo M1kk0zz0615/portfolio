@@ -6,7 +6,7 @@ export function AboutPosterTitle() {
       className="type-display title-depth flex flex-wrap text-[var(--fg)] select-none"
       data-text="关于迷蔻紫的一切"
       style={{
-        fontSize: "clamp(2.5rem, 13vw, 5rem)",
+        fontSize: "clamp(2.2rem, 7cqw, 5rem)",
         gap: "0.04em 0.16em",
         lineHeight: 1.0,
       }}
