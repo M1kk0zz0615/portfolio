@@ -407,7 +407,7 @@ export function PosterAbout() {
             用胶片与像素，记录在场与想象
           </p>
 
-          <div className="anim-y-60 d-3 mt-6 flex justify-end lg:absolute lg:bottom-44 lg:-right-4">
+          <div className="anim-y-60 d-3 mt-6 flex justify-start lg:absolute lg:bottom-44 lg:-right-4">
             <AboutArchiveButton />
           </div>
         </div>
