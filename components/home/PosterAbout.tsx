@@ -466,7 +466,7 @@ export function PosterAbout() {
         style={{
           right: "4%",
           bottom: "4%",
-          fontSize: "clamp(10rem, 22cqw, 26rem)",
+          fontSize: "clamp(14rem, 32cqw, 38rem)",
           fontWeight: 900,
           color: "var(--fg)",
           opacity: 0.035,
