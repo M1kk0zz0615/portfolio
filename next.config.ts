@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
     // 移动端优先的尺寸断点，减少生成不必要的超大图
     deviceSizes: [375, 640, 768, 1024, 1280, 1536, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    minimumCacheTTL: 604800, // 7 天 CDN 缓存
+    minimumCacheTTL: 2592000, // 30 天 CDN 缓存 — 部署后预热一次即可覆盖全部访客
   },
 
   // ====== 压缩 ======
@@ -27,11 +27,11 @@ const nextConfig: NextConfig = {
           { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
         ],
       },
-      // next/image 优化图片 — 浏览器缓存 1 天 + CDN 续命 7 天
+      // next/image 优化图片 — 浏览器缓存 1 天 + CDN 续命 30 天
       {
         source: "/_next/image(.*)",
         headers: [
-          { key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" },
+          { key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=2592000" },
         ],
       },
       // public 目录静态资源 — 30 天
