@@ -145,7 +145,7 @@ export default function ArchivePage() {
               style={{ transitionTimingFunction: "cubic-bezier(0.2,0,0,1)" }}
               onClick={(e) => {
                 const el = e.currentTarget;
-                setAvatarLightbox({ src: "/avatar/2.jpg", rect: el.getBoundingClientRect() });
+                setAvatarLightbox({ src: "/avatar/2.webp", rect: el.getBoundingClientRect() });
               }}
             >
               {/* 红色不规则底块 — 右下偏移 */}
@@ -163,7 +163,7 @@ export default function ArchivePage() {
               />
               {/* 照片 */}
               <Image
-                src="/avatar/1.jpg"
+                src="/avatar/1.webp"
                 alt="刘俊宁"
                 width={200}
               height={200}

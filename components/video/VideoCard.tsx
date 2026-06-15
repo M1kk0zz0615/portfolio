@@ -1,11 +1,15 @@
 "use client";
 
+import Image from "next/image";
+
 interface VideoCardProps {
   title: string;
   description: string;
   platform: "Bilibili" | "视频号";
   /** 填写视频链接后自动变为可点击状态 */
   href?: string;
+  /** 封面图 URL，不传则显示占位图 */
+  coverSrc?: string;
   delay: string;
 }
 
@@ -59,14 +63,25 @@ function VideoPlaceholder() {
   );
 }
 
-export function VideoCard({ title, description, platform, href, delay }: VideoCardProps) {
+export function VideoCard({ title, description, platform, href, coverSrc, delay }: VideoCardProps) {
   const isClickable = !!href;
 
   const card = (
     <div className={`anim-y-60 ${delay} group cursor-${isClickable ? "pointer" : "default"}`}>
       {/* 封面 — 16:9 */}
-      <div className="photo-montage relative w-full overflow-hidden border border-[var(--fg)]/08" style={{ aspectRatio: "16/9" }}>
-        <VideoPlaceholder />
+      <div className="photo-montage relative w-full overflow-hidden border border-[var(--fg)]/08 bg-[var(--gray-light)]" style={{ aspectRatio: "16/9" }}>
+        {coverSrc ? (
+          <Image
+            src={coverSrc}
+            alt={title}
+            fill
+            sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 360px"
+            className="object-cover"
+            loading="lazy"
+          />
+        ) : (
+          <VideoPlaceholder />
+        )}
         <div className="duotone-overlay" />
 
         {/* 平台标签 */}

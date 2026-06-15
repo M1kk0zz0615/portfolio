@@ -38,6 +38,32 @@
 }
 
 /* ============================================
+   减少动画偏好 — 无障碍 + 低端机性能
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .scroll-arrow { display: none; }
+  .led-indicator { animation: none !important; }
+}
+
+/* loading.tsx 的关键帧 — 不能放在组件内（Server Component 不支持 styled-jsx） */
+@keyframes geoLoading {
+  0%   { transform: rotate(0deg) scale(1); }
+  25%  { transform: rotate(90deg) scale(0.85); }
+  50%  { transform: rotate(180deg) scale(1); }
+  75%  { transform: rotate(270deg) scale(0.85); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+/* ============================================
    全局
    ============================================ */
 html {

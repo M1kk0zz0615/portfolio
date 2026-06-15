@@ -4,48 +4,11 @@ import Link from "next/link";
 import { useScrollReveal } from "@/app/hooks/useScrollReveal";
 import { ScrollArrow } from "@/components/ScrollArrow";
 import { VideoCard } from "@/components/video/VideoCard";
-
-const WORK_VIDEOS = [
-  {
-    title: "待补充",
-    description: "学院活动记录",
-    platform: "Bilibili" as const,
-    href: "",
-  },
-  {
-    title: "待补充",
-    description: "年度回顾视频",
-    platform: "视频号" as const,
-    href: "",
-  },
-  {
-    title: "待补充",
-    description: "毕业纪念短片",
-    platform: "Bilibili" as const,
-    href: "",
-  },
-  {
-    title: "待补充",
-    description: "学院宣传片",
-    platform: "视频号" as const,
-    href: "",
-  },
-  {
-    title: "待补充",
-    description: "活动纪录片",
-    platform: "Bilibili" as const,
-    href: "",
-  },
-  {
-    title: "待补充",
-    description: "私下接活项目",
-    platform: "Bilibili" as const,
-    href: "",
-  },
-];
+import { VIDEOS } from "@/data/videos";
 
 export default function WorkVideoPage() {
   const ref = useScrollReveal<HTMLDivElement>(0.15);
+  const workVideos = VIDEOS.filter((v) => v.category === "work");
 
   return (
     <main className="bg-paper text-[var(--fg)] min-h-screen" ref={ref}>
@@ -100,7 +63,7 @@ export default function WorkVideoPage() {
             className="anim-y-60 d-3 type-label text-[#5C5044] mt-3 max-w-md"
             style={{ fontSize: "clamp(0.8rem, 0.95vw, 0.9rem)" }}
           >
-            学院融媒体中心 · 活动记录 · 年度回顾 · 毕业纪念 · 委托项目
+            主播正经时候
           </p>
         </div>
 
@@ -113,23 +76,31 @@ export default function WorkVideoPage() {
 
       {/* 视频网格 */}
       <section className="px-6 py-8 md:px-12 md:py-10 pb-20">
-        <div
-          className="grid gap-4 sm:gap-6 md:gap-8"
-          style={{
-            gridTemplateColumns: "repeat(auto-fill, minmax(clamp(240px, 70vw, 360px), 1fr))",
-          }}
-        >
-          {WORK_VIDEOS.map((video, i) => (
-            <VideoCard
-              key={i}
-              title={video.title}
-              description={video.description}
-              platform={video.platform}
-              href={video.href || undefined}
-              delay={`d-${Math.min(i + 2, 5)}`}
-            />
-          ))}
-        </div>
+        {workVideos.length === 0 ? (
+          <p className="type-label text-[#5C5044] text-center py-12"
+            style={{ fontSize: "clamp(0.85rem, 1vw, 1rem)" }}>
+            暂无受托项目，联系作者了解更多
+          </p>
+        ) : (
+          <div
+            className="grid gap-4 sm:gap-6 md:gap-8"
+            style={{
+              gridTemplateColumns: "repeat(auto-fill, minmax(clamp(240px, 70vw, 360px), 1fr))",
+            }}
+          >
+            {workVideos.map((video, i) => (
+              <VideoCard
+                key={i}
+                title={video.title}
+                description={video.description}
+                platform="Bilibili"
+                href={video.href || undefined}
+                coverSrc={video.cover}
+                delay={`d-${Math.min(i + 2, 5)}`}
+              />
+            ))}
+          </div>
+        )}
         {/* 前往闲影 */}
         <div className="anim-y-60 d-4 mt-12 text-center">
           <p

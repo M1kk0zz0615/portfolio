@@ -4,48 +4,11 @@ import Link from "next/link";
 import { useScrollReveal } from "@/app/hooks/useScrollReveal";
 import { ScrollArrow } from "@/components/ScrollArrow";
 import { VideoCard } from "@/components/video/VideoCard";
-
-const PERSONAL_VIDEOS = [
-  {
-    title: "待补充",
-    description: "城市漫步 Vlog",
-    platform: "Bilibili" as const,
-    href: "",
-  },
-  {
-    title: "待补充",
-    description: "实验短片",
-    platform: "Bilibili" as const,
-    href: "",
-  },
-  {
-    title: "待补充",
-    description: "旅行记录",
-    platform: "视频号" as const,
-    href: "",
-  },
-  {
-    title: "待补充",
-    description: "概念作品",
-    platform: "Bilibili" as const,
-    href: "",
-  },
-  {
-    title: "待补充",
-    description: "游戏高光合集",
-    platform: "Bilibili" as const,
-    href: "",
-  },
-  {
-    title: "待补充",
-    description: "日常碎片",
-    platform: "视频号" as const,
-    href: "",
-  },
-];
+import { VIDEOS } from "@/data/videos";
 
 export default function PersonalVideoPage() {
   const ref = useScrollReveal<HTMLDivElement>(0.15);
+  const personalVideos = VIDEOS.filter((v) => v.category === "personal");
 
   return (
     <main className="bg-paper text-[var(--fg)] min-h-screen" ref={ref}>
@@ -100,7 +63,7 @@ export default function PersonalVideoPage() {
             className="anim-y-60 d-3 type-label text-[#5C5044] mt-3 max-w-md"
             style={{ fontSize: "clamp(0.8rem, 0.95vw, 0.9rem)" }}
           >
-            Vlog · 实验短片 · 概念作品 · 游戏高光 · 日常记录
+            主播发狂时候
           </p>
         </div>
 
@@ -113,23 +76,31 @@ export default function PersonalVideoPage() {
 
       {/* 视频网格 */}
       <section className="px-6 py-8 md:px-12 md:py-10 pb-20">
-        <div
-          className="grid gap-4 sm:gap-6 md:gap-8"
-          style={{
-            gridTemplateColumns: "repeat(auto-fill, minmax(clamp(240px, 70vw, 360px), 1fr))",
-          }}
-        >
-          {PERSONAL_VIDEOS.map((video, i) => (
-            <VideoCard
-              key={i}
-              title={video.title}
-              description={video.description}
-              platform={video.platform}
-              href={video.href || undefined}
-              delay={`d-${Math.min(i + 2, 5)}`}
-            />
-          ))}
-        </div>
+        {personalVideos.length === 0 ? (
+          <p className="type-label text-[#5C5044] text-center py-12"
+            style={{ fontSize: "clamp(0.85rem, 1vw, 1rem)" }}>
+            暂无个人影像，敬请期待
+          </p>
+        ) : (
+          <div
+            className="grid gap-4 sm:gap-6 md:gap-8"
+            style={{
+              gridTemplateColumns: "repeat(auto-fill, minmax(clamp(240px, 70vw, 360px), 1fr))",
+            }}
+          >
+            {personalVideos.map((video, i) => (
+              <VideoCard
+                key={i}
+                title={video.title}
+                description={video.description}
+                platform="Bilibili"
+                href={video.href || undefined}
+                coverSrc={video.cover}
+                delay={`d-${Math.min(i + 2, 5)}`}
+              />
+            ))}
+          </div>
+        )}
 {/* 返回 */}
         <div className="anim-y-60 d-4 mt-12 text-center">
           <p

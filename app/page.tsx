@@ -1,11 +1,27 @@
 "use client";
 
 import { useEffect } from "react";
+import dynamic from "next/dynamic";
 import { PosterAbout } from "@/components/home/PosterAbout";
-import { PosterPhotography } from "@/components/home/PosterPhotography";
-import { PosterVideo } from "@/components/home/PosterVideo";
-import { PosterBuildLog } from "@/components/home/PosterBuildLog";
-import { PosterOther } from "@/components/home/PosterOther";
+
+// 非首屏海报动态导入 — 减少首屏 JS 解析量
+// PosterAbout 首屏可见，同步加载；其余 lazy load
+const PosterBuildLog = dynamic(
+  () => import("@/components/home/PosterBuildLog").then((m) => ({ default: m.PosterBuildLog })),
+  { ssr: false }
+);
+const PosterPhotography = dynamic(
+  () => import("@/components/home/PosterPhotography").then((m) => ({ default: m.PosterPhotography })),
+  { ssr: false }
+);
+const PosterVideo = dynamic(
+  () => import("@/components/home/PosterVideo").then((m) => ({ default: m.PosterVideo })),
+  { ssr: false }
+);
+const PosterOther = dynamic(
+  () => import("@/components/home/PosterOther").then((m) => ({ default: m.PosterOther })),
+  { ssr: false }
+);
 
 const SCROLL_KEY = "home-scroll";
 

@@ -105,7 +105,7 @@ export default function AboutPage() {
               style={{ transitionTimingFunction: "cubic-bezier(0.2,0,0,1)" }}
               onClick={(e) => {
                 const el = e.currentTarget;
-                setAvatarLightbox({ src: "/avatar/2.jpg", rect: el.getBoundingClientRect() });
+                setAvatarLightbox({ src: "/avatar/2.webp", rect: el.getBoundingClientRect() });
               }}
             >
             <div
@@ -121,7 +121,7 @@ export default function AboutPage() {
               }}
             />
             <Image
-              src="/avatar/1.jpg"
+              src="/avatar/1.webp"
               alt="刘俊宁"
               width={160}
               height={160}

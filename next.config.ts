@@ -1,14 +1,19 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // 图片优化
+  // ====== 图片优化 ======
+  // 启用 sharp 进行 WebP/AVIF 实时转换，大幅减少图片体积
   images: {
     formats: ["image/webp", "image/avif"],
+    // 移动端优先的尺寸断点，减少生成不必要的超大图
     deviceSizes: [375, 640, 768, 1024, 1280, 1536, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    // CDN 缓存 7 天 — 第一个访客优化完图片，后续访客直接命中缓存
-    minimumCacheTTL: 604800,
+    minimumCacheTTL: 604800, // 7 天 CDN 缓存
   },
+
+  // ====== 压缩 ======
+  // 开启 gzip 之外的标准压缩（Next.js 默认已启用 gzip，此处确保 brotli 优先）
+  compress: true,
 
   // ====== 缓存策略 ======
   async headers() {
@@ -39,12 +44,17 @@ const nextConfig: NextConfig = {
 
   // 延长静态页服务端缓存 + 减少 prefetch
   experimental: {
+    // 优化特定包的 tree-shaking
     optimizePackageImports: ["sharp"],
     staleTimes: {
       dynamic: 30,
       static: 180,
     },
   },
+
+  // ====== Turbopack 配置（Next.js 16 默认使用 Turbopack for dev）======
+  // Turbopack 完全支持 Tailwind CSS v4 + PostCSS，无需额外配置
+  // 如遇兼容性问题，可用 `next dev --no-turbo` 回退到 webpack
 };
 
 export default nextConfig;
