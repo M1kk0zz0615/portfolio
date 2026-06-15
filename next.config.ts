@@ -16,7 +16,9 @@ const nextConfig: NextConfig = {
   compress: true,
 
   // ====== 缓存策略 ======
+  // 仅生产环境启用自定义 Cache-Control，开发环境由 Next.js 自行管理
   async headers() {
+    if (process.env.NODE_ENV !== "production") return [];
     return [
       // JS/CSS 静态文件 — 文件名带哈希，永久缓存
       {
