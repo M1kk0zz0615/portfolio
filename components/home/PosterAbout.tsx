@@ -411,15 +411,21 @@ export function PosterAbout() {
         <span style={{ color: "var(--fg)", fontWeight: 700 }}>— СЕКЦИЯ A</span>
       </div>
 
-      {/* 主内容区 */}
+      {/* ═══════════════════════════════════════════
+          内容模块 — flex-col 流式布局
+          标题 + 简介 + 按钮 组成单一内容模块
+          无 absolute 定位依赖
+          ═══════════════════════════════════════════ */}
       <div
-        className="relative z-10 mx-auto grid h-full w-full max-w-6xl items-start gap-4 sm:gap-6 pl-2 pr-4 pt-16 sm:pl-4 sm:pr-6 sm:pt-20 md:pl-0 md:pr-6 lg:grid-cols-[1fr_auto] lg:gap-6 lg:pt-[20rem] xl:pt-[26rem]"
+        className="relative z-10 mx-auto flex flex-col h-full w-full max-w-6xl
+          pl-2 pr-4 pt-16
+          sm:pl-4 sm:pr-6 sm:pt-20
+          md:pl-0 md:pr-6
+          lg:pt-[20rem]
+          xl:pt-[26rem]"
       >
-        {/* 左侧：标题 + 按钮 — 仅移动此列 */}
-        <div
-          className="relative z-10 order-1 lg:order-none lg:-ml-8 lg:mt-24 lg:max-w-[62cqw]"
-          style={{ minHeight: "clamp(280px, 38vh, 400px)" }}
-        >
+        {/* 标题 + 简介 + 按钮 — flex-shrink-0 保持自然高度 */}
+        <div className="flex-shrink-0 lg:-ml-8 lg:mt-24 lg:max-w-[62cqw]">
           <AboutPosterTitle />
 
           <p className="anim-y-60 d-1 mt-8 max-w-sm font-mono text-base tracking-wide text-[var(--gray-dark)] ml-2">
@@ -430,14 +436,18 @@ export function PosterAbout() {
             用胶片与像素，记录在场与想象
           </p>
 
-          <div className="anim-y-60 d-3 mt-6 flex justify-start lg:absolute lg:bottom-44 lg:left-[43%]">
+          <div className="anim-y-60 d-3 mt-6 flex justify-start lg:mt-14 lg:ml-2">
             <AboutArchiveButton />
           </div>
         </div>
 
-        {/* 右侧：Logo 图案 */}
+        {/* 弹性占位 — 吸收剩余高度，驱动按钮保持在内容自然位置 */}
+        <div className="flex-1 min-h-0" aria-hidden="true" />
+
+        {/* Logo 图案 — 桌面端 absolute 脱离布局流，移动端自然排列 */}
         <div
-          className="order-2 flex items-center justify-center lg:order-none lg:absolute lg:right-[4%] lg:top-[8%] lg:h-[45%] lg:w-[32%] xl:w-[35%]"
+          className="flex-shrink-0 flex items-center justify-center mt-8
+            lg:absolute lg:right-[4%] lg:top-[8%] lg:h-[45%] lg:w-[32%] xl:w-[35%] lg:mt-0"
         >
           {/* ═══════════════════════════════════════════
               LOGO 背景构成 — 红色构成主义矩形
