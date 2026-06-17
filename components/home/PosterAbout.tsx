@@ -40,6 +40,9 @@ export function PosterAbout() {
       className="poster bg-paper text-[var(--fg)]"
       aria-label="关于迷蔻紫的一切"
     >
+      {/* ====== 桌面端 (≥1024px) — 构成主义海报布局 ====== */}
+      <div className="hidden lg:contents">
+
       {/* ═══════════════════════════════════════════
           FRAME SYSTEM — 制图框架
           ═══════════════════════════════════════════ */}
@@ -418,8 +421,7 @@ export function PosterAbout() {
       {/* 档案编号 — 模块标签样式 */}
       <div
         className="anim-y-60 z-20 font-mono text-xs tracking-widest uppercase
-          absolute left-[clamp(1.5rem,6cqw,8%)] top-[19%]
-          max-[767px]:relative max-[767px]:left-4 max-[767px]:top-0 max-[767px]:mb-2"
+          absolute left-[clamp(1.5rem,6cqw,8%)] top-[19%]"
       >
         <span style={{
           display: "inline-block",
@@ -441,25 +443,22 @@ export function PosterAbout() {
           ═══════════════════════════════════════════ */}
       <div
         className="relative z-10 mx-auto flex flex-col h-full w-full max-w-6xl
-          pl-2 pr-4 pt-16
-          sm:pl-4 sm:pr-6 sm:pt-20
-          md:pl-0 md:pr-6 md:pt-44 md:pb-24
-          lg:pt-[20rem]
+          pl-0 pr-6 pt-[20rem] pb-24
           xl:pt-[26rem]"
       >
         {/* 标题 + 简介 + 按钮 — flex-shrink-0 保持自然高度 */}
-        <div className="flex-shrink-0 flex flex-col md:mt-16 md:max-w-[62cqw] lg:mt-24 lg:ml-[34px] lg:max-w-[62cqw] xl:-ml-8">
+        <div className="flex-shrink-0 flex flex-col mt-24 ml-[34px] max-w-[62cqw] xl:-ml-8">
           <AboutPosterTitle />
 
           <p className="anim-y-60 d-1 mt-8 max-w-sm font-mono text-base tracking-wide text-[var(--gray-dark)] ml-2">
             计算机学生 / 摄影师 / 影像创作者
           </p>
 
-          <p className="anim-y-60 d-2 mt-4 max-w-md text-lg leading-relaxed text-[var(--gray-dark)]/80 md:text-xl ml-2">
+          <p className="anim-y-60 d-2 mt-4 max-w-md text-xl leading-relaxed text-[var(--gray-dark)]/80 ml-2">
             用胶片与像素，记录在场与想象
           </p>
 
-          <div ref={btnRef} className="anim-y-60 d-3 mt-6 flex justify-start md:mt-14 md:ml-2 lg:-mt-[70px] lg:ml-[457px] xl:-mt-[72px] xl:ml-[453px]">
+          <div ref={btnRef} className="anim-y-60 d-3 flex justify-start -mt-[70px] ml-[457px] xl:-mt-[72px] xl:ml-[453px]">
             <AboutArchiveButton />
           </div>
         </div>
@@ -469,9 +468,9 @@ export function PosterAbout() {
 
         {/* Logo 图案 — 桌面端 absolute 脱离布局流，移动端自然排列 */}
         <div
-          className="flex-shrink-0 flex items-center justify-center mt-8
-            md:absolute md:right-[4%] md:top-[10%] md:h-[38%] md:w-[30%] md:mt-0
-            lg:absolute lg:right-[4%] lg:top-[8%] lg:h-[45%] lg:w-[32%] xl:w-[35%] lg:mt-0"
+          className="flex-shrink-0 flex items-center justify-center
+            absolute right-[4%] top-[8%] h-[45%] w-[32%] mt-0
+            xl:w-[35%]"
         >
           {/* ═══════════════════════════════════════════
               LOGO 背景构成 — 红色构成主义矩形
@@ -566,6 +565,74 @@ export function PosterAbout() {
         scroll down
       </div>
       <div className="scroll-arrow z-30" />
+
+      </div>{/* 桌面端结束 */}
+
+      {/* ====== 移动端+平板 (<1024px) — flex-col 纵向布局 ====== */}
+      <div className="lg:hidden relative z-10 flex w-full flex-col px-4 pt-16 sm:px-8 sm:pt-20">
+        {/* 档案编号 */}
+        <div className="anim-y-60 self-start font-mono text-xs tracking-widest uppercase mb-8">
+          <span style={{
+            display: "inline-block",
+            width: "clamp(14px, 3cqw, 22px)",
+            height: "3px",
+            background: "#D10000",
+            verticalAlign: "middle",
+            marginRight: "0.5em",
+          }} />
+          <span style={{ color: "var(--fg)", opacity: 0.55 }}>№</span>
+          <span style={{ color: "#D10000", margin: "0 0.35em", fontWeight: 700 }}>01</span>
+          <span style={{ color: "var(--fg)", fontWeight: 700 }}>— СЕКЦИЯ A</span>
+        </div>
+
+        {/* 标题 */}
+        <h1
+          className="type-display title-depth select-none"
+          data-text="关于迷蔻紫的一切"
+          style={{
+            fontSize: "clamp(2.2rem, 9vw, 5rem)",
+            lineHeight: 1.0,
+            marginBottom: "1.5rem",
+          }}
+        >
+          关于迷蔻紫的一切
+        </h1>
+
+        {/* 身份描述 */}
+        <p className="anim-y-60 d-1 font-mono text-base tracking-wide text-[var(--gray-dark)] mb-3">
+          计算机学生 / 摄影师 / 影像创作者
+        </p>
+
+        {/* 副标题 */}
+        <p className="anim-y-60 d-2 text-lg leading-relaxed text-[var(--gray-dark)]/80 mb-8">
+          用胶片与像素，记录在场与想象
+        </p>
+
+        {/* 按钮 — 自然流内 */}
+        <div className="anim-y-60 d-3 flex justify-start mb-8">
+          <AboutArchiveButton />
+        </div>
+
+        {/* Logo — 流内居中 */}
+        <div className="anim-y-60 d-4 flex items-center justify-center mt-4 mb-6">
+          <div style={{ width: "min(300px, 70vw)" }}>
+            <img
+              src="/mikkologo/miko.png"
+              alt="Mikko"
+              className="relative w-full h-auto"
+            />
+          </div>
+        </div>
+
+        {/* 底部装饰线 */}
+        <div className="w-full h-[3px] bg-[var(--fg)] mt-auto mb-4 opacity-20" />
+
+        {/* 俄文标注 */}
+        <span className="type-cyrillic text-[var(--fg)]/30 text-center select-none"
+          style={{ fontSize: "clamp(0.65rem, 2.5vw, 0.8rem)", letterSpacing: "0.3em" }}>
+          ВСЁ ОБО МНЕ
+        </span>
+      </div>{/* 移动端结束 */}
 
       {/* ═══════════════════════════════════════════
           DEBUG PANEL — iPad 诊断 (false 隐藏，改 true 恢复)
