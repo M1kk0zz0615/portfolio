@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 export interface PwDebugInfo {
   mounted: boolean;
   clientWidth: number;
+  clientHeight: number;
   pwComputed: string;
   contain: string;
   containerType: string;
@@ -24,6 +25,7 @@ export function usePosterWidth<T extends HTMLElement>(
   const [debugInfo, setDebugInfo] = useState<PwDebugInfo>({
     mounted: false,
     clientWidth: 0,
+    clientHeight: 0,
     pwComputed: "",
     contain: "",
     containerType: "",
@@ -39,12 +41,14 @@ export function usePosterWidth<T extends HTMLElement>(
 
     const collect = () => {
       const w = el.clientWidth;
+      const h = el.clientHeight;
       el.style.setProperty("--pw", String(w));
 
       const style = getComputedStyle(el);
       const info: PwDebugInfo = {
         mounted: true,
         clientWidth: w,
+        clientHeight: h,
         pwComputed: style.getPropertyValue("--pw").trim(),
         contain: style.contain,
         containerType: style.containerType,
