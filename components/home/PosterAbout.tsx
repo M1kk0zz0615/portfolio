@@ -459,7 +459,7 @@ export function PosterAbout() {
             用胶片与像素，记录在场与想象
           </p>
 
-          <div ref={btnRef} className="anim-y-60 d-3 mt-6 flex justify-start md:mt-14 md:ml-2 lg:-mt-[60px] lg:ml-auto lg:mr-6 xl:mr-[360px]">
+          <div ref={btnRef} className="anim-y-60 d-3 mt-6 flex justify-start md:mt-14 md:ml-2 lg:-mt-[60px] lg:ml-auto lg:mr-6 xl:-mt-[67px] xl:ml-[418px]">
             <AboutArchiveButton />
           </div>
         </div>
