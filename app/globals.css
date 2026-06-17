@@ -169,9 +169,10 @@ body {
 */
 
 /* ============================================
-   移动端 (<768px) — 海报容器与全局调整
+   平板+移动端 (<1024px) — 海报容器自适应高度
+   对应 dual-DOM 流式块，内容可能超出 100dvh
    ============================================ */
-@media (max-width: 767px) {
+@media (max-width: 1023px) {
   .poster-container {
     /* 关闭 scroll-snap，让滚动自由 */
     scroll-snap-type: none;
@@ -187,7 +188,15 @@ body {
     height: auto;
     min-height: auto;
     overflow: visible;
-    /* 移动端 padding 防止内容贴边 */
+  }
+}
+
+/* ============================================
+   移动端 (<768px) — 间距与视觉微调
+   ============================================ */
+@media (max-width: 767px) {
+  /* 移动端 padding 防止内容贴边 */
+  .poster {
     padding: clamp(0.75rem, 3vw, 1.5rem);
     padding-bottom: clamp(1.5rem, 5vw, 3rem);
   }
