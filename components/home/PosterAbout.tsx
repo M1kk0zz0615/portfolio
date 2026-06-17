@@ -2,11 +2,13 @@
 
 import Image from "next/image";
 import { useScrollReveal } from "@/app/hooks/useScrollReveal";
+import { usePosterWidth } from "@/app/hooks/usePosterWidth";
 import { AboutArchiveButton } from "./AboutArchiveButton";
 import { AboutPosterTitle } from "./AboutPosterTitle";
 
 export function PosterAbout() {
   const ref = useScrollReveal<HTMLDivElement>(0.3);
+  usePosterWidth(ref); // 修复 iPadOS Safari cqw 不更新
 
   return (
     <section

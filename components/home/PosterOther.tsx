@@ -3,10 +3,12 @@
 import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import { useScrollReveal } from "@/app/hooks/useScrollReveal";
+import { usePosterWidth } from "@/app/hooks/usePosterWidth";
 import { Lightbox } from "@/components/Lightbox";
 
 export function PosterOther() {
   const ref = useScrollReveal<HTMLDivElement>(0.3);
+  usePosterWidth(ref); // 修复 iPadOS Safari cqw 不更新
   const wechatRef = useRef<HTMLAnchorElement>(null);
   const [wechatLightbox, setWechatLightbox] = useState<{ src: string; rect: DOMRect } | null>(null);
 
@@ -90,13 +92,13 @@ export function PosterOther() {
           style={{ left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}>
           <Link href="/browse" className="group flex items-center no-underline">
             <span className="geo-marker" />
-            <span className="type-display hover-red" style={{ fontSize: "clamp(2.5rem, 5cqw, 5rem)" }}>索引</span>
-            <span className="type-cyrillic ml-4 text-[#B0B0B0]" style={{ fontSize: "clamp(0.6rem, 0.9cqw, 0.8rem)" }}>INDEX</span>
+            <span className="type-display hover-red" style={{ fontSize: "clamp(2.5rem, calc(var(--pw) * 0.05 * 1px), 5rem)" }}>索引</span>
+            <span className="type-cyrillic ml-4 text-[#B0B0B0]" style={{ fontSize: "clamp(0.6rem, calc(var(--pw) * 0.009 * 1px), 0.8rem)" }}>INDEX</span>
           </Link>
           <Link href="/about" className="group flex items-center no-underline">
             <span className="geo-marker" />
-            <span className="type-display hover-red" style={{ fontSize: "clamp(2.5rem, 5cqw, 5rem)" }}>关于</span>
-            <span className="type-cyrillic ml-4 text-[#B0B0B0]" style={{ fontSize: "clamp(0.6rem, 0.9cqw, 0.8rem)" }}>ABOUT</span>
+            <span className="type-display hover-red" style={{ fontSize: "clamp(2.5rem, calc(var(--pw) * 0.05 * 1px), 5rem)" }}>关于</span>
+            <span className="type-cyrillic ml-4 text-[#B0B0B0]" style={{ fontSize: "clamp(0.6rem, calc(var(--pw) * 0.009 * 1px), 0.8rem)" }}>ABOUT</span>
           </Link>
         </div>
 

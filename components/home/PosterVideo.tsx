@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useScrollReveal } from "@/app/hooks/useScrollReveal";
+import { usePosterWidth } from "@/app/hooks/usePosterWidth";
 
 export function PosterVideo() {
   const ref = useScrollReveal<HTMLDivElement>(0.3);
+  usePosterWidth(ref); // 修复 iPadOS Safari cqw 不更新
 
   return (
     <section
@@ -84,7 +86,7 @@ export function PosterVideo() {
           }}
         >
           <span className="type-display text-[#D10000]"
-            style={{ fontSize: "clamp(1.8rem, 3.5cqw, 3.5rem)", fontWeight: 900, letterSpacing: "0.15em" }}>
+            style={{ fontSize: "clamp(1.8rem, calc(var(--pw) * 0.035 * 1px), 3.5rem)", fontWeight: 900, letterSpacing: "0.15em" }}>
             КИНО
           </span>
         </div>
@@ -92,7 +94,7 @@ export function PosterVideo() {
         {/* 主标题 */}
         <h2
           className="anim-y-60 type-display absolute text-[var(--fg)] select-none z-10"
-          style={{ left: "9%", top: "51%", fontSize: "clamp(2.5rem, 4.5cqw, 4.5rem)", transform: "skewX(-5deg)" }}
+          style={{ left: "9%", top: "51%", fontSize: "clamp(2.5rem, calc(var(--pw) * 0.045 * 1px), 4.5rem)", transform: "skewX(-5deg)" }}
         >
           影像档案
         </h2>
@@ -109,11 +111,11 @@ export function PosterVideo() {
         <div className="anim-y-60 d-3 absolute flex flex-col gap-6 select-none z-20" style={{ left: "17%", bottom: "22%" }}>
           <Link href="/video/work" className="group flex items-center no-underline">
             <span className="geo-marker" />
-            <span className="type-display hover-red" style={{ fontSize: "clamp(1.8rem, 3.5cqw, 3rem)" }}>受托</span>
+            <span className="type-display hover-red" style={{ fontSize: "clamp(1.8rem, calc(var(--pw) * 0.035 * 1px), 3rem)" }}>受托</span>
           </Link>
           <Link href="/video/personal" className="group flex items-center no-underline" style={{ marginLeft: "3em" }}>
             <span className="geo-marker" />
-            <span className="type-display hover-red" style={{ fontSize: "clamp(1.8rem, 3.5cqw, 3rem)" }}>闲影</span>
+            <span className="type-display hover-red" style={{ fontSize: "clamp(1.8rem, calc(var(--pw) * 0.035 * 1px), 3rem)" }}>闲影</span>
           </Link>
         </div>
 

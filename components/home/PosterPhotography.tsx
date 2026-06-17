@@ -4,10 +4,12 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useScrollReveal } from "@/app/hooks/useScrollReveal";
+import { usePosterWidth } from "@/app/hooks/usePosterWidth";
 import { Lightbox } from "@/components/Lightbox";
 
 export function PosterPhotography() {
   const ref = useScrollReveal<HTMLDivElement>(0.3);
+  usePosterWidth(ref); // 修复 iPadOS Safari cqw 不更新
   const [lightbox, setLightbox] = useState<{ src: string; rect: DOMRect } | null>(null);
 
   return (
@@ -141,7 +143,7 @@ className="anim-scale d-5 photo-montage clip-angle-tr absolute bg-[var(--bg-mute
         {/* 俄文标注 */}
         <span
           className="anim-y-60 d-1 type-cyrillic absolute text-[var(--fg)] select-none z-10"
-          style={{ left: "15%", top: "20%", fontSize: "clamp(1.5rem, 3cqw, 2.5rem)", transform: "skewX(-12deg)" }}
+          style={{ left: "15%", top: "20%", fontSize: "clamp(1.5rem, calc(var(--pw) * 0.03 * 1px), 2.5rem)", transform: "skewX(-12deg)" }}
         >
           ФОТО
         </span>
@@ -149,7 +151,7 @@ className="anim-scale d-5 photo-montage clip-angle-tr absolute bg-[var(--bg-mute
         {/* 主标题 */}
         <h2
           className="anim-y-60 d-2 type-display absolute text-[#D10000] select-none z-10"
-          style={{ left: "5%", top: "26%", fontSize: "clamp(3.5rem, 7cqw, 8rem)", letterSpacing: "0.14em", lineHeight: "1.25" }}
+          style={{ left: "5%", top: "26%", fontSize: "clamp(3.5rem, calc(var(--pw) * 0.07 * 1px), 8rem)", letterSpacing: "0.14em", lineHeight: "1.25" }}
         >
           <span>摄影</span><br />
           <span>档案</span>
@@ -161,12 +163,12 @@ className="anim-scale d-5 photo-montage clip-angle-tr absolute bg-[var(--bg-mute
           style={{ left: "8%", bottom: "12%" }}
         >
           <Link href="/photography/film" className="group flex flex-col gap-2 no-underline">
-            <span className="type-display hover-red" style={{ fontSize: "clamp(2rem, 4cqw, 3.5rem)" }}>胶片</span>
-            <span className="type-label text-[#8C8C8C]" style={{ fontSize: "clamp(0.6rem, 0.8cqw, 0.75rem)" }}>彩色 · B&amp;W</span>
+            <span className="type-display hover-red" style={{ fontSize: "clamp(2rem, calc(var(--pw) * 0.04 * 1px), 3.5rem)" }}>胶片</span>
+            <span className="type-label text-[#8C8C8C]" style={{ fontSize: "clamp(0.6rem, calc(var(--pw) * 0.008 * 1px), 0.75rem)" }}>彩色 · B&amp;W</span>
           </Link>
-          <div className="bg-[#D10000]" style={{ width: "4px", height: "clamp(36px, 6cqw, 56px)" }} />
+          <div className="bg-[#D10000]" style={{ width: "4px", height: "clamp(36px, calc(var(--pw) * 0.06 * 1px), 56px)" }} />
           <Link href="/photography/digital" className="group flex flex-col gap-2 no-underline">
-            <span className="type-display hover-red" style={{ fontSize: "clamp(2rem, 4cqw, 3.5rem)" }}>数码</span>
+            <span className="type-display hover-red" style={{ fontSize: "clamp(2rem, calc(var(--pw) * 0.04 * 1px), 3.5rem)" }}>数码</span>
             <span className="type-label text-[#8C8C8C]" style={{ fontSize: "clamp(0.6rem, 0.8cqw, 0.75rem)" }}>在场 · 风光 · 街头</span>
           </Link>
         </div>

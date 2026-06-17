@@ -68,6 +68,11 @@
    ============================================ */
 html {
   background: var(--bg);
+  /* 阻止 Safari/iPadOS 自动放大文字 */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* 阻止 iOS Safari 双击缩放（不影响双指 pinch） */
+  touch-action: manipulation;
 }
 
 body {
@@ -113,6 +118,11 @@ body {
   overflow: hidden;
   /* 启用容器查询 — 子元素可用 cqw 替代 vw，精确跟随海报宽度而非视口 */
   container-type: inline-size;
+  /* 强化布局包容 — 修复 iPadOS Safari 容器查询重算不及时的问题 */
+  contain: layout style;
+  /* JS 注入的容器实际像素宽（单位：px），用于替代 cqw 的可靠回退
+     由 usePosterWidth hook 在 ResizeObserver 中动态更新 */
+  --pw: 1920;
 }
 
 /* ============================================
@@ -133,6 +143,17 @@ body {
 @media (pointer: coarse) {
   .poster {
     scroll-snap-stop: normal;
+  }
+}
+
+/* ============================================
+   iPadOS Safari 专项修复
+   检测 iOS/iPadOS Safari 并覆盖已知 bug
+   ============================================ */
+/* iPadOS Safari 不支持 scrollbar-gutter，移除以避免宽度计算偏差 */
+@supports (-webkit-touch-callout: none) {
+  .poster-container {
+    scrollbar-gutter: auto;
   }
 }
 

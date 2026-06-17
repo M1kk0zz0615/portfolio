@@ -2,11 +2,13 @@
 
 import Link from "next/link";
 import { useScrollReveal } from "@/app/hooks/useScrollReveal";
+import { usePosterWidth } from "@/app/hooks/usePosterWidth";
 import { buildLogProjects } from "@/data/buildLogProjects";
 
 
 export function PosterBuildLog() {
   const ref = useScrollReveal<HTMLDivElement>(0.3);
+  usePosterWidth(ref); // 修复 iPadOS Safari cqw 不更新
 
   return (
     <section
@@ -340,7 +342,7 @@ export function PosterBuildLog() {
               target="_blank"
               rel="noopener noreferrer"
               className={`anim-y-60 group no-underline absolute z-10 d-${i + 2} card-hover`}
-              style={{ ...positions[i], width: "clamp(280px,28cqw,380px)" }}
+              style={{ ...positions[i], width: "clamp(280px, calc(var(--pw) * 0.28 * 1px), 380px)" }}
             >
               <div
                 className="border-l-[3px] border-[#D10000]/30 pl-4 py-2
