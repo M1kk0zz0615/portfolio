@@ -425,7 +425,7 @@ export function PosterAbout() {
           xl:pt-[26rem]"
       >
         {/* 标题 + 简介 + 按钮 — flex-shrink-0 保持自然高度 */}
-        <div className="flex-shrink-0 md:mt-16 md:max-w-[62cqw] lg:mt-24 lg:ml-2 lg:max-w-[62cqw] xl:-ml-8">
+        <div className="flex-shrink-0 md:mt-16 md:max-w-[62cqw] lg:mt-24 lg:ml-4 lg:max-w-[62cqw] xl:-ml-8">
           <AboutPosterTitle />
 
           <p className="anim-y-60 d-1 mt-8 max-w-sm font-mono text-base tracking-wide text-[var(--gray-dark)] ml-2">
