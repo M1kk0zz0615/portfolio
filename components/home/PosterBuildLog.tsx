@@ -331,9 +331,9 @@ export function PosterBuildLog() {
         {buildLogProjects.map((project, i) => {
           const positions = [
             { left: "2%", top: "67%" },
-            { left: "28%", top: "53%" },
-            { left: "54%", top: "39%" },
-            { left: "80%", top: "25%" },
+            { left: "26%", top: "53%" },
+            { left: "50%", top: "39%" },
+            { left: "74%", top: "25%" },
           ];
           return (
             <Link
@@ -342,7 +342,7 @@ export function PosterBuildLog() {
               target="_blank"
               rel="noopener noreferrer"
               className={`anim-y-60 group no-underline absolute z-10 d-${i + 2} card-hover`}
-              style={{ ...positions[i], width: "clamp(280px, calc(var(--pw) * 0.28 * 1px), 380px)" }}
+              style={{ ...positions[i], width: "clamp(240px, calc(var(--pw) * 0.22 * 1px), 360px)" }}
             >
               <div
                 className="border-l-[3px] border-[#D10000]/30 pl-4 py-2
