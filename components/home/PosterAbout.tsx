@@ -626,14 +626,6 @@ export function PosterAbout() {
 
         {/* ═══════════ 移动端制图标识 ═══════════ */}
 
-        {/* 四角裁切线 */}
-        {[{left:"2%",top:"3%"},{right:"2%",top:"3%"},{left:"2%",bottom:"4.5%"},{right:"2%",bottom:"4.5%"}].map((p,i)=>
-          <div key={`cm-${i}`} className="absolute z-0" style={{...p,width:"clamp(10px,3vw,16px)",height:"clamp(10px,3vw,16px)"}} aria-hidden="true">
-            <div style={{position:"absolute",left:"50%",top:0,width:"1px",height:"100%",background:"var(--fg)",opacity:.5,transform:"translateX(-50%)"}} />
-            <div style={{position:"absolute",top:"50%",left:0,height:"1px",width:"100%",background:"var(--fg)",opacity:.5,transform:"translateY(-50%)"}} />
-          </div>
-        )}
-
         {/* 四角套准标记 (圆+十字) */}
         {[{left:"1.5%",top:"2.5%"},{right:"1.5%",top:"2.5%"},{left:"1.5%",bottom:"4%"},{right:"1.5%",bottom:"4%"}].map((p,i)=>
           <div key={`reg-${i}`} className="absolute z-0" style={{...p,width:"clamp(14px,3.5vw,20px)",height:"clamp(14px,3.5vw,20px)"}} aria-hidden="true">
@@ -641,11 +633,6 @@ export function PosterAbout() {
             <div style={{position:"absolute",left:"50%",top:0,width:"1px",height:"100%",background:"var(--fg)",opacity:.5,transform:"translateX(-50%)"}} />
             <div style={{position:"absolute",top:"50%",left:0,height:"1px",width:"100%",background:"var(--fg)",opacity:.5,transform:"translateY(-50%)"}} />
           </div>
-        )}
-
-        {/* ABCD 坐标字母 */}
-        {[{left:"3%",top:"5%",v:"A"},{right:"4%",top:"5%",v:"B"},{left:"3%",bottom:"5.5%",v:"C"},{right:"4%",bottom:"5.5%",v:"D"}].map(({v,...p},i)=>
-          <div key={`abc-${i}`} className="absolute z-0 select-none" style={{...p,fontSize:"clamp(0.45rem,2vw,0.6rem)",fontFamily:"var(--font-geist-mono)",color:"var(--fg)",opacity:.5,letterSpacing:"0.05em"}} aria-hidden="true">{v}</div>
         )}
 
         {/* 超大编号水印 */}

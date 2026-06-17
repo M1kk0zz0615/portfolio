@@ -193,9 +193,9 @@ export function PosterVideo() {
       </div>
 
       {/* ====== 移动端+平板 (<1024px) — flex-col 纵向布局 ====== */}
-      <div className="lg:hidden relative z-10 flex w-full flex-col px-4 pt-16 sm:px-8 sm:pt-20">
+      <div className="lg:hidden relative z-10 flex w-full flex-col px-4 pt-16 sm:px-8 sm:pt-20" style={{gap:"clamp(0.5rem, 2vh, 1.5rem)"}}>
         {/* 档案编号 — 模块标签样式 */}
-        <div className="anim-y-60 font-mono text-xs tracking-widest uppercase mb-2">
+        <div className="anim-y-60 font-mono text-xs tracking-widest uppercase mb-4">
           <span style={{
             display: "inline-block",
             width: "clamp(14px, 3cqw, 22px)",
@@ -218,7 +218,7 @@ export function PosterVideo() {
         </span>
 
         {/* 黑色大圆 + КИНО — 移动端缩小、靠右 */}
-        <div className="relative my-6 flex items-center justify-end">
+        <div className="relative my-4 flex items-center justify-end">
           <div
             className="anim-scale d-2 geo-circle flex items-center justify-center bg-[var(--fg)] select-none"
             style={{ width: "clamp(140px, 38vw, 240px)", height: "clamp(140px, 38vw, 240px)" }}
@@ -232,14 +232,14 @@ export function PosterVideo() {
 
         {/* 主标题 */}
         <h2
-          className="anim-y-60 d-2 type-display text-[var(--fg)] select-none mb-8"
+          className="anim-y-60 d-2 type-display text-[var(--fg)] select-none mb-6"
           style={{ fontSize: "clamp(2.2rem, 9vw, 4rem)", transform: "skewX(-4deg)" }}
         >
           影像档案
         </h2>
 
         {/* 入口 — 纵向排列 */}
-        <div className="anim-y-60 d-3 flex flex-col gap-4 select-none mb-4">
+        <div className="anim-y-60 d-3 flex flex-col gap-4 select-none mb-6">
           <Link href="/video/work" className="group flex items-center no-underline">
             <span className="geo-marker" />
             <span className="type-display hover-red" style={{ fontSize: "clamp(1.5rem, 6vw, 2.5rem)" }}>受托</span>
@@ -251,7 +251,7 @@ export function PosterVideo() {
         </div>
 
         {/* 说明文字 */}
-        <p className="anim-y-60 d-4 type-label text-[#8C8C8C] select-none pb-4"
+        <p className="anim-y-60 d-4 type-label text-[#8C8C8C] select-none pb-2"
           style={{ fontSize: "clamp(0.65rem, 2.5vw, 0.8rem)" }}>
           活动记录 · 年度回顾 · 毕业纪念 · Vlog · 实验短片
         </p>
@@ -264,14 +264,6 @@ export function PosterVideo() {
 
         {/* ═══════════ 移动端制图标识 ═══════════ */}
 
-        {/* 四角裁切线 */}
-        {[{left:"2%",top:"3%"},{right:"2%",top:"3%"},{left:"2%",bottom:"4.5%"},{right:"2%",bottom:"4.5%"}].map((p,i)=>
-          <div key={`cm-${i}`} className="absolute z-0" style={{...p,width:"clamp(10px,3vw,16px)",height:"clamp(10px,3vw,16px)"}} aria-hidden="true">
-            <div style={{position:"absolute",left:"50%",top:0,width:"1px",height:"100%",background:"var(--fg)",opacity:.5,transform:"translateX(-50%)"}} />
-            <div style={{position:"absolute",top:"50%",left:0,height:"1px",width:"100%",background:"var(--fg)",opacity:.5,transform:"translateY(-50%)"}} />
-          </div>
-        )}
-
         {/* 四角套准标记 (圆+十字) */}
         {[{left:"1.5%",top:"2.5%"},{right:"1.5%",top:"2.5%"},{left:"1.5%",bottom:"4%"},{right:"1.5%",bottom:"4%"}].map((p,i)=>
           <div key={`reg-${i}`} className="absolute z-0" style={{...p,width:"clamp(14px,3.5vw,20px)",height:"clamp(14px,3.5vw,20px)"}} aria-hidden="true">
@@ -279,11 +271,6 @@ export function PosterVideo() {
             <div style={{position:"absolute",left:"50%",top:0,width:"1px",height:"100%",background:"var(--fg)",opacity:.5,transform:"translateX(-50%)"}} />
             <div style={{position:"absolute",top:"50%",left:0,height:"1px",width:"100%",background:"var(--fg)",opacity:.5,transform:"translateY(-50%)"}} />
           </div>
-        )}
-
-        {/* ABCD 坐标字母 */}
-        {[{left:"3%",top:"5%",v:"A"},{right:"4%",top:"5%",v:"B"},{left:"3%",bottom:"5.5%",v:"C"},{right:"4%",bottom:"5.5%",v:"D"}].map(({v,...p},i)=>
-          <div key={`abc-${i}`} className="absolute z-0 select-none" style={{...p,fontSize:"clamp(0.45rem,2vw,0.6rem)",fontFamily:"var(--font-geist-mono)",color:"var(--fg)",opacity:.5,letterSpacing:"0.05em"}} aria-hidden="true">{v}</div>
         )}
 
         {/* 超大编号水印 */}

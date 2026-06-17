@@ -192,7 +192,7 @@ export function PosterOther() {
       </div>
 
       {/* ====== 移动端+平板 (<1024px) — flex-col 纵向布局 ====== */}
-      <div className="lg:hidden relative z-10 flex w-full flex-col items-center px-4 pt-16 sm:px-8 sm:pt-20">
+      <div className="lg:hidden relative z-10 flex w-full flex-col items-center px-4 pt-16 sm:px-8 sm:pt-20" style={{gap:"clamp(0.5rem, 2vh, 1.5rem)"}}>
         {/* 档案编号 — 模块标签样式 */}
         <div className="anim-y-60 self-start font-mono text-xs tracking-widest uppercase mb-8">
           <span style={{
@@ -209,7 +209,7 @@ export function PosterOther() {
         </div>
 
         {/* 两个链接 — 居中竖排 */}
-        <div className="anim-y-60 d-2 flex flex-col gap-6 select-none mb-10 items-center">
+        <div className="anim-y-60 d-2 flex flex-col gap-8 select-none mb-12 items-center">
           <Link href="/browse" className="group flex items-center no-underline">
             <span className="geo-marker" />
             <span className="type-display hover-red" style={{ fontSize: "clamp(2rem, 8vw, 4rem)" }}>索引</span>
@@ -223,7 +223,7 @@ export function PosterOther() {
         </div>
 
         {/* 社交媒体 — 居中 */}
-        <div className="anim-y-60 d-4 flex flex-col items-center gap-3 select-none pb-6">
+        <div className="anim-y-60 d-4 flex flex-col items-center gap-4 select-none pb-8">
           <div className="flex items-center gap-2">
             <span className="type-label text-[var(--fg)] font-bold"
               style={{ fontSize: "clamp(0.65rem, 2.5vw, 0.8rem)", letterSpacing: "0.15em" }}>找到我</span>
@@ -247,14 +247,6 @@ export function PosterOther() {
 
         {/* ═══════════ 移动端制图标识 ═══════════ */}
 
-        {/* 四角裁切线 */}
-        {[{left:"2%",top:"3%"},{right:"2%",top:"3%"},{left:"2%",bottom:"4.5%"},{right:"2%",bottom:"4.5%"}].map((p,i)=>
-          <div key={`cm-${i}`} className="absolute z-0" style={{...p,width:"clamp(10px,3vw,16px)",height:"clamp(10px,3vw,16px)"}} aria-hidden="true">
-            <div style={{position:"absolute",left:"50%",top:0,width:"1px",height:"100%",background:"var(--fg)",opacity:.5,transform:"translateX(-50%)"}} />
-            <div style={{position:"absolute",top:"50%",left:0,height:"1px",width:"100%",background:"var(--fg)",opacity:.5,transform:"translateY(-50%)"}} />
-          </div>
-        )}
-
         {/* 四角套准标记 (圆+十字) */}
         {[{left:"1.5%",top:"2.5%"},{right:"1.5%",top:"2.5%"},{left:"1.5%",bottom:"4%"},{right:"1.5%",bottom:"4%"}].map((p,i)=>
           <div key={`reg-${i}`} className="absolute z-0" style={{...p,width:"clamp(14px,3.5vw,20px)",height:"clamp(14px,3.5vw,20px)"}} aria-hidden="true">
@@ -262,11 +254,6 @@ export function PosterOther() {
             <div style={{position:"absolute",left:"50%",top:0,width:"1px",height:"100%",background:"var(--fg)",opacity:.5,transform:"translateX(-50%)"}} />
             <div style={{position:"absolute",top:"50%",left:0,height:"1px",width:"100%",background:"var(--fg)",opacity:.5,transform:"translateY(-50%)"}} />
           </div>
-        )}
-
-        {/* ABCD 坐标字母 */}
-        {[{left:"3%",top:"5%",v:"A"},{right:"4%",top:"5%",v:"B"},{left:"3%",bottom:"5.5%",v:"C"},{right:"4%",bottom:"5.5%",v:"D"}].map(({v,...p},i)=>
-          <div key={`abc-${i}`} className="absolute z-0 select-none" style={{...p,fontSize:"clamp(0.45rem,2vw,0.6rem)",fontFamily:"var(--font-geist-mono)",color:"var(--fg)",opacity:.5,letterSpacing:"0.05em"}} aria-hidden="true">{v}</div>
         )}
 
         {/* 超大编号水印 */}
