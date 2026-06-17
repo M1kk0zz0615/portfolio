@@ -192,7 +192,7 @@ export function PosterOther() {
       </div>
 
       {/* ====== 移动端+平板 (<1024px) — flex-col 纵向布局 ====== */}
-      <div className="lg:hidden relative z-10 flex w-full flex-col items-center justify-between px-4 pt-8 sm:px-8 sm:pt-12 pb-4">
+      <div className="lg:hidden relative z-10 flex w-full flex-col items-center justify-between px-4 pt-8 sm:px-8 sm:pt-12 pb-4 min-h-dvh">
         {/* 档案编号 — 模块标签样式 */}
         <div className="anim-y-60 self-start font-mono text-xs tracking-widest uppercase">
           <span style={{

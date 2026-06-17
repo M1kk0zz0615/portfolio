@@ -569,7 +569,7 @@ export function PosterAbout() {
       </div>{/* 桌面端结束 */}
 
       {/* ====== 移动端+平板 (<1024px) — flex-col 纵向布局 ====== */}
-      <div className="lg:hidden relative z-10 flex w-full flex-col px-4 pt-16 sm:px-8 sm:pt-20">
+      <div className="lg:hidden relative z-10 flex w-full flex-col px-4 pt-16 sm:px-8 sm:pt-20 min-h-dvh">
         {/* 档案编号 */}
         <div className="anim-y-60 self-start font-mono text-xs tracking-widest uppercase mb-8">
           <span style={{

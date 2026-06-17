@@ -193,7 +193,7 @@ export function PosterVideo() {
       </div>
 
       {/* ====== 移动端+平板 (<1024px) — flex-col 纵向布局 ====== */}
-      <div className="lg:hidden relative z-10 flex w-full flex-col px-4 pt-8 sm:px-8 sm:pt-12" style={{gap:"clamp(1rem, 3vh, 2.5rem)"}}>
+      <div className="lg:hidden relative z-10 flex w-full flex-col px-4 pt-8 sm:px-8 sm:pt-12 min-h-dvh" style={{gap:"clamp(1rem, 3vh, 2.5rem)"}}>
         {/* 档案编号 — 模块标签样式 */}
         <div className="anim-y-60 font-mono text-xs tracking-widest uppercase mb-4">
           <span style={{

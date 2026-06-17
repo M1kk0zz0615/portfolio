@@ -241,7 +241,7 @@ className="anim-scale d-5 photo-montage clip-angle-tr absolute bg-[var(--bg-mute
       </div>
 
       {/* ====== 移动端+平板 (<1034px) — flex-col 纵向布局 ====== */}
-      <div className="lg:hidden relative z-10 flex w-full flex-col px-4 pt-16 sm:px-8 sm:pt-20">
+      <div className="lg:hidden relative z-10 flex w-full flex-col px-4 pt-16 sm:px-8 sm:pt-20 min-h-dvh">
         {/* 档案编号 — 模块标签样式 */}
         <div
           className="anim-y-60 font-mono text-xs tracking-widest uppercase mb-2"
