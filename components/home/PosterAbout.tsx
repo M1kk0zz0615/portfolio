@@ -568,8 +568,9 @@ export function PosterAbout() {
       <div className="scroll-arrow z-30" />
 
       {/* ═══════════════════════════════════════════
-          DEBUG PANEL — iPad 诊断 (发布前删除)
+          DEBUG PANEL — iPad 诊断 (false 隐藏，改 true 恢复)
           ═══════════════════════════════════════════ */}
+      {false && (
       <div
         style={{
           position: "absolute",
@@ -602,6 +603,7 @@ export function PosterAbout() {
         <div>  left: <b>{btnRect?.left ?? "—"}</b>px &nbsp; top: <b>{btnRect?.top ?? "—"}</b>px</div>
         <div>  right: <b>{btnRect?.right ?? "—"}</b>px &nbsp; bottom: <b>{btnRect?.bottom ?? "—"}</b>px</div>
       </div>
+      )}
     </section>
   );
 }
