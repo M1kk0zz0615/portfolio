@@ -60,7 +60,7 @@ export function PosterAbout() {
       ].map((pos, i) => (
         <div
           key={i}
-          className={`anim-scale d-${i + 1} absolute z-0 hidden md:block`}
+          className={`anim-scale d-${i + 1} absolute z-0 hidden lg:block`}
           style={{ ...pos, width: "clamp(14px, 2cqw, 22px)", height: "clamp(14px, 2cqw, 22px)" }}
         >
           <div style={{ position: "absolute", left: "50%", top: 0, width: "1px", height: "100%", background: "var(--fg)", transform: "translateX(-50%)", opacity: 1 }} />
@@ -82,7 +82,7 @@ export function PosterAbout() {
       ].map((pos, i) => (
         <div
           key={`reg-${i}`}
-          className={`anim-scale d-${i + 1} absolute z-0 hidden md:block`}
+          className={`anim-scale d-${i + 1} absolute z-0 hidden lg:block`}
           style={{
             ...pos,
             width: "clamp(16px, 2.2cqw, 24px)",
@@ -172,7 +172,7 @@ export function PosterAbout() {
       {[0.22, 0.38, 0.54, 0.7].map((ratio, i) => (
         <div
           key={`tick-r-${i}`}
-          className={`anim-line-x d-${i + 1} absolute z-0 hidden md:block`}
+          className={`anim-line-x d-${i + 1} absolute z-0 hidden lg:block`}
           style={{
             right: "2.5%",
             top: `${8 + ratio * 72}%`,
@@ -189,7 +189,7 @@ export function PosterAbout() {
       {[0.3, 0.5, 0.7].map((ratio, i) => (
         <div
           key={`tick-l-${i}`}
-          className={`anim-line-x d-${i + 2} absolute z-0 hidden md:block`}
+          className={`anim-line-x d-${i + 2} absolute z-0 hidden lg:block`}
           style={{
             left: "2.5%",
             top: `${12 + ratio * 68}%`,
@@ -211,7 +211,7 @@ export function PosterAbout() {
       ].map(({ label, ...pos }, i) => (
         <div
           key={`coord-${i}`}
-          className={`anim-y-60 d-${i + 1} absolute z-0 hidden md:block`}
+          className={`anim-y-60 d-${i + 1} absolute z-0 hidden lg:block`}
           style={{
             ...pos,
             fontSize: "clamp(0.45rem, 0.5cqw, 0.6rem)",
@@ -228,7 +228,7 @@ export function PosterAbout() {
 
       {/* ── 西里尔文档案标注 · 左缘红色竖线下方 ── */}
       <div
-        className="anim-y-60 d-3 absolute z-[2] select-none hidden md:block"
+        className="anim-y-60 d-3 absolute z-[2] select-none hidden lg:block"
         style={{
           left: "2.8%",
           top: "72%",
@@ -269,7 +269,7 @@ export function PosterAbout() {
 
       {/* 状态文字 — 两条红线之间 */}
       <div
-        className="anim-y-60 d-3 absolute z-[5] select-none hidden md:block"
+        className="anim-y-60 d-3 absolute z-[5] select-none hidden lg:block"
         style={{
           left: "clamp(2rem, 5cqw, 5.5rem)",
           top: "30%",
@@ -301,7 +301,7 @@ export function PosterAbout() {
       {[0.18, 0.35, 0.55, 0.72].map((ratio, i) => (
         <div
           key={i}
-          className={`anim-scale d-${i + 2} absolute z-[1] hidden md:block`}
+          className={`anim-scale d-${i + 2} absolute z-[1] hidden lg:block`}
           style={{
             right: "calc(6% - 2px)",
             top: `${10 + ratio * 70}%`,
@@ -331,7 +331,7 @@ export function PosterAbout() {
 
       {/* 左侧中部黑色半透明块 — 对冲右侧 Logo 体量 */}
       <div
-        className="anim-scale d-3 absolute z-[1] hidden md:block"
+        className="anim-scale d-3 absolute z-[1] hidden lg:block"
         style={{
           left: "4%", top: "55%", width: "clamp(30px, 4cqw, 50px)", height: "clamp(50px, 8cqw, 100px)",
           background: "var(--fg)", opacity: 0.08,
@@ -420,12 +420,12 @@ export function PosterAbout() {
         className="relative z-10 mx-auto flex flex-col h-full w-full max-w-6xl
           pl-2 pr-4 pt-16
           sm:pl-4 sm:pr-6 sm:pt-20
-          md:pl-0 md:pr-6
+          md:pl-0 md:pr-6 md:pt-44 md:pb-24
           lg:pt-[20rem]
           xl:pt-[26rem]"
       >
         {/* 标题 + 简介 + 按钮 — flex-shrink-0 保持自然高度 */}
-        <div className="flex-shrink-0 lg:-ml-8 lg:mt-24 lg:max-w-[62cqw]">
+        <div className="flex-shrink-0 md:mt-16 md:max-w-[62cqw] lg:mt-24 lg:max-w-[68cqw] xl:-ml-8">
           <AboutPosterTitle />
 
           <p className="anim-y-60 d-1 mt-8 max-w-sm font-mono text-base tracking-wide text-[var(--gray-dark)] ml-2">
@@ -436,7 +436,7 @@ export function PosterAbout() {
             用胶片与像素，记录在场与想象
           </p>
 
-          <div className="anim-y-60 d-3 mt-6 flex justify-start lg:mt-14 lg:ml-2">
+          <div className="anim-y-60 d-3 mt-6 flex justify-start md:mt-14 md:ml-2 lg:mt-14 lg:ml-2">
             <AboutArchiveButton />
           </div>
         </div>
@@ -447,6 +447,7 @@ export function PosterAbout() {
         {/* Logo 图案 — 桌面端 absolute 脱离布局流，移动端自然排列 */}
         <div
           className="flex-shrink-0 flex items-center justify-center mt-8
+            md:absolute md:right-[4%] md:top-[10%] md:h-[38%] md:w-[30%] md:mt-0
             lg:absolute lg:right-[4%] lg:top-[8%] lg:h-[45%] lg:w-[32%] xl:w-[35%] lg:mt-0"
         >
           {/* ═══════════════════════════════════════════
