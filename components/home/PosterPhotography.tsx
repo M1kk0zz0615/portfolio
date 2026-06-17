@@ -325,16 +325,16 @@ className="anim-scale d-4 photo-montage clip-angle-br bg-[var(--bg-muted)] curso
         <div className="anim-y-60 d-4 flex flex-col gap-3 select-none pb-4">
           <Link
             href="/photography/film"
-            className="group flex items-center gap-3 border-4 border-[var(--fg)] bg-[var(--fg)] px-5 py-3.5 no-underline shadow-[3px_3px_0_0_#D10000] transition-all duration-200 hover:border-[#D10000] hover:bg-[#D10000] hover:shadow-[5px_5px_0_0_var(--fg)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+            className="group flex items-center gap-3 border-4 border-[#0D0D0D] bg-[#0D0D0D] px-5 py-3.5 no-underline shadow-[3px_3px_0_0_#D10000] transition-all duration-200 hover:border-[#D10000] hover:bg-[#D10000] hover:shadow-[5px_5px_0_0_#0D0D0D] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
           >
             <span
-              className="type-display text-[var(--paper-cream)] group-hover:text-[var(--paper-cream)]"
+              className="type-display text-[#F5EDE0]"
               style={{ fontSize: "clamp(1.3rem, 5vw, 1.8rem)" }}
             >
               胶片
             </span>
             <span
-              className="type-label text-[var(--paper-cream)]/50 group-hover:text-[var(--paper-cream)]/70"
+              className="type-label text-[#F5EDE0]/50"
               style={{ fontSize: "clamp(0.65rem, 2.5vw, 0.75rem)" }}
             >
               彩色 · B&amp;W
@@ -342,16 +342,16 @@ className="anim-scale d-4 photo-montage clip-angle-br bg-[var(--bg-muted)] curso
           </Link>
           <Link
             href="/photography/digital"
-            className="group flex items-center gap-3 border-4 border-[var(--fg)] bg-[var(--fg)] px-5 py-3.5 no-underline shadow-[3px_3px_0_0_#D10000] transition-all duration-200 hover:border-[#D10000] hover:bg-[#D10000] hover:shadow-[5px_5px_0_0_var(--fg)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+            className="group flex items-center gap-3 border-4 border-[#0D0D0D] bg-[#0D0D0D] px-5 py-3.5 no-underline shadow-[3px_3px_0_0_#D10000] transition-all duration-200 hover:border-[#D10000] hover:bg-[#D10000] hover:shadow-[5px_5px_0_0_#0D0D0D] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
           >
             <span
-              className="type-display text-[var(--paper-cream)] group-hover:text-[var(--paper-cream)]"
+              className="type-display text-[#F5EDE0]"
               style={{ fontSize: "clamp(1.3rem, 5vw, 1.8rem)" }}
             >
               数码
             </span>
             <span
-              className="type-label text-[var(--paper-cream)]/50 group-hover:text-[var(--paper-cream)]/70"
+              className="type-label text-[#F5EDE0]/50"
               style={{ fontSize: "clamp(0.65rem, 2.5vw, 0.75rem)" }}
             >
               在场 · 风光 · 街头
