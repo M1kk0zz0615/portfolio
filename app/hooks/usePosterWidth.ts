@@ -23,18 +23,42 @@ export function usePosterWidth<T extends HTMLElement>(
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el) {
+      console.warn("[usePosterWidth] ref.current is null — 未挂载到 DOM 元素");
+      return;
+    }
 
     const update = () => {
-      el.style.setProperty("--pw", String(el.clientWidth));
+      const w = el.clientWidth;
+      el.style.setProperty("--pw", String(w));
+
+      // DEBUG: 验证 --pw 是否成功写入并被 CSS 读取
+      const computed = getComputedStyle(el).getPropertyValue("--pw").trim();
+      console.log(
+        `[usePosterWidth] clientWidth=${w}px | --pw computed="${computed}" | contain=${
+          getComputedStyle(el).contain
+        } | containerType=${getComputedStyle(el).containerType}`
+      );
     };
 
-    // 初始值
+    // 初始写入
     update();
 
-    // ResizeObserver：只在 inline-size 变化时触发
+    // ResizeObserver：每次 inline-size 变化时触发
     if (!roRef.current) {
-      roRef.current = new ResizeObserver(() => update());
+      roRef.current = new ResizeObserver((entries) => {
+        const entry = entries[0];
+        if (entry) {
+          console.log(
+            `[ResizeObserver] contentBoxSize=${JSON.stringify(
+              Array.from(entry.contentBoxSize)
+            )} | borderBoxSize=${JSON.stringify(
+              Array.from(entry.borderBoxSize)
+            )}`
+          );
+        }
+        update();
+      });
     }
     roRef.current.observe(el);
 
