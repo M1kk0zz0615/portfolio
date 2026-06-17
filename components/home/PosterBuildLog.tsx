@@ -146,11 +146,7 @@ export function PosterBuildLog() {
             CONSTRUCTIVIST GRAPHICS — 构成主义图形
             ═══════════════════════════════════════════ */}
 
-        {/* 左侧红色粗竖条 — 结构锚 */}
-        <div
-          className="anim-line-x d-1 absolute left-[2%] w-[4px] bg-[#D10000] z-[1]"
-          style={{ top: "16%", height: "28%", opacity: 0.55 }}
-        />
+        {/* 左侧红色粗竖条 — 已删除 */}
 
 
         {/* 黑色粗方块 — Lissitzky 式几何锚 */}
@@ -387,10 +383,7 @@ export function PosterBuildLog() {
             clipPath: "polygon(0 0, 100% 15%, 85% 100%, 10% 90%)",
           }}
         />
-        <div
-          className="anim-line-x d-3 pointer-events-none absolute bg-[#D10000]/20 z-0"
-          style={{ right: "16%", top: "30%", width: "clamp(50px,7cqw,90px)", height: "2px" }}
-        />
+        {/* 中右红色细线 — 已删除 */}
         <div
           className="anim-scale d-4 geo-circle pointer-events-none absolute bg-[#D10000]/25 z-0"
           style={{ right: "30%", top: "36%", width: "10px", height: "10px" }}
