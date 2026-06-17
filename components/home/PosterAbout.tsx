@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { useScrollReveal } from "@/app/hooks/useScrollReveal";
 import { usePosterWidth } from "@/app/hooks/usePosterWidth";
@@ -8,7 +9,29 @@ import { AboutPosterTitle } from "./AboutPosterTitle";
 
 export function PosterAbout() {
   const ref = useScrollReveal<HTMLDivElement>(0.3);
-  const dbg = usePosterWidth(ref); // DEBUG: 捕获诊断数据
+  const dbg = usePosterWidth(ref);
+  const btnRef = useRef<HTMLDivElement>(null);
+  const [btnRect, setBtnRect] = useState<{ left: number; top: number; right: number; bottom: number } | null>(null);
+
+  const measureBtn = useCallback(() => {
+    if (!btnRef.current || !ref.current) return;
+    const posterRect = ref.current.getBoundingClientRect();
+    const b = btnRef.current.getBoundingClientRect();
+    setBtnRect({
+      left: Math.round(b.left - posterRect.left),
+      top: Math.round(b.top - posterRect.top),
+      right: Math.round(b.right - posterRect.left),
+      bottom: Math.round(b.bottom - posterRect.top),
+    });
+  }, [ref]);
+
+  useEffect(() => {
+    measureBtn();
+    const ro = new ResizeObserver(measureBtn);
+    if (btnRef.current) ro.observe(btnRef.current);
+    if (ref.current) ro.observe(ref.current);
+    return () => ro.disconnect();
+  }, [measureBtn, ref]);
 
   return (
     <section
@@ -436,7 +459,7 @@ export function PosterAbout() {
             用胶片与像素，记录在场与想象
           </p>
 
-          <div className="anim-y-60 d-3 mt-6 flex justify-start md:mt-14 md:ml-2 lg:-mt-[124px] lg:ml-auto xl:mr-80">
+          <div ref={btnRef} className="anim-y-60 d-3 mt-6 flex justify-start md:mt-14 md:ml-2 lg:-mt-[80px] lg:ml-auto lg:mr-4 xl:mr-80">
             <AboutArchiveButton />
           </div>
         </div>
@@ -575,6 +598,9 @@ export function PosterAbout() {
         <div>containerType: <b>{dbg.containerType || "(unknown)"}</b></div>
         <div>ResizeObserver: <b>{dbg.roCount}</b> 次</div>
         <div>mounted: <b>{String(dbg.mounted)}</b></div>
+        <div style={{ color: "#FF0", marginTop: 4 }}>📌 按钮 (相对 poster):</div>
+        <div>  left: <b>{btnRect?.left ?? "—"}</b>px &nbsp; top: <b>{btnRect?.top ?? "—"}</b>px</div>
+        <div>  right: <b>{btnRect?.right ?? "—"}</b>px &nbsp; bottom: <b>{btnRect?.bottom ?? "—"}</b>px</div>
       </div>
     </section>
   );
