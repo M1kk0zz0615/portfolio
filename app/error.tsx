@@ -53,7 +53,7 @@ export default function Error({
 
         <button
           onClick={reset}
-          className="type-label border-4 border-[var(--fg)] bg-[var(--fg)] px-6 py-3 text-[var(--paper-cream)] cursor-pointer hover:bg-[#D10000] hover:border-[#D10000] transition-colors duration-200"
+          className="type-label border-4 border-[#0D0D0D] bg-[#0D0D0D] px-6 py-3 text-[#F5EDE0] cursor-pointer hover:bg-[#D10000] hover:border-[#D10000] transition-colors duration-200"
           style={{ fontSize: "0.8rem" }}
         >
           重试

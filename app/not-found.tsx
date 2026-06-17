@@ -47,7 +47,7 @@ export default function NotFound() {
 
         <Link
           href="/"
-          className="type-label mt-4 border-4 border-[var(--fg)] bg-[var(--fg)] px-7 py-3.5 text-[var(--paper-cream)] no-underline hover:bg-[#D10000] hover:border-[#D10000] transition-colors duration-200 shadow-[4px_4px_0_0_#D10000] hover:shadow-[6px_6px_0_0_var(--fg)]"
+          className="type-label mt-4 border-4 border-[#0D0D0D] bg-[#0D0D0D] px-7 py-3.5 text-[#F5EDE0] no-underline hover:bg-[#D10000] hover:border-[#D10000] transition-colors duration-200 shadow-[4px_4px_0_0_#D10000] hover:shadow-[6px_6px_0_0_#0D0D0D]"
           style={{ fontSize: "0.8rem" }}
         >
           ← 返回首页

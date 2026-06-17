@@ -72,7 +72,7 @@ export default function DigitalPage() {
       <div className="anim-y-60 fixed left-6 top-6 z-50">
         <Link
           href="/"
-          className="type-label text-[var(--paper-cream)] hover:bg-[#D10000] no-underline inline-flex items-center gap-2 px-3 py-1.5 bg-[var(--fg)] transition-colors duration-200"
+          className="type-label text-[#F5EDE0] hover:bg-[#D10000] no-underline inline-flex items-center gap-2 px-3 py-1.5 bg-[#0D0D0D] transition-colors duration-200"
           style={{ fontSize: "clamp(0.6rem, 0.8vw, 0.7rem)" }}
         >
           <span
@@ -299,7 +299,7 @@ export default function DigitalPage() {
           </p>
           <Link
             href="/photography/film"
-            className="type-label text-[var(--paper-cream)] hover:bg-[#D10000] no-underline inline-flex items-center gap-2 px-6 py-3 bg-[var(--fg)] transition-colors duration-200"
+            className="type-label text-[#F5EDE0] hover:bg-[#D10000] no-underline inline-flex items-center gap-2 px-6 py-3 bg-[#0D0D0D] transition-colors duration-200"
             style={{ fontSize: "clamp(0.85rem, 1vw, 0.95rem)" }}
           >
             ← 返回胶片

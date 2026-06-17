@@ -92,10 +92,10 @@ export default function ArchivePage() {
       <div className="anim-y-60 fixed left-6 top-6 z-50">
         <Link
           href="/"
-          className="type-label text-[var(--paper-cream)] hover:bg-[#D10000] no-underline inline-flex items-center gap-2 px-3 py-1.5 bg-[var(--fg)] transition-colors duration-200"
+          className="type-label text-[#F5EDE0] hover:bg-[#D10000] no-underline inline-flex items-center gap-2 px-3 py-1.5 bg-[#0D0D0D] transition-colors duration-200"
           style={{ fontSize: "clamp(0.65rem, 0.8vw, 0.75rem)" }}
         >
-          <span className="inline-block bg-[var(--paper-cream)]" style={{ width: "12px", height: "1.5px" }} />
+          <span className="inline-block bg-[#F5EDE0]" style={{ width: "12px", height: "1.5px" }} />
           ← 返回
         </Link>
       </div>
