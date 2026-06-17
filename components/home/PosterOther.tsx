@@ -192,9 +192,9 @@ export function PosterOther() {
       </div>
 
       {/* ====== 移动端+平板 (<1024px) — flex-col 纵向布局 ====== */}
-      <div className="lg:hidden relative z-10 flex w-full flex-col items-center px-4 pt-16 sm:px-8 sm:pt-20" style={{gap:"clamp(0.5rem, 2vh, 1.5rem)"}}>
+      <div className="lg:hidden relative z-10 flex w-full flex-col items-center justify-between px-4 pt-8 sm:px-8 sm:pt-12 pb-4">
         {/* 档案编号 — 模块标签样式 */}
-        <div className="anim-y-60 self-start font-mono text-xs tracking-widest uppercase mb-8">
+        <div className="anim-y-60 self-start font-mono text-xs tracking-widest uppercase">
           <span style={{
             display: "inline-block",
             width: "clamp(14px, 3cqw, 22px)",
@@ -209,7 +209,7 @@ export function PosterOther() {
         </div>
 
         {/* 两个链接 — 居中竖排 */}
-        <div className="anim-y-60 d-2 flex flex-col gap-8 select-none mb-12 items-center">
+        <div className="anim-y-60 d-2 flex flex-col gap-8 select-none items-center">
           <Link href="/browse" className="group flex items-center no-underline">
             <span className="geo-marker" />
             <span className="type-display hover-red" style={{ fontSize: "clamp(2rem, 8vw, 4rem)" }}>索引</span>
