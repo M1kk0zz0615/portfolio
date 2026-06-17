@@ -184,9 +184,9 @@ body {
   .poster {
     scroll-snap-align: none;
     scroll-snap-stop: normal;
-    /* 海报高度完全自适应内容，不强制撑满视口 */
+    /* 海报高度自适应内容，统一最小高度 */
     height: auto;
-    min-height: auto;
+    min-height: 100dvh;
     overflow: visible;
   }
 }

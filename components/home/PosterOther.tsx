@@ -244,6 +244,66 @@ export function PosterOther() {
 
         {/* 底部黑线 */}
         <div className="w-full h-[3px] bg-[var(--fg)] mt-2 mb-4" />
+
+        {/* ═══════════ 移动端制图标识 ═══════════ */}
+
+        {/* 四角裁切线 */}
+        {[{l:"2%",t:"3%"},{r:"2%",t:"3%"},{l:"2%",b:"4.5%"},{r:"2%",b:"4.5%"}].map((p,i)=>
+          <div key={`cm-${i}`} className="absolute z-0" style={{...p,width:"clamp(10px,3vw,16px)",height:"clamp(10px,3vw,16px)"}} aria-hidden="true">
+            <div style={{position:"absolute",left:"50%",top:0,width:"1px",height:"100%",background:"var(--fg)",opacity:.5,transform:"translateX(-50%)"}} />
+            <div style={{position:"absolute",top:"50%",left:0,height:"1px",width:"100%",background:"var(--fg)",opacity:.5,transform:"translateY(-50%)"}} />
+          </div>
+        )}
+
+        {/* 四角套准标记 (圆+十字) */}
+        {[{l:"1.5%",t:"2.5%"},{r:"1.5%",t:"2.5%"},{l:"1.5%",b:"4%"},{r:"1.5%",b:"4%"}].map((p,i)=>
+          <div key={`reg-${i}`} className="absolute z-0" style={{...p,width:"clamp(14px,3.5vw,20px)",height:"clamp(14px,3.5vw,20px)"}} aria-hidden="true">
+            <div style={{position:"absolute",inset:0,borderRadius:"50%",border:"1px solid var(--fg)",opacity:.5}} />
+            <div style={{position:"absolute",left:"50%",top:0,width:"1px",height:"100%",background:"var(--fg)",opacity:.5,transform:"translateX(-50%)"}} />
+            <div style={{position:"absolute",top:"50%",left:0,height:"1px",width:"100%",background:"var(--fg)",opacity:.5,transform:"translateY(-50%)"}} />
+          </div>
+        )}
+
+        {/* ABCD 坐标字母 */}
+        {[{l:"3%",t:"5%",v:"A"},{r:"4%",t:"5%",v:"B"},{l:"3%",b:"5.5%",v:"C"},{r:"4%",b:"5.5%",v:"D"}].map(({v,...p},i)=>
+          <div key={`abc-${i}`} className="absolute z-0 select-none" style={{...p,fontSize:"clamp(0.45rem,2vw,0.6rem)",fontFamily:"var(--font-geist-mono)",color:"var(--fg)",opacity:.5,letterSpacing:"0.05em"}} aria-hidden="true">{v}</div>
+        )}
+
+        {/* 超大编号水印 */}
+        <div className="absolute z-[1] select-none pointer-events-none" style={{right:"4%",bottom:"4%",fontSize:"clamp(8rem,40vw,20rem)",fontWeight:900,color:"var(--fg)",opacity:.04,lineHeight:.85,letterSpacing:"-0.05em",fontFamily:"var(--font-geist-mono)"}} aria-hidden="true">05</div>
+
+        {/* ── 至上主义填充装饰 ── */}
+        {/* 空心大圆 — Lissitzky 式悬浮几何 */}
+        <div className="absolute z-0 select-none pointer-events-none"
+          style={{
+            left: "50%", top: "55%",
+            width: "clamp(80px, 25vw, 180px)", height: "clamp(80px, 25vw, 180px)",
+            transform: "translate(-50%, -50%)",
+            borderRadius: "50%",
+            border: "3px solid var(--fg)",
+            opacity: 0.08,
+          }} aria-hidden="true" />
+
+        {/* 红色小方块 — 至上主义锚点 */}
+        <div className="absolute z-0 select-none pointer-events-none"
+          style={{
+            left: "62%", top: "48%",
+            width: "clamp(8px, 2vw, 14px)", height: "clamp(8px, 2vw, 14px)",
+            background: "#D10000",
+            opacity: 0.25,
+          }} aria-hidden="true" />
+
+        {/* 终章标注 */}
+        <span className="type-cyrillic absolute z-[2] select-none pointer-events-none text-[var(--fg)]"
+          style={{
+            left: "50%", bottom: "12%",
+            transform: "translateX(-50%)",
+            fontSize: "clamp(0.9rem, 3vw, 1.3rem)",
+            letterSpacing: "0.5em",
+            opacity: 0.15,
+          }} aria-hidden="true">
+          КОНЕЦ
+        </span>
       </div>
 
       {/* 微信二维码灯箱 */}
