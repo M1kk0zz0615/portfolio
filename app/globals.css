@@ -158,30 +158,6 @@ body {
 }
 
 /* ============================================
-   海报① 矮屏适配 (iPad 横屏等 ≤900px 高)
-   用 CSS 自定义属性精确降级，PC 高屏完全不受影响
-   ============================================ */
-/* 默认值 — 与原始硬编码值一致 */
-#poster-about {
-  --a1-grid-pt: 20rem;
-  --a1-grid-pt-xl: 26rem;
-  --a1-col-mt: 6rem;
-  --a1-btn-bottom: 11rem;
-  --a1-col-minh: clamp(280px, 38vh, 400px);
-}
-
-/* 仅当 lg 宽度 + 矮屏高度时降级间距（iPad 横屏 ≈ 1024-1366 × 768-834） */
-@media (min-width: 1024px) and (max-height: 900px) {
-  #poster-about {
-    --a1-grid-pt: 12rem;
-    --a1-grid-pt-xl: 16rem;
-    --a1-col-mt: 2.5rem;
-    --a1-btn-bottom: 3rem;
-    --a1-col-minh: clamp(180px, 22vh, 400px);
-  }
-}
-
-/* ============================================
    移动端 (<768px) — 海报容器与全局调整
    ============================================ */
 @media (max-width: 767px) {
