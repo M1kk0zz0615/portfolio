@@ -361,6 +361,20 @@ className="anim-scale d-4 photo-montage clip-angle-br bg-[var(--bg-muted)] curso
 
         {/* ═══════════ 移动端制图标识 ═══════════ */}
 
+        {/* 四角裁切线 */}
+        {[{left:"2.2%",top:"3.2%"},{right:"2.2%",top:"3.2%"},{left:"2.2%",bottom:"4.7%"},{right:"2.2%",bottom:"4.7%"}].map((p,i)=>
+          <div key={`cm-${i}`} className="absolute z-0" style={{...p,width:"clamp(10px,3vw,16px)",height:"clamp(10px,3vw,16px)"}} aria-hidden="true">
+            <div style={{position:"absolute",left:"50%",top:0,width:"1px",height:"100%",background:"var(--fg)",opacity:.4,transform:"translateX(-50%)"}} />
+            <div style={{position:"absolute",top:"50%",left:0,height:"1px",width:"100%",background:"var(--fg)",opacity:.4,transform:"translateY(-50%)"}} />
+          </div>
+        )}
+
+        {/* L 型边框 */}
+        <div className="absolute z-0" style={{left:"2%",top:"3%",width:"clamp(24px,5vw,50px)",height:"2px",background:"var(--fg)",opacity:.4}} aria-hidden="true" />
+        <div className="absolute z-0" style={{left:"2%",top:"3%",width:"2px",height:"clamp(24px,5vw,50px)",background:"var(--fg)",opacity:.4}} aria-hidden="true" />
+        <div className="absolute z-0" style={{right:"2%",bottom:"4.5%",width:"clamp(24px,5vw,50px)",height:"2px",background:"var(--fg)",opacity:.4}} aria-hidden="true" />
+        <div className="absolute z-0" style={{right:"2%",bottom:"4.5%",width:"2px",height:"clamp(24px,5vw,50px)",background:"var(--fg)",opacity:.4}} aria-hidden="true" />
+
         {/* ABCD 坐标字母 */}
         {[{left:"3%",top:"5%",v:"A"},{right:"4%",top:"5%",v:"B"},{left:"3%",bottom:"5.5%",v:"C"},{right:"4%",bottom:"5.5%",v:"D"}].map(({v,...p},i)=>
           <div key={`abc-${i}`} className="absolute z-0 select-none" style={{...p,fontSize:"clamp(0.45rem,2vw,0.6rem)",fontFamily:"var(--font-geist-mono)",color:"var(--fg)",opacity:.5,letterSpacing:"0.05em"}} aria-hidden="true">{v}</div>

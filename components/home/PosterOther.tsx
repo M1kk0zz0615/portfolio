@@ -247,6 +247,20 @@ export function PosterOther() {
 
         {/* ═══════════ 移动端制图标识 ═══════════ */}
 
+        {/* 四角裁切线 */}
+        {[{left:"2.2%",top:"3.2%"},{right:"2.2%",top:"3.2%"},{left:"2.2%",bottom:"4.7%"},{right:"2.2%",bottom:"4.7%"}].map((p,i)=>
+          <div key={`cm-${i}`} className="absolute z-0" style={{...p,width:"clamp(10px,3vw,16px)",height:"clamp(10px,3vw,16px)"}} aria-hidden="true">
+            <div style={{position:"absolute",left:"50%",top:0,width:"1px",height:"100%",background:"var(--fg)",opacity:.4,transform:"translateX(-50%)"}} />
+            <div style={{position:"absolute",top:"50%",left:0,height:"1px",width:"100%",background:"var(--fg)",opacity:.4,transform:"translateY(-50%)"}} />
+          </div>
+        )}
+
+        {/* L 型边框 */}
+        <div className="absolute z-0" style={{left:"2%",top:"3%",width:"clamp(24px,5vw,50px)",height:"2px",background:"var(--fg)",opacity:.4}} aria-hidden="true" />
+        <div className="absolute z-0" style={{left:"2%",top:"3%",width:"2px",height:"clamp(24px,5vw,50px)",background:"var(--fg)",opacity:.4}} aria-hidden="true" />
+        <div className="absolute z-0" style={{right:"2%",bottom:"4.5%",width:"clamp(24px,5vw,50px)",height:"2px",background:"var(--fg)",opacity:.4}} aria-hidden="true" />
+        <div className="absolute z-0" style={{right:"2%",bottom:"4.5%",width:"2px",height:"clamp(24px,5vw,50px)",background:"var(--fg)",opacity:.4}} aria-hidden="true" />
+
         {/* 四角套准标记 (圆+十字) */}
         {[{left:"1.5%",top:"2.5%"},{right:"1.5%",top:"2.5%"},{left:"1.5%",bottom:"4%"},{right:"1.5%",bottom:"4%"}].map((p,i)=>
           <div key={`reg-${i}`} className="absolute z-0" style={{...p,width:"clamp(14px,3.5vw,20px)",height:"clamp(14px,3.5vw,20px)"}} aria-hidden="true">
