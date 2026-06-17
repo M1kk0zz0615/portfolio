@@ -636,7 +636,7 @@ export function PosterAbout() {
         )}
 
         {/* 超大编号水印 */}
-        <div className="absolute z-[1] select-none pointer-events-none" style={{right:"4%",bottom:"4%",fontSize:"clamp(8rem,40vw,20rem)",fontWeight:900,color:"var(--fg)",opacity:.04,lineHeight:.85,letterSpacing:"-0.05em",fontFamily:"var(--font-geist-mono)"}} aria-hidden="true">01</div>
+        <div className="absolute z-[1] select-none pointer-events-none" style={{right:"4%",bottom:"4%",fontSize:"clamp(8rem,60vw,28rem)",fontWeight:900,color:"var(--fg)",opacity:.04,lineHeight:.85,letterSpacing:"-0.05em",fontFamily:"var(--font-geist-mono)"}} aria-hidden="true">01</div>
 
         {/* 俄文标注 */}
         <span className="type-cyrillic text-[var(--fg)]/30 text-center select-none"
