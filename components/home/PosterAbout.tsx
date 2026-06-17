@@ -8,7 +8,7 @@ import { AboutPosterTitle } from "./AboutPosterTitle";
 
 export function PosterAbout() {
   const ref = useScrollReveal<HTMLDivElement>(0.3);
-  usePosterWidth(ref); // 修复 iPadOS Safari cqw 不更新
+  const dbg = usePosterWidth(ref); // DEBUG: 捕获诊断数据
 
   return (
     <section
@@ -532,6 +532,38 @@ export function PosterAbout() {
         scroll down
       </div>
       <div className="scroll-arrow z-30" />
+
+      {/* ═══════════════════════════════════════════
+          DEBUG PANEL — iPad 诊断 (发布前删除)
+          ═══════════════════════════════════════════ */}
+      <div
+        style={{
+          position: "absolute",
+          left: 8,
+          bottom: 8,
+          zIndex: 9999,
+          background: "rgba(0,0,0,0.82)",
+          color: "#0f0",
+          padding: "10px 14px",
+          borderRadius: 6,
+          fontFamily: "var(--font-geist-mono)",
+          fontSize: "clamp(9px, 1.2cqw, 12px)",
+          lineHeight: 1.55,
+          maxWidth: "94vw",
+          pointerEvents: "none",
+        }}
+        aria-hidden="true"
+      >
+        <div style={{ color: "#FF0", fontWeight: 700, marginBottom: 4 }}>
+          🔍 POSTER ABOUT DEBUG
+        </div>
+        <div>clientWidth: <b>{dbg.clientWidth}</b>px</div>
+        <div>--pw computed: "<b>{dbg.pwComputed || "(empty)"}</b>"</div>
+        <div>contain: <b>{dbg.contain || "(unknown)"}</b></div>
+        <div>containerType: <b>{dbg.containerType || "(unknown)"}</b></div>
+        <div>ResizeObserver: <b>{dbg.roCount}</b> 次</div>
+        <div>mounted: <b>{String(dbg.mounted)}</b></div>
+      </div>
     </section>
   );
 }

@@ -1,63 +1,66 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
+export interface PwDebugInfo {
+  mounted: boolean;
+  clientWidth: number;
+  pwComputed: string;
+  contain: string;
+  containerType: string;
+  roCount: number;
+}
 
 /**
  * 修复 iPadOS Safari 容器查询单位 (cqw) 在窗口 resize 时不更新的 bug。
  *
- * 原理：
- * - ResizeObserver 监听海报容器的 inline-size 变化
- * - 将实际像素宽度写入 CSS 自定义属性 --pw
- * - 子元素使用 calc(var(--pw) * FACTOR * 1px) 替代 Xcqw
- * - 由于 --pw 由 JS 直接更新，绕过了 Safari 的 cqw 缓存问题
- *
- * 用法（配合既有的 useScrollReveal ref）：
- *   const ref = useScrollReveal<HTMLDivElement>(0.3);
- *   usePosterWidth(ref);  // 复用同一个 ref
- *   return <section ref={ref} className="poster">...</section>
+ * 返回 debugInfo 供组件渲染诊断面板。
  */
 export function usePosterWidth<T extends HTMLElement>(
   ref: React.RefObject<T | null>
 ) {
   const roRef = useRef<ResizeObserver | null>(null);
+  const roCountRef = useRef(0);
+  const [debugInfo, setDebugInfo] = useState<PwDebugInfo>({
+    mounted: false,
+    clientWidth: 0,
+    pwComputed: "",
+    contain: "",
+    containerType: "",
+    roCount: 0,
+  });
 
   useEffect(() => {
     const el = ref.current;
     if (!el) {
-      console.warn("[usePosterWidth] ref.current is null — 未挂载到 DOM 元素");
+      setDebugInfo((prev) => ({ ...prev, mounted: false }));
       return;
     }
 
-    const update = () => {
+    const collect = () => {
       const w = el.clientWidth;
       el.style.setProperty("--pw", String(w));
 
-      // DEBUG: 验证 --pw 是否成功写入并被 CSS 读取
-      const computed = getComputedStyle(el).getPropertyValue("--pw").trim();
-      console.log(
-        `[usePosterWidth] clientWidth=${w}px | --pw computed="${computed}" | contain=${
-          getComputedStyle(el).contain
-        } | containerType=${getComputedStyle(el).containerType}`
-      );
+      const style = getComputedStyle(el);
+      const info: PwDebugInfo = {
+        mounted: true,
+        clientWidth: w,
+        pwComputed: style.getPropertyValue("--pw").trim(),
+        contain: style.contain,
+        containerType: style.containerType,
+        roCount: roCountRef.current,
+      };
+      setDebugInfo(info);
+      console.log("[usePosterWidth]", JSON.stringify(info));
     };
 
-    // 初始写入
-    update();
+    // 初始值
+    collect();
 
-    // ResizeObserver：每次 inline-size 变化时触发
     if (!roRef.current) {
-      roRef.current = new ResizeObserver((entries) => {
-        const entry = entries[0];
-        if (entry) {
-          console.log(
-            `[ResizeObserver] contentBoxSize=${JSON.stringify(
-              Array.from(entry.contentBoxSize)
-            )} | borderBoxSize=${JSON.stringify(
-              Array.from(entry.borderBoxSize)
-            )}`
-          );
-        }
-        update();
+      roRef.current = new ResizeObserver(() => {
+        roCountRef.current++;
+        collect();
       });
     }
     roRef.current.observe(el);
@@ -66,4 +69,6 @@ export function usePosterWidth<T extends HTMLElement>(
       roRef.current?.unobserve(el);
     };
   }, [ref]);
+
+  return debugInfo;
 }
