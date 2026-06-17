@@ -32,11 +32,8 @@ export function PosterBuildLog() {
             FRAME SYSTEM — 制图框架
             ═══════════════════════════════════════════ */}
 
-        {/* 页面顶部横向粗线 */}
-        <div
-          className="anim-line-x absolute left-[2%] h-[3px] bg-[var(--fg)] z-0"
-          style={{ top: "3%", width: "96%", opacity: 0.5 }}
-        />
+        {/* 页面顶部横向粗线 — 已删除 */}
+
 
         {/* 左上角 L 型框架 */}
         <div className="anim-line-x absolute z-0"
@@ -46,15 +43,8 @@ export function PosterBuildLog() {
           style={{ left: "2%", top: "3%", width: "3px", height: "clamp(36px, 5cqw, 64px)", background: "var(--fg)", opacity: 0.5 }}
         />
 
-        {/* 底部横线 — 左侧黑色 + 右侧红色 */}
-        <div
-          className="anim-line-x d-3 absolute left-[3%] h-[3px] bg-[var(--fg)] z-0"
-          style={{ bottom: "5%", width: "clamp(80px, 14cqw, 180px)", opacity: 0.5 }}
-        />
-        <div
-          className="anim-line-x d-3 absolute right-[3%] h-[3px] bg-[#D10000] z-0"
-          style={{ bottom: "5%", width: "clamp(80px, 14cqw, 180px)", opacity: 0.5 }}
-        />
+        {/* 底部横线 — 已删除 */}
+
 
         {/* ── 四角裁切线 ── */}
         {[
@@ -106,36 +96,11 @@ export function PosterBuildLog() {
           aria-hidden="true"
         />
 
-        {/* ── 断裂边框 · 右上角横线段 ── */}
-        <div className="anim-line-x d-1 absolute z-0"
-          style={{ right: "2%", top: "3%", width: "clamp(20px, 3cqw, 40px)", height: "2px", background: "var(--fg)", opacity: 0.5 }}
-          aria-hidden="true"
-        />
+        {/* ── 断裂边框 · 右上角横线段 — 已删除 */}
 
-        {/* ── 对齐辅助线 · 右缘刻度标记 ── */}
-        {[0.22, 0.38, 0.54, 0.7].map((ratio, i) => (
-          <div key={`tick-r-${i}`} className={`anim-line-x d-${i + 1} absolute z-0`}
-            style={{
-              right: "2.5%", top: `${8 + ratio * 72}%`,
-              width: "clamp(6px, 1cqw, 12px)", height: "1px",
-              background: i % 2 === 0 ? "var(--fg)" : "#D10000",
-              opacity: i % 2 === 0 ? 0.5 : 0.25,
-            }}
-            aria-hidden="true"
-          />
-        ))}
+        {/* ── 对齐辅助线 · 右缘刻度标记 — 已删除 */}
 
-        {/* ── 对齐辅助线 · 左缘刻度标记 ── */}
-        {[0.3, 0.5, 0.7].map((ratio, i) => (
-          <div key={`tick-l-${i}`} className={`anim-line-x d-${i + 2} absolute z-0`}
-            style={{
-              left: "2.5%", top: `${12 + ratio * 68}%`,
-              width: "clamp(5px, 0.8cqw, 10px)", height: "1px",
-              background: "var(--fg)", opacity: 0.5,
-            }}
-            aria-hidden="true"
-          />
-        ))}
+        {/* ── 对齐辅助线 · 左缘刻度标记 — 已删除 */}
 
         {/* ── 坐标标记 · 四角字母编号 ── */}
         {[
