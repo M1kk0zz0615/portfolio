@@ -158,7 +158,7 @@ export function PosterOther() {
         <div
           className="anim-y-60 d-3 absolute z-[2] select-none"
           style={{
-            left: "2.8%", top: "68%",
+            left: "2.8%", top: "18%",
             fontSize: "clamp(0.85rem, 1cqw, 1.1rem)",
             fontFamily: "var(--font-geist-mono)",
             color: "var(--fg)",
