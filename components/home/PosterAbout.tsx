@@ -413,12 +413,11 @@ export function PosterAbout() {
 
       {/* 主内容区 */}
       <div
-        className="a1-grid relative z-10 mx-auto grid h-full w-full max-w-6xl items-start gap-4 sm:gap-6 pl-2 pr-4 pt-16 sm:pl-4 sm:pr-6 sm:pt-20 md:pl-0 md:pr-6 lg:grid-cols-[1fr_auto] lg:gap-6 lg:pt-[20rem] xl:pt-[26rem]"
+        className="relative z-10 mx-auto grid h-full w-full max-w-6xl items-start gap-4 sm:gap-6 pl-2 pr-4 pt-16 sm:pl-4 sm:pr-6 sm:pt-20 md:pl-0 md:pr-6 lg:grid-cols-[1fr_auto] lg:gap-6 lg:pt-[var(--a1-pt,20rem)] xl:pt-[26rem]"
       >
         {/* 左侧：标题 + 按钮 — 仅移动此列 */}
         <div
-          className="relative z-10 order-1 lg:order-none lg:-ml-8 lg:mt-24 lg:max-w-[62cqw] a1-col"
-          style={{ minHeight: "clamp(280px, 38vh, 400px)" }}
+          className="flex flex-col z-10 order-1 lg:order-none lg:-ml-8 lg:mt-[var(--a1-mt,6rem)] lg:max-w-[62cqw]"
         >
           <AboutPosterTitle />
 
@@ -430,7 +429,7 @@ export function PosterAbout() {
             用胶片与像素，记录在场与想象
           </p>
 
-          <div className="anim-y-60 d-3 mt-6 flex justify-start lg:absolute lg:bottom-44 lg:left-[43%] a1-btn">
+          <div className="anim-y-60 d-3 mt-6 flex justify-start lg:mt-10 lg:ml-[43%]">
             <AboutArchiveButton />
           </div>
         </div>

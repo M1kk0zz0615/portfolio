@@ -158,28 +158,13 @@ body {
 }
 
 /* ============================================
-   海报① 矮屏适配 — iPad 横屏 (宽≥1024px 且 高≤900px)
-   用 !important 直接覆盖 Tailwind 工具类
-   不影响 PC (窗口高通常 >900px) 和手机 (宽 <1024px)
+   海报① iPad 横屏布局 (lg宽 + 矮屏 ≤900px)
+   通过 CSS 自定义属性降级间距；PC/手机不受影响
    ============================================ */
 @media (min-width: 1024px) and (max-height: 900px) {
-  /* 网格顶部间距：320px → 96px */
-  #poster-about .a1-grid {
-    padding-top: 6rem !important;
-  }
-
-  /* 列顶部边距：96px → 24px，取消最小高度约束 */
-  #poster-about .a1-col {
-    margin-top: 1.5rem !important;
-    min-height: auto !important;
-  }
-
-  /* 按钮解除绝对定位，回归正常文档流 */
-  #poster-about .a1-btn {
-    position: relative !important;
-    bottom: auto !important;
-    left: auto !important;
-    margin-top: 2rem !important;
+  #poster-about {
+    --a1-pt: 8rem;
+    --a1-mt: 1.5rem;
   }
 }
 
