@@ -611,11 +611,6 @@ export function PosterAbout() {
         {/* 按钮 — 自然流内 */}
         <div className="anim-y-60 d-3 flex justify-start gap-3 mb-8">
           <AboutArchiveButton />
-          <a href="https://www.xiaohongshu.com/user/profile/5d63437f000000000100a557" target="_blank" rel="noopener noreferrer"
-            className="inline-flex items-center border-4 border-[#0D0D0D] bg-[#0D0D0D] px-6 py-3.5 font-mono text-xs tracking-widest text-[#F5EDE0] uppercase no-underline shadow-[3px_3px_0_0_#D10000] transition-all duration-200 hover:border-[#D10000] hover:bg-[#D10000] hover:shadow-[5px_5px_0_0_#0D0D0D]"
-          >
-            rednote
-          </a>
         </div>
 
         {/* Logo — 流内居中 */}

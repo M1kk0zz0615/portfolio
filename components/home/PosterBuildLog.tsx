@@ -305,6 +305,23 @@ export function PosterBuildLog() {
               className={`anim-y-60 group no-underline absolute z-10 d-${i + 2} card-hover`}
               style={{ ...positions[i], width: "clamp(240px, calc(var(--pw) * 0.22 * 1px), 360px)" }}
             >
+              {/* 引导提示 — 居中上方 */}
+              <div
+                className="absolute left-1/2 flex flex-col items-center gap-0.5 select-none pointer-events-none"
+                style={{
+                  bottom: "100%",
+                  transform: "translateX(-50%)",
+                  paddingBottom: "6px",
+                  opacity: 0.35,
+                  fontFamily: "var(--font-geist-mono)",
+                  fontSize: "clamp(0.55rem, 0.7cqw, 0.7rem)",
+                  color: "var(--fg)",
+                  letterSpacing: "0.2em",
+                }}
+              >
+                <span>CLICK HERE</span>
+                <span style={{ fontSize: "clamp(0.7rem, 0.9cqw, 0.9rem)", lineHeight: 1 }}>↓</span>
+              </div>
               <div
                 className="border-l-[3px] border-[#D10000]/30 pl-4 py-2
                   hover:border-[#D10000] hover:bg-[#D10000]/8 transition-all duration-200"
@@ -484,6 +501,20 @@ export function PosterBuildLog() {
               rel="noopener noreferrer"
               className={`anim-y-60 group no-underline d-${i + 2} card-hover`}
             >
+              {/* 引导提示 — 居中上方 */}
+              <div
+                className="flex flex-col items-center gap-0.5 select-none pointer-events-none mb-1.5"
+                style={{
+                  opacity: 0.3,
+                  fontFamily: "var(--font-geist-mono)",
+                  fontSize: "clamp(0.5rem, 2vw, 0.65rem)",
+                  color: "var(--fg)",
+                  letterSpacing: "0.2em",
+                }}
+              >
+                <span>CLICK HERE</span>
+                <span style={{ fontSize: "clamp(0.6rem, 2.2vw, 0.8rem)", lineHeight: 1 }}>↓</span>
+              </div>
               <div
                 className="border-l-[3px] border-[#D10000]/30 pl-4 py-2
                   hover:border-[#D10000] hover:bg-[#D10000]/8 transition-all duration-200"

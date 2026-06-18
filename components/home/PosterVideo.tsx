@@ -101,7 +101,7 @@ export function PosterVideo() {
 
         {/* 俄文标注 */}
         <span
-          className="anim-y-60 d-1 type-cyrillic absolute text-[#B0B0B0] select-none z-10"
+          className="anim-y-60 d-1 type-cyrillic absolute text-[var(--fg)] select-none z-10"
           style={{ left: "10%", top: "26%", fontSize: "clamp(0.7rem, 1cqw, 0.9rem)" }}
         >
           КИНОАРХИВ
@@ -189,11 +189,23 @@ export function PosterVideo() {
           04
         </div>
 
+        {/* 俄文格言 */}
+        <p className="anim-y-60 d-4 type-cyrillic absolute left-1/2 text-[var(--fg)] text-center select-none z-10"
+          style={{
+            bottom: "7%",
+            transform: "translateX(-50%)",
+            fontSize: "clamp(0.65rem, 0.85cqw, 0.9rem)",
+            letterSpacing: "0.08em",
+            lineHeight: 1.6,
+          }}>
+          Реальность — вторичная<br />структурная обработка.
+        </p>
+
         <div className="scroll-arrow z-30" />
       </div>
 
       {/* ====== 移动端+平板 (<1024px) — flex-col 纵向布局 ====== */}
-      <div className="lg:hidden relative z-10 flex w-full flex-col px-4 pt-8 sm:px-8 sm:pt-12 min-h-dvh" style={{gap:"clamp(1rem, 3vh, 2.5rem)"}}>
+      <div className="lg:hidden relative z-10 flex w-full flex-col px-4 pt-16 sm:px-8 sm:pt-20 min-h-dvh" style={{gap:"clamp(1rem, 3vh, 2.5rem)"}}>
         {/* 档案编号 — 模块标签样式 */}
         <div className="anim-y-60 font-mono text-xs tracking-widest uppercase mb-4">
           <span style={{
@@ -211,7 +223,7 @@ export function PosterVideo() {
 
         {/* 俄文 */}
         <span
-          className="anim-y-60 d-1 type-cyrillic text-[#B0B0B0] select-none"
+          className="anim-y-60 d-1 type-cyrillic text-[var(--fg)] select-none"
           style={{ fontSize: "clamp(0.7rem, 2.5vw, 0.9rem)" }}
         >
           КИНОАРХИВ
@@ -221,7 +233,7 @@ export function PosterVideo() {
         <div className="relative my-4 flex items-center justify-end">
           <div
             className="anim-scale d-2 geo-circle flex items-center justify-center bg-[var(--fg)] select-none"
-            style={{ width: "clamp(140px, 38vw, 240px)", height: "clamp(140px, 38vw, 240px)" }}
+            style={{ width: "clamp(180px, 50vw, 300px)", height: "clamp(180px, 50vw, 300px)" }}
           >
             <span className="type-display text-[#D10000]"
               style={{ fontSize: "clamp(1.4rem, 6vw, 2.4rem)", fontWeight: 900, letterSpacing: "0.12em" }}>
@@ -230,10 +242,17 @@ export function PosterVideo() {
           </div>
         </div>
 
+        {/* 构成主义装饰 — 圆与标题之间 */}
+        <div className="anim-line-x d-2 flex items-center gap-3 mb-1" aria-hidden="true">
+          <div className="h-[3px] bg-[#D10000]" style={{ width: "clamp(40px, 12vw, 80px)" }} />
+          <div className="bg-[var(--fg)]" style={{ width: "clamp(8px, 2vw, 12px)", height: "clamp(8px, 2vw, 12px)" }} />
+          <div className="geo-circle bg-[#D10000]" style={{ width: "clamp(6px, 1.5vw, 10px)", height: "clamp(6px, 1.5vw, 10px)" }} />
+        </div>
+
         {/* 主标题 */}
         <h2
           className="anim-y-60 d-2 type-display text-[var(--fg)] select-none mb-6"
-          style={{ fontSize: "clamp(2.2rem, 9vw, 4rem)", transform: "skewX(-4deg)" }}
+          style={{ fontSize: "clamp(3rem, 14vw, 5.5rem)", transform: "skewX(-4deg)" }}
         >
           影像档案
         </h2>
@@ -242,22 +261,16 @@ export function PosterVideo() {
         <div className="anim-y-60 d-3 flex flex-col gap-4 select-none mb-6">
           <Link href="/video/work" className="group flex items-center no-underline">
             <span className="geo-marker" />
-            <span className="type-display hover-red" style={{ fontSize: "clamp(1.5rem, 6vw, 2.5rem)" }}>受托</span>
+            <span className="type-display hover-red" style={{ fontSize: "clamp(2rem, 9vw, 3.2rem)" }}>受托</span>
           </Link>
           <Link href="/video/personal" className="group flex items-center no-underline" style={{ marginLeft: "2em" }}>
             <span className="geo-marker" />
-            <span className="type-display hover-red" style={{ fontSize: "clamp(1.5rem, 6vw, 2.5rem)" }}>闲影</span>
+            <span className="type-display hover-red" style={{ fontSize: "clamp(2rem, 9vw, 3.2rem)" }}>闲影</span>
           </Link>
         </div>
 
-        {/* 说明文字 */}
-        <p className="anim-y-60 d-4 type-label text-[#8C8C8C] select-none pb-2"
-          style={{ fontSize: "clamp(0.65rem, 2.5vw, 0.8rem)" }}>
-          活动记录 · 年度回顾 · 毕业纪念 · Vlog · 实验短片
-        </p>
-
         {/* 俄文格言 */}
-        <p className="anim-y-60 d-4 type-cyrillic text-[var(--fg)]/25 text-center select-none pb-4"
+        <p className="anim-y-60 d-4 type-cyrillic text-[var(--fg)] text-center select-none pb-4"
           style={{ fontSize: "clamp(0.65rem, 2.2vw, 0.85rem)", letterSpacing: "0.08em", lineHeight: 1.6 }}>
           Реальность — вторичная<br />структурная обработка.
         </p>
