@@ -529,6 +529,40 @@ a:hover .geo-marker {
   50%      { opacity: 0.3; transform: translateX(-50%) translateY(8px); }
 }
 
+/* ============================================
+   构成主义几何切割 — Hero 插画红色矩形扫过
+   左下 → 中央(35%) → 右上离场
+   机械线性运动，不做高光/渐变/blur
+   ============================================ */
+@keyframes geo-cut {
+  0% {
+    transform: translate(-110%, 80%) rotate(24deg);
+  }
+  35% {
+    transform: translate(50%, -20%) rotate(24deg);
+  }
+  100% {
+    transform: translate(320%, -240%) rotate(24deg);
+  }
+}
+
+.geo-cut-rect {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  background: #D10000;
+  pointer-events: none;
+  z-index: 5;
+  width: 33vw;
+  height: 100vw;
+  opacity: 0;
+}
+
+.geo-cut-rect.animate {
+  animation: geo-cut 1s linear forwards;
+  opacity: 0.7;
+}
+
 .card-hover {
   transition: transform 0.35s cubic-bezier(0.2, 0, 0, 1);
 }

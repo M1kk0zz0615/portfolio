@@ -12,6 +12,7 @@ export function PosterAbout() {
   const dbg = usePosterWidth(ref);
   const btnRef = useRef<HTMLDivElement>(null);
   const [btnRect, setBtnRect] = useState<{ left: number; top: number; right: number; bottom: number } | null>(null);
+  const [geoCutPlayed, setGeoCutPlayed] = useState(false);
 
   const measureBtn = useCallback(() => {
     if (!btnRef.current || !ref.current) return;
@@ -32,6 +33,15 @@ export function PosterAbout() {
     if (ref.current) ro.observe(ref.current);
     return () => ro.disconnect();
   }, [measureBtn, ref]);
+
+  // 构成主义几何切割动画 — 每次刷新/加载时播放一次
+  useEffect(() => {
+    // requestAnimationFrame 确保 DOM 就位后立即触发
+    const raf = requestAnimationFrame(() => {
+      setGeoCutPlayed(true);
+    });
+    return () => cancelAnimationFrame(raf);
+  }, []);
 
   return (
     <section
@@ -565,6 +575,12 @@ export function PosterAbout() {
         scroll down
       </div>
       <div className="scroll-arrow z-30" />
+
+      {/* 构成主义几何切割 — 红色矩形扫过动画（仅桌面端，仅播放一次） */}
+      <div
+        className={`geo-cut-rect hidden lg:block${geoCutPlayed ? " animate" : ""}`}
+        aria-hidden="true"
+      />
 
       </div>{/* 桌面端结束 */}
 
