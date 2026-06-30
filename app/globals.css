@@ -16,7 +16,7 @@
   --gray-dark: #3D3228;
   /* Noto Sans SC 通过 next/font 本地化加载（--font-noto-sc），统一跨平台渲染
      回退：macOS 苹方 → Windows 微软雅黑 → 黑体 → 系统 sans-serif */
-  --font-display: var(--font-noto-sc), "PingFang SC", "Microsoft YaHei", "Heiti SC", sans-serif;
+  --font-display: var(--font-noto-serif-sc), var(--font-noto-sc), "PingFang SC", "Microsoft YaHei", "Heiti SC", sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -619,3 +619,36 @@ a:hover .geo-marker {
   height: 5px;
   background: var(--fg);
 }
+
+/* ============================================
+   Archive Drawer — Hero 海报偏移动画
+   ============================================ */
+
+/* 桌面端：Hero 左移 + 轻微失焦 */
+@media (min-width: 1024px) {
+  .poster.archive-open-hero {
+    transform: translateX(-40px);
+    opacity: 0.85;
+  }
+}
+
+/* 移动端/平板：Hero 上移，保留下半部分 */
+@media (max-width: 1023px) {
+  .poster.archive-open-hero {
+    transform: translateY(-30vh);
+    opacity: 0.85;
+  }
+}
+
+/* Hero 过渡放基类上：打开/关闭都有动画 */
+.poster {
+  transition: transform 300ms linear, opacity 300ms linear;
+}
+
+/* 减少动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .poster.archive-open-hero {
+    transition: none;
+  }
+}
+

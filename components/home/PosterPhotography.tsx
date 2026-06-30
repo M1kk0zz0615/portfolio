@@ -15,6 +15,7 @@ export function PosterPhotography() {
   return (
     <section
       ref={ref}
+      id="photography"
       className="poster flex items-center bg-paper text-[var(--fg)]"
       aria-label="摄影档案"
     >

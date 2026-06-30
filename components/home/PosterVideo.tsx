@@ -11,6 +11,7 @@ export function PosterVideo() {
   return (
     <section
       ref={ref}
+      id="video"
       className="poster flex items-center bg-paper text-[var(--fg)]"
       aria-label="影像档案"
     >

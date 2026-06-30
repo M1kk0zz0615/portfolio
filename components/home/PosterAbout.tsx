@@ -7,7 +7,12 @@ import { usePosterWidth } from "@/app/hooks/usePosterWidth";
 import { AboutArchiveButton } from "./AboutArchiveButton";
 import { AboutPosterTitle } from "./AboutPosterTitle";
 
-export function PosterAbout() {
+interface PosterAboutProps {
+  archiveOpen?: boolean;
+  onOpenArchive?: () => void;
+}
+
+export function PosterAbout({ archiveOpen = false, onOpenArchive }: PosterAboutProps) {
   const ref = useScrollReveal<HTMLDivElement>(0.3);
   const dbg = usePosterWidth(ref);
   const btnRef = useRef<HTMLDivElement>(null);
@@ -47,7 +52,7 @@ export function PosterAbout() {
     <section
       id="poster-about"
       ref={ref}
-      className="poster bg-paper text-[var(--fg)]"
+      className={`poster bg-paper text-[var(--fg)]${archiveOpen ? " archive-open-hero" : ""}`}
       aria-label="关于迷蔻紫的一切"
     >
       {/* ====== 桌面端 (≥1024px) — 构成主义海报布局 ====== */}
@@ -57,50 +62,57 @@ export function PosterAbout() {
           FRAME SYSTEM — 制图框架
           ═══════════════════════════════════════════ */}
 
-      {/* 页面顶部横向粗线 */}
+      {/* 页面顶部横向粗线（暂时移除） */}
+      {/*
       <div
         className="anim-line-x absolute left-[2%] h-[3px] bg-[var(--fg)] z-0 hidden md:block"
-        style={{ top: "3%", width: "96%", opacity: 0.7 }}
+        style={{ top: "3%", width: "96%", opacity: 0.2 }}
       />
+      */}
 
       {/* 左上角 L 型框架 — 加粗 */}
       <div className="anim-line-x absolute z-0 hidden md:block"
-        style={{ left: "2%", top: "3%", width: "clamp(36px, 5cqw, 64px)", height: "3px", background: "var(--fg)", opacity: 1 }}
+        style={{ left: "2%", top: "3%", width: "clamp(36px, 5cqw, 64px)", height: "3px", background: "var(--fg)", opacity: 0.2 }}
       />
       <div className="anim-line-x d-1 absolute z-0 hidden md:block"
-        style={{ left: "2%", top: "3%", width: "3px", height: "clamp(36px, 5cqw, 64px)", background: "var(--fg)", opacity: 1 }}
+        style={{ left: "2%", top: "3%", width: "3px", height: "clamp(36px, 5cqw, 64px)", background: "var(--fg)", opacity: 0.2 }}
       />
 
-      {/* 右侧垂直辅助线 — 更粗更明显 */}
+      {/* 右侧垂直辅助线（暂时移除） */}
+      {/*
       <div
         className="anim-line-x d-2 absolute right-[6%] w-[2px] bg-[var(--fg)] z-0 hidden md:block"
-        style={{ top: "10%", height: "70%", opacity: 0.7 }}
+        style={{ top: "10%", height: "70%", opacity: 0.2 }}
       />
+      */}
 
-      {/* 底部不闭合横线 — 加粗加对比 */}
+      {/* 底部不闭合横线 — 左下角裁切，仅保留右下红色段 */}
+      {/* 底部左横线 — 左下角：暂时移除 */}
+      {/*
       <div
         className="anim-line-x d-3 absolute left-[3%] h-[3px] bg-[var(--fg)] z-0 hidden md:block"
-        style={{ bottom: "5%", width: "clamp(80px, 14cqw, 180px)", opacity: 0.7 }}
+        style={{ bottom: "5%", width: "clamp(80px, 14cqw, 180px)", opacity: 0.2 }}
       />
+      */}
       <div
         className="anim-line-x d-3 absolute right-[3%] h-[3px] bg-[#D10000] z-0 hidden md:block"
-        style={{ bottom: "5%", width: "clamp(80px, 14cqw, 180px)" }}
+        style={{ bottom: "5%", width: "clamp(80px, 14cqw, 180px)", opacity: 0.2 }}
       />
 
-      {/* 裁切线 — 加粗加深 */}
+      {/* 裁切线 — 仅保留左上角与右下角 */}
       {[
-        { l: "2%", t: "3%" },
-        { r: "2%", t: "3%" },
-        { l: "2%", b: "4.5%" },
-        { r: "2%", b: "4.5%" },
-      ].map((pos, i) => (
+        { l: "2%", t: "3%" },        // 左上
+        // { r: "2%", t: "3%" },     // 右上 — 移除
+        // { l: "2%", b: "4.5%" },   // 左下 — 移除
+        { r: "2%", b: "4.5%" },      // 右下
+      ].filter((_, i) => [0, 3].includes(i)).map((pos, i) => (
         <div
           key={i}
           className={`anim-scale d-${i + 1} absolute z-0 hidden lg:block`}
           style={{ ...pos, width: "clamp(14px, 2cqw, 22px)", height: "clamp(14px, 2cqw, 22px)" }}
         >
-          <div style={{ position: "absolute", left: "50%", top: 0, width: "1px", height: "100%", background: "var(--fg)", transform: "translateX(-50%)", opacity: 1 }} />
-          <div style={{ position: "absolute", top: "50%", left: 0, height: "1px", width: "100%", background: "var(--fg)", transform: "translateY(-50%)", opacity: 1 }} />
+          <div style={{ position: "absolute", left: "50%", top: 0, width: "1px", height: "100%", background: "var(--fg)", transform: "translateX(-50%)", opacity: 0.2 }} />
+          <div style={{ position: "absolute", top: "50%", left: 0, height: "1px", width: "100%", background: "var(--fg)", transform: "translateY(-50%)", opacity: 0.2 }} />
         </div>
       ))}
 
@@ -109,13 +121,13 @@ export function PosterAbout() {
           仅出现在边缘，不进入内容区
           ═══════════════════════════════════════════ */}
 
-      {/* ── Registration Mark · 四角套准标记 ── */}
+      {/* ── Registration Mark · 四角套准标记（仅保留左上、右下）── */}
       {[
-        { left: "1.2%", top: "2.5%" },
-        { right: "1.2%", top: "2.5%" },
-        { left: "1.2%", bottom: "4%" },
-        { right: "1.2%", bottom: "4%" },
-      ].map((pos, i) => (
+        { left: "1.2%", top: "2.5%" },       // 左上
+        // { right: "1.2%", top: "2.5%" },   // 右上 — 移除
+        // { left: "1.2%", bottom: "4%" },   // 左下 — 移除
+        { right: "1.2%", bottom: "4%" },     // 右下
+      ].filter((_, i) => [0, 3].includes(i)).map((pos, i) => (
         <div
           key={`reg-${i}`}
           className={`anim-scale d-${i + 1} absolute z-0 hidden lg:block`}
@@ -133,7 +145,7 @@ export function PosterAbout() {
               inset: 0,
               borderRadius: "50%",
               border: "1px solid var(--fg)",
-              opacity: 1,
+              opacity: 0.2,
             }}
           />
           {/* 十字线 */}
@@ -145,7 +157,7 @@ export function PosterAbout() {
               width: "1px",
               height: "100%",
               background: "var(--fg)",
-              opacity: 1,
+              opacity: 0.2,
               transform: "translateX(-50%)",
             }}
           />
@@ -157,7 +169,7 @@ export function PosterAbout() {
               height: "1px",
               width: "100%",
               background: "var(--fg)",
-              opacity: 1,
+              opacity: 0.2,
               transform: "translateY(-50%)",
             }}
           />
@@ -173,7 +185,7 @@ export function PosterAbout() {
           width: "clamp(36px, 5cqw, 64px)",
           height: "3px",
           background: "var(--fg)",
-          opacity: 1,
+          opacity: 0.2,
         }}
         aria-hidden="true"
       />
@@ -185,12 +197,13 @@ export function PosterAbout() {
           width: "3px",
           height: "clamp(36px, 5cqw, 64px)",
           background: "var(--fg)",
-          opacity: 1,
+          opacity: 0.2,
         }}
         aria-hidden="true"
       />
 
-      {/* ── 不闭合边框 · 右上角横线段 ── */}
+      {/* ── 不闭合边框 · 右上角横线段（右上角：暂时移除）── */}
+      {/*
       <div
         className="anim-line-x d-1 absolute z-0 hidden md:block"
         style={{
@@ -199,12 +212,14 @@ export function PosterAbout() {
           width: "clamp(20px, 3cqw, 40px)",
           height: "2px",
           background: "var(--fg)",
-          opacity: 0.7,
+          opacity: 0.2,
         }}
         aria-hidden="true"
       />
+      */}
 
-      {/* ── 对齐辅助线 · 右缘刻度标记 ── */}
+      {/* ── 对齐辅助线 · 右缘刻度标记（右上角：暂时移除）── */}
+      {/*
       {[0.22, 0.38, 0.54, 0.7].map((ratio, i) => (
         <div
           key={`tick-r-${i}`}
@@ -215,13 +230,15 @@ export function PosterAbout() {
             width: "clamp(6px, 1cqw, 12px)",
             height: "1px",
             background: i % 2 === 0 ? "var(--fg)" : "#D10000",
-            opacity: i % 2 === 0 ? 0.18 : 0.25,
+            opacity: 0.2,
           }}
           aria-hidden="true"
         />
       ))}
+      */}
 
-      {/* ── 对齐辅助线 · 左缘刻度标记 ── */}
+      {/* ── 对齐辅助线 · 左缘刻度标记（左下角：暂时移除）── */}
+      {/*
       {[0.3, 0.5, 0.7].map((ratio, i) => (
         <div
           key={`tick-l-${i}`}
@@ -232,19 +249,20 @@ export function PosterAbout() {
             width: "clamp(5px, 0.8cqw, 10px)",
             height: "1px",
             background: "var(--fg)",
-            opacity: 1,
+            opacity: 0.2,
           }}
           aria-hidden="true"
         />
       ))}
+      */}
 
-      {/* ── 坐标标记 · 四角字母编号 ── */}
+      {/* ── 坐标标记 · 四角字母编号（仅保留左上 A、右下 D）── */}
       {[
-        { left: "2.8%", top: "4.8%", label: "A" },
-        { right: "3.8%", top: "4.8%", label: "B" },
-        { left: "2.8%", bottom: "5.2%", label: "C" },
-        { right: "3.8%", bottom: "5.2%", label: "D" },
-      ].map(({ label, ...pos }, i) => (
+        { left: "2.8%", top: "4.8%", label: "A" },        // 左上
+        // { right: "3.8%", top: "4.8%", label: "B" },    // 右上 — 移除
+        // { left: "2.8%", bottom: "5.2%", label: "C" },  // 左下 — 移除
+        { right: "3.8%", bottom: "5.2%", label: "D" },    // 右下
+      ].filter((_, i) => [0, 3].includes(i)).map(({ label, ...pos }, i) => (
         <div
           key={`coord-${i}`}
           className={`anim-y-60 d-${i + 1} absolute z-0 hidden lg:block`}
@@ -253,7 +271,7 @@ export function PosterAbout() {
             fontSize: "clamp(0.45rem, 0.5cqw, 0.6rem)",
             fontFamily: "var(--font-geist-mono)",
             color: "var(--fg)",
-            opacity: 1,
+            opacity: 0.2,
             letterSpacing: "0.05em",
           }}
           aria-hidden="true"
@@ -288,7 +306,7 @@ export function PosterAbout() {
       {/* 左侧红色粗竖条 — 沿左边缘，Rodchenko 式结构锚 */}
       <div
         className="anim-line-x d-1 absolute left-[2%] w-[4px] bg-[#D10000] z-[1] hidden md:block"
-        style={{ top: "16%", height: "28%", opacity: 0.55 }}
+        style={{ top: "16%", height: "28%", opacity: 0.2 }}
       />
 
       {/* 红色水平对齐线 — 加粗 */}
@@ -312,7 +330,7 @@ export function PosterAbout() {
           fontSize: "clamp(0.65rem, 0.78cqw, 0.85rem)",
           fontFamily: "var(--font-geist-mono)",
           color: "var(--fg)",
-          opacity: 0.5,
+          opacity: 0.2,
           fontWeight: 700,
           lineHeight: 1.7,
           letterSpacing: "0.06em",
@@ -330,7 +348,7 @@ export function PosterAbout() {
       {/* 黑色粗方块 — Lissitzky 式几何锚 */}
       <div
         className="anim-scale d-2 absolute z-[1] hidden md:block"
-        style={{ right: "6%", top: "20%", width: "clamp(18px, 2.5cqw, 32px)", height: "clamp(18px, 2.5cqw, 32px)", background: "var(--fg)", opacity: 0.7 }}
+        style={{ right: "6%", top: "20%", width: "clamp(18px, 2.5cqw, 32px)", height: "clamp(18px, 2.5cqw, 32px)", background: "var(--fg)", opacity: 0.2 }}
       />
 
       {/* 网格点阵 — 沿右辅助线，更明显 */}
@@ -344,7 +362,7 @@ export function PosterAbout() {
             width: "6px",
             height: "6px",
             background: i % 2 === 0 ? "#D10000" : "var(--fg)",
-            opacity: i % 2 === 0 ? 1 : 0.7,
+            opacity: 0.2,
           }}
         />
       ))}
@@ -469,7 +487,7 @@ export function PosterAbout() {
           </p>
 
           <div ref={btnRef} className="anim-y-60 d-3 flex justify-start -mt-[70px] ml-[457px] xl:-mt-[72px] xl:ml-[453px]">
-            <AboutArchiveButton />
+            <AboutArchiveButton onClick={onOpenArchive} />
           </div>
         </div>
 
@@ -479,7 +497,7 @@ export function PosterAbout() {
         {/* Logo 图案 — 桌面端 absolute 脱离布局流，移动端自然排列 */}
         <div
           className="flex-shrink-0 flex items-center justify-center
-            absolute right-[4%] top-[8%] h-[45%] w-[32%] mt-0
+            absolute right-[calc(4%+30px)] top-[8%] h-[45%] w-[32%] mt-0
             xl:w-[35%]"
         >
           {/* ═══════════════════════════════════════════
@@ -535,7 +553,7 @@ export function PosterAbout() {
           fontSize: "clamp(12rem, 27cqw, 32rem)",
           fontWeight: 900,
           color: "var(--fg)",
-          opacity: 0.045,
+          opacity: 0.02,
           lineHeight: 0.85,
           letterSpacing: "-0.05em",
           fontFamily: "var(--font-geist-mono)",
@@ -552,6 +570,7 @@ export function PosterAbout() {
           right: "8%",
           bottom: "18%",
           fontSize: "clamp(0.7rem, 1cqw, 0.85rem)",
+          opacity: 0.12,
         }}
       >
         ВСЁ ОБО МНЕ
@@ -626,7 +645,7 @@ export function PosterAbout() {
 
         {/* 按钮 — 自然流内 */}
         <div className="anim-y-60 d-3 flex justify-start gap-3 mb-8">
-          <AboutArchiveButton />
+          <AboutArchiveButton onClick={onOpenArchive} />
         </div>
 
         {/* Logo — 流内居中 */}
@@ -645,21 +664,21 @@ export function PosterAbout() {
         {/* 四角裁切线 */}
         {[{left:"2.2%",top:"3.2%"},{right:"2.2%",top:"3.2%"},{left:"2.2%",bottom:"4.7%"},{right:"2.2%",bottom:"4.7%"}].map((p,i)=>
           <div key={`cm-${i}`} className="absolute z-0" style={{...p,width:"clamp(10px,3vw,16px)",height:"clamp(10px,3vw,16px)"}} aria-hidden="true">
-            <div style={{position:"absolute",left:"50%",top:0,width:"1px",height:"100%",background:"var(--fg)",opacity:.4,transform:"translateX(-50%)"}} />
-            <div style={{position:"absolute",top:"50%",left:0,height:"1px",width:"100%",background:"var(--fg)",opacity:.4,transform:"translateY(-50%)"}} />
+            <div style={{position:"absolute",left:"50%",top:0,width:"1px",height:"100%",background:"var(--fg)",opacity:0.2,transform:"translateX(-50%)"}} />
+            <div style={{position:"absolute",top:"50%",left:0,height:"1px",width:"100%",background:"var(--fg)",opacity:0.2,transform:"translateY(-50%)"}} />
           </div>
         )}
 
         {/* ABCD 坐标字母 */}
         {[{left:"3%",top:"5%",v:"A"},{right:"4%",top:"5%",v:"B"},{left:"3%",bottom:"5.5%",v:"C"},{right:"4%",bottom:"5.5%",v:"D"}].map(({v,...p},i)=>
-          <div key={`abc-${i}`} className="absolute z-0 select-none" style={{...p,fontSize:"clamp(0.45rem,2vw,0.6rem)",fontFamily:"var(--font-geist-mono)",color:"var(--fg)",opacity:.5,letterSpacing:"0.05em"}} aria-hidden="true">{v}</div>
+          <div key={`abc-${i}`} className="absolute z-0 select-none" style={{...p,fontSize:"clamp(0.45rem,2vw,0.6rem)",fontFamily:"var(--font-geist-mono)",color:"var(--fg)",opacity:0.2,letterSpacing:"0.05em"}} aria-hidden="true">{v}</div>
         )}
 
         {/* 超大编号水印 */}
-        <div className="absolute z-[1] select-none pointer-events-none" style={{right:"4%",bottom:"4%",fontSize:"clamp(8rem,60vw,28rem)",fontWeight:900,color:"var(--fg)",opacity:.04,lineHeight:.85,letterSpacing:"-0.05em",fontFamily:"var(--font-geist-mono)"}} aria-hidden="true">01</div>
+        <div className="absolute z-[1] select-none pointer-events-none" style={{right:"4%",bottom:"4%",fontSize:"clamp(8rem,60vw,28rem)",fontWeight:900,color:"var(--fg)",opacity:.02,lineHeight:.85,letterSpacing:"-0.05em",fontFamily:"var(--font-geist-mono)"}} aria-hidden="true">01</div>
 
         {/* 俄文标注 */}
-        <span className="type-cyrillic text-[var(--fg)]/30 text-center select-none"
+        <span className="type-cyrillic text-[var(--fg)]/10 text-center select-none"
           style={{ fontSize: "clamp(0.65rem, 2.5vw, 0.8rem)", letterSpacing: "0.3em" }}>
           ВСЁ ОБО МНЕ
         </span>

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Noto_Sans_SC } from "next/font/google";
+import { Geist, Geist_Mono, Noto_Sans_SC, Noto_Serif_SC, TASA_Explorer } from "next/font/google";
 import "./globals.css";
 
 // display: "swap" 关键优化：浏览器立即用回退字体渲染，字体加载完成后切换
@@ -32,6 +32,25 @@ const notoSansSC = Noto_Sans_SC({
   fallback: ["PingFang SC", "Microsoft YaHei", "Heiti SC", "sans-serif"],
 });
 
+// Noto Serif SC 粗衬线宋体 — 备用
+const notoSerifSC = Noto_Serif_SC({
+  weight: "900",
+  subsets: ["latin"],
+  display: "swap",
+  preload: false,
+  variable: "--font-noto-serif-sc",
+  fallback: ["PingFang SC", "STSong", "SimSun", "serif"],
+});
+
+// TASA Explorer — 几何切角体，用于英文标签/标题
+const tasaExplorer = TASA_Explorer({
+  weight: "700",
+  subsets: ["latin"],
+  display: "swap",
+  preload: false,
+  variable: "--font-tasa-explorer",
+});
+
 export const metadata: Metadata = {
   title: "Mikko的数字档案",
   description: "摄影师与影像创作者的个人视觉档案",
@@ -51,7 +70,7 @@ export default function RootLayout({
   return (
     <html
       lang="zh-CN"
-      className={`${geistSans.variable} ${geistMono.variable} ${notoSansSC.variable} antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${notoSansSC.variable} ${notoSerifSC.variable} ${tasaExplorer.variable} antialiased`}
     >
       <body className="m-0 p-0">{children}</body>
     </html>
