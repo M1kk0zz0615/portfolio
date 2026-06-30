@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { useScrollReveal } from "@/app/hooks/useScrollReveal";
 import { Lightbox } from "@/components/Lightbox";
 import { buildLogProjects } from "@/data/buildLogProjects";
 
@@ -15,7 +14,7 @@ interface ArchiveContentProps {
 /* ────────── 区段标记 ────────── */
 function SectionMark({ label }: { label: string }) {
   return (
-    <div className="anim-y-60 flex items-center gap-3 mb-6">
+    <div className="flex items-center gap-3 mb-6">
       <span
         className="bg-[#D10000]"
         style={{ width: "clamp(24px, 3vw, 40px)", height: "4px" }}
@@ -39,15 +38,13 @@ function SectionMark({ label }: { label: string }) {
 function ProjectIndexCard({
   title,
   desc,
-  delay,
 }: {
   title: string;
   desc: string;
-  delay: string;
 }) {
   return (
     <div
-      className={`anim-y-60 ${delay} relative border-l-[3px] border-[#D10000]/30 pl-5 py-2`}
+      className="relative border-l-[3px] border-[#D10000]/30 pl-5 py-2"
     >
       <h3
         className="type-display text-[var(--fg)]"
@@ -67,18 +64,17 @@ function ProjectIndexCard({
 
 /* ────────── Archive 内容主体 ────────── */
 export function ArchiveContent({ className, onNavigate }: ArchiveContentProps) {
-  const ref = useScrollReveal<HTMLDivElement>(0.1);
   const [avatarLightbox, setAvatarLightbox] = useState<{ src: string; rect: DOMRect } | null>(null);
 
   return (
-    <div ref={ref} className={className}>
+    <div className={className}>
       {/* ═══════════════════════════════════════════
           ① 档案信息（封面）
           ═══════════════════════════════════════════ */}
       <div className="relative px-6 pt-16 pb-4 md:px-12 md:pt-16 md:pb-6">
         {/* 左侧大字 — 氛围文本 */}
         <div
-          className="anim-y-60 d-1 absolute right-0 top-[clamp(1.2rem,4.5vw,3.5rem)] z-0"
+          className="absolute right-0 top-[clamp(1.2rem,4.5vw,3.5rem)] z-0"
           style={{
             fontSize: "clamp(3.4rem, 7.5vw, 7.5rem)",
             fontFamily: "var(--font-display)",
@@ -97,7 +93,7 @@ export function ArchiveContent({ className, onNavigate }: ArchiveContentProps) {
           {/* 左侧：名字 */}
           <div>
             <h1
-              className="anim-y-60 d-2 inline-block -mt-8 mb-5"
+              className="inline-block -mt-8 mb-5"
               style={{
                 fontSize: "clamp(2.2rem, 4.5vw, 4.5rem)",
                 fontFamily: "var(--font-noto-sc), 'PingFang SC', 'Microsoft YaHei', 'Heiti SC', sans-serif",
@@ -109,19 +105,19 @@ export function ArchiveContent({ className, onNavigate }: ArchiveContentProps) {
               刘俊宁
             </h1>
             <p
-              className="anim-y-60 d-2 text-[var(--fg)] leading-relaxed"
+              className="text-[var(--fg)] leading-relaxed"
               style={{ fontSize: "clamp(1.05rem, 1.25vw, 1.15rem)" }}
             >
               Mikkozz（迷蔻紫）
             </p>
             <p
-              className="anim-y-60 d-3 text-[var(--fg)] leading-relaxed mt-2"
+              className="text-[var(--fg)] leading-relaxed mt-2"
               style={{ fontSize: "clamp(1.05rem, 1.25vw, 1.15rem)" }}
             >
               计算机学生 / 摄影师 / 影像创作者
             </p>
             <p
-              className="anim-y-60 d-3 text-[var(--fg)] leading-relaxed mt-1"
+              className="text-[var(--fg)] leading-relaxed mt-1"
               style={{ fontSize: "clamp(1.05rem, 1.25vw, 1.15rem)" }}
             >
               广东工业大学 · 计算机科学与技术 · 本科大二 · 2024—至今
@@ -129,9 +125,9 @@ export function ArchiveContent({ className, onNavigate }: ArchiveContentProps) {
           </div>
 
           {/* 右侧：头像 */}
-          <div className="anim-scale d-3 shrink-0" style={{ width: "clamp(120px, 22vw, 200px)" }}>
+          <div className="shrink-0" style={{ width: "clamp(120px, 22vw, 200px)" }}>
             <div
-              className="relative cursor-pointer rotate-[-2deg] hover:rotate-0 hover:scale-120 transition-transform duration-300"
+              className="relative cursor-pointer rotate-[-2deg] hover:rotate-0 hover:scale-110 transition-transform duration-300"
               style={{ transitionTimingFunction: "cubic-bezier(0.2,0,0,1)" }}
               onClick={(e) => {
                 const el = e.currentTarget;
@@ -168,7 +164,7 @@ export function ArchiveContent({ className, onNavigate }: ArchiveContentProps) {
 
         {/* 底部红线 */}
         <div
-          className="anim-line-x d-4 absolute right-0 h-[3px] bg-[#D10000] z-0"
+          className="absolute right-0 h-[3px] bg-[#D10000] z-0"
           style={{ bottom: "0%", width: "clamp(120px, 25vw, 320px)" }}
         />
       </div>
@@ -179,17 +175,17 @@ export function ArchiveContent({ className, onNavigate }: ArchiveContentProps) {
       <section className="relative px-6 py-8 md:px-12 md:py-10">
         {/* 至上主义 — 细长红方块 + 远处黑点 */}
         <div
-          className="anim-scale d-2 absolute bg-[#D10000] z-0"
+          className="absolute bg-[#D10000] z-0"
           style={{ right: "25%", top: "24%", width: "48px", height: "4px", transform: "rotate(-4deg)" }}
         />
         <div
-          className="anim-scale d-3 absolute bg-[var(--fg)]/60 z-0"
+          className="absolute bg-[var(--fg)]/60 z-0"
           style={{ right: "15%", top: "36%", width: "8px", height: "8px" }}
         />
 
         <SectionMark label="SKILLS" />
         <h2
-          className="anim-y-60 d-1 type-display mb-6"
+          className="type-display mb-6"
           style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.5rem)" }}
         >
           技能
@@ -201,7 +197,7 @@ export function ArchiveContent({ className, onNavigate }: ArchiveContentProps) {
             { cat: "Web", items: ["Next.js", "TypeScript"] },
             { cat: "创作", items: ["摄影", "视频剪辑", "Photoshop"] },
           ].map(({ cat, items }, i) => (
-            <div key={cat} className={`anim-y-60 d-${i + 2}`}>
+            <div key={cat}>
               <div className="flex items-center gap-2 mb-3">
                 <span className="bg-[#D10000]" style={{ width: "10px", height: "3px" }} />
                 <span
@@ -237,27 +233,27 @@ export function ArchiveContent({ className, onNavigate }: ArchiveContentProps) {
       <section className="relative px-6 py-8 md:px-12 md:py-10">
         {/* 至上主义 — 黑方块 + 红线的引力场 */}
         <div
-          className="anim-scale d-3 absolute bg-[var(--fg)] z-0"
+          className="absolute bg-[var(--fg)] z-0"
           style={{ right: "22%", top: "35%", width: "22px", height: "22px" }}
         />
         <div
-          className="anim-line-x d-2 absolute h-[3px] bg-[#D10000] z-0"
+          className="absolute h-[3px] bg-[#D10000] z-0"
           style={{ right: "14%", top: "28%", width: "56px", transform: "rotate(-6deg)" }}
         />
         <div
-          className="anim-scale d-4 geo-circle absolute bg-[#D10000]/60 z-0"
+          className="geo-circle absolute bg-[#D10000]/60 z-0"
           style={{ right: "32%", top: "42%", width: "6px", height: "6px" }}
         />
 
         <SectionMark label="PROJECTS" />
         <div className="flex items-center flex-wrap gap-4 mb-4">
           <h2
-            className="anim-y-60 d-1 type-display"
+            className="type-display"
             style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.5rem)" }}
           >
             项目档案
           </h2>
-          <div className="anim-y-60 d-1">
+          <div>
             <button
               onClick={() => onNavigate?.("build-log")}
               className="group inline-flex items-center gap-2 border-[3px] border-[#0D0D0D] bg-[#0D0D0D] px-5 py-2.5 font-mono text-xs tracking-widest text-[#F5EDE0] uppercase shadow-[3px_3px_0_0_#D10000] transition-all duration-200 hover:border-[#D10000] hover:bg-[#D10000] hover:shadow-[5px_5px_0_0_#0D0D0D]"
@@ -274,7 +270,6 @@ export function ArchiveContent({ className, onNavigate }: ArchiveContentProps) {
               key={project.id}
               title={project.title}
               desc={project.desc}
-              delay={`d-${i + 2}`}
             />
           ))}
         </div>
@@ -289,17 +284,17 @@ export function ArchiveContent({ className, onNavigate }: ArchiveContentProps) {
           ═══════════════════════════════════════════ */}
       <section className="relative px-6 py-8 md:px-12 md:py-10">
         {/* 右侧装饰 */}
-        <div className="anim-scale d-2 geo-circle absolute border-[2px] border-[#D10000]/30 z-0" style={{ right: "10%", top: "12%", width: "28px", height: "28px" }} />
+        <div className="geo-circle absolute border-[2px] border-[#D10000]/30 z-0" style={{ right: "10%", top: "12%", width: "28px", height: "28px" }} />
 
         <SectionMark label="PHOTO ARCHIVE" />
         <div className="flex items-center flex-wrap gap-4 mb-4">
           <h2
-            className="anim-y-60 d-1 type-display"
+            className="type-display"
             style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.5rem)" }}
           >
             摄影档案
           </h2>
-          <div className="anim-y-60 d-1">
+          <div>
             <button
               onClick={() => onNavigate?.("photography")}
               className="group inline-flex items-center gap-2 border-[3px] border-[#0D0D0D] bg-[#0D0D0D] px-5 py-2.5 font-mono text-xs tracking-widest text-[#F5EDE0] uppercase shadow-[3px_3px_0_0_#D10000] transition-all duration-200 hover:border-[#D10000] hover:bg-[#D10000] hover:shadow-[5px_5px_0_0_#0D0D0D]"
@@ -310,7 +305,7 @@ export function ArchiveContent({ className, onNavigate }: ArchiveContentProps) {
           </div>
         </div>
         <p
-          className="anim-y-60 d-2 text-[var(--fg)] leading-relaxed"
+          className="text-[var(--fg)] leading-relaxed"
           style={{ fontSize: "clamp(1.05rem, 1.25vw, 1.15rem)" }}
         >
           摄影作品与长期影像记录。胶片与数码，纪实与创意。
@@ -326,18 +321,18 @@ export function ArchiveContent({ className, onNavigate }: ArchiveContentProps) {
           ═══════════════════════════════════════════ */}
       <section className="relative px-6 py-8 md:px-12 md:py-10">
         {/* 装饰 */}
-        <div className="anim-scale d-3 geo-circle absolute bg-[#D10000] z-0" style={{ right: "18%", top: "14%", width: "8px", height: "8px" }} />
-        <div className="anim-line-x d-2 absolute h-[3px] bg-[#D10000]/50 z-0" style={{ right: "6%", top: "28%", width: "50px" }} />
+        <div className="geo-circle absolute bg-[#D10000] z-0" style={{ right: "18%", top: "14%", width: "8px", height: "8px" }} />
+        <div className="absolute h-[3px] bg-[#D10000]/50 z-0" style={{ right: "6%", top: "28%", width: "50px" }} />
 
         <SectionMark label="FILM ARCHIVE" />
         <div className="flex items-center flex-wrap gap-4 mb-4">
           <h2
-            className="anim-y-60 d-1 type-display"
+            className="type-display"
             style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.5rem)" }}
           >
             影像档案
           </h2>
-          <div className="anim-y-60 d-1">
+          <div>
             <button
               onClick={() => onNavigate?.("video")}
               className="group inline-flex items-center gap-2 border-[3px] border-[#0D0D0D] bg-[#0D0D0D] px-5 py-2.5 font-mono text-xs tracking-widest text-[#F5EDE0] uppercase shadow-[3px_3px_0_0_#D10000] transition-all duration-200 hover:border-[#D10000] hover:bg-[#D10000] hover:shadow-[5px_5px_0_0_#0D0D0D]"
@@ -348,7 +343,7 @@ export function ArchiveContent({ className, onNavigate }: ArchiveContentProps) {
           </div>
         </div>
         <p
-          className="anim-y-60 d-2 text-[var(--fg)] leading-relaxed"
+          className="text-[var(--fg)] leading-relaxed"
           style={{ fontSize: "clamp(1.05rem, 1.25vw, 1.15rem)" }}
         >
           纪录片、短片与影像实验。工作影像与个人创作。
@@ -364,19 +359,19 @@ export function ArchiveContent({ className, onNavigate }: ArchiveContentProps) {
           ═══════════════════════════════════════════ */}
       <section className="relative px-6 py-8 md:px-12 md:py-10">
         {/* 右侧装饰 */}
-        <div className="anim-scale d-2 geo-circle absolute border-[2px] border-[#D10000]/30 z-0" style={{ right: "10%", top: "12%", width: "28px", height: "28px" }} />
-        <div className="anim-line-x d-3 absolute h-[3px] bg-[#D10000]/50 z-0" style={{ right: "6%", top: "30%", width: "50px" }} />
+        <div className="geo-circle absolute border-[2px] border-[#D10000]/30 z-0" style={{ right: "10%", top: "12%", width: "28px", height: "28px" }} />
+        <div className="absolute h-[3px] bg-[#D10000]/50 z-0" style={{ right: "6%", top: "30%", width: "50px" }} />
 
         <SectionMark label="CAMPUS" />
         <h2
-          className="anim-y-60 d-1 type-display mb-6"
+          className="type-display mb-6"
           style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.5rem)" }}
         >
           校园记录
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="anim-y-60 d-2 relative border-l-[3px] border-[#D10000]/30 pl-5">
+          <div className="relative border-l-[3px] border-[#D10000]/30 pl-5">
             <h3
               className="type-display text-[#9B1B1B]"
               style={{ fontSize: "clamp(1.3rem, 2vw, 1.5rem)" }}
@@ -390,7 +385,7 @@ export function ArchiveContent({ className, onNavigate }: ArchiveContentProps) {
               负责学院公众号影像内容制作与团队协作。
             </p>
           </div>
-          <div className="anim-y-60 d-3 relative border-l-[3px] border-[var(--fg)]/20 pl-5">
+          <div className="relative border-l-[3px] border-[var(--fg)]/20 pl-5">
             <h3
               className="type-display text-[#9B1B1B]"
               style={{ fontSize: "clamp(1.3rem, 2vw, 1.5rem)" }}
@@ -417,12 +412,12 @@ export function ArchiveContent({ className, onNavigate }: ArchiveContentProps) {
       <section className="relative px-6 py-8 md:px-12 md:py-10">
         <SectionMark label="CONTACT" />
         <h2
-          className="anim-y-60 d-1 type-display mb-4"
+          className="type-display mb-4"
           style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.5rem)" }}
         >
           联系方式
         </h2>
-        <div className="anim-y-60 d-2 space-y-2 type-label" style={{ fontSize: "clamp(1.05rem, 1.25vw, 1.15rem)" }}>
+        <div className="space-y-2 type-label" style={{ fontSize: "clamp(1.05rem, 1.25vw, 1.15rem)" }}>
           <p className="text-[var(--fg)]">邮箱：934331621@qq.com</p>
           <p className="text-[var(--fg)]">微信：Mikko0615</p>
           <p className="text-[var(--fg)]">
@@ -449,30 +444,30 @@ export function ArchiveContent({ className, onNavigate }: ArchiveContentProps) {
       <section className="relative px-6 py-8 md:px-12 md:py-10 pb-20">
         {/* 至上主义 — 孤独的黑方块 */}
         <div
-          className="anim-scale d-2 absolute bg-[var(--fg)] z-0"
+          className="absolute bg-[var(--fg)] z-0"
           style={{ right: "28%", top: "18%", width: "24px", height: "24px" }}
         />
         <div
-          className="anim-scale d-4 geo-circle absolute border-[1.5px] border-[var(--fg)]/15 z-0"
+          className="geo-circle absolute border-[1.5px] border-[var(--fg)]/15 z-0"
           style={{ right: "18%", top: "32%", width: "38px", height: "38px" }}
         />
 
         <SectionMark label="NOTE" />
         <h2
-          className="anim-y-60 d-1 type-display mb-4"
+          className="type-display mb-4"
           style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.5rem)" }}
         >
           附注
         </h2>
         <p
-          className="anim-y-60 d-2 text-[var(--fg)] leading-relaxed max-w-2xl"
+          className="text-[var(--fg)] leading-relaxed max-w-2xl"
           style={{ fontSize: "clamp(1.05rem, 1.25vw, 1.15rem)" }}
         >
           持续探索软件工程、视觉设计与影像表达之间的联系，希望创造兼具工程性与审美的数字作品。
         </p>
 
         {/* 底部几何装饰 */}
-        <div className="anim-scale d-4 absolute right-[6%] flex gap-3" style={{ marginTop: "3rem" }}>
+        <div className="absolute right-[6%] flex gap-3" style={{ marginTop: "3rem" }}>
           <div className="bg-[var(--fg)]" style={{ width: "40px", height: "4px" }} />
           <div className="geo-circle bg-[#D10000]" style={{ width: "8px", height: "8px" }} />
           <div className="border-[2px] border-[var(--fg)]/15" style={{ width: "16px", height: "16px" }} />

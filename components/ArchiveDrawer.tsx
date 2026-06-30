@@ -22,6 +22,7 @@ const DRAG_DAMPING = 0.6;
 export function ArchiveDrawer({ onClose, onNavigate, onBottomCTA }: ArchiveDrawerProps) {
   const [phase, setPhase] = useState<"enter" | "active" | "exit">("enter");
   const [drawerExpanded, setDrawerExpanded] = useState(false);
+  const [contentCanScroll, setContentCanScroll] = useState(false);
   const [reachedBottom, setReachedBottom] = useState(false);
 
   // ── 下拉回弹状态 ──
@@ -161,6 +162,18 @@ export function ArchiveDrawer({ onClose, onNavigate, onBottomCTA }: ArchiveDrawe
     return () => cancelAnimationFrame(raf);
   }, []);
 
+  // ── 抽屉完全展开后才允许内容滚动 ──
+  // drawerExpanded → true：等待 380ms（top 350ms 过渡 + 余量）
+  // drawerExpanded → false：立即禁用
+  useEffect(() => {
+    if (drawerExpanded) {
+      const timer = setTimeout(() => setContentCanScroll(true), 380);
+      return () => clearTimeout(timer);
+    } else {
+      setContentCanScroll(false);
+    }
+  }, [drawerExpanded]);
+
   // ── 滚动监听 ──
   useEffect(() => {
     const el = drawerRef.current;
@@ -288,7 +301,7 @@ export function ArchiveDrawer({ onClose, onNavigate, onBottomCTA }: ArchiveDrawe
           top: drawerTop,
           transform: `translateY(${slideY}) translateY(${pullY}px)`,
           transition: drawerTransition,
-          overflowY: drawerExpanded ? "auto" : "hidden",
+          overflowY: contentCanScroll ? "auto" : "hidden",
           overflowX: "hidden",
           scrollbarGutter: "stable",
           background: "var(--bg)",
