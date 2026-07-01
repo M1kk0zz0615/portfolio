@@ -9,6 +9,8 @@ interface ArchiveContentProps {
   className?: string;
   /** 点击跳转按钮时回调（Build Log / 照片档案 / 影像档案） */
   onNavigate?: (target: string) => void;
+  /** 入场动画完成后才渲染后 5 个 section（减轻 composite 负担） */
+  restReady?: boolean;
 }
 
 /* ────────── 区段标记 ────────── */
@@ -63,7 +65,7 @@ function ProjectIndexCard({
 }
 
 /* ────────── Archive 内容主体 ────────── */
-export function ArchiveContent({ className, onNavigate }: ArchiveContentProps) {
+export function ArchiveContent({ className, onNavigate, restReady }: ArchiveContentProps) {
   const [avatarLightbox, setAvatarLightbox] = useState<{ src: string; rect: DOMRect } | null>(null);
 
   return (
@@ -92,18 +94,20 @@ export function ArchiveContent({ className, onNavigate }: ArchiveContentProps) {
         <div className="relative z-10 flex flex-col md:flex-row md:items-end gap-16">
           {/* 左侧：名字 */}
           <div>
-            <h1
-              className="inline-block -mt-8 mb-5"
-              style={{
-                fontSize: "clamp(2.2rem, 4.5vw, 4.5rem)",
-                fontFamily: "var(--font-noto-sc), 'PingFang SC', 'Microsoft YaHei', 'Heiti SC', sans-serif",
-                fontWeight: 900,
-                lineHeight: 0.85,
-                letterSpacing: "-0.03em",
-              }}
-            >
-              刘俊宁
-            </h1>
+            <div className="-mt-[2rem]">
+              <h1
+                className="mb-5"
+                style={{
+                  fontSize: "clamp(1.8rem, 3.5vw, 3.8rem)",
+                  fontFamily: "var(--font-noto-sc), 'PingFang SC', 'Microsoft YaHei', 'Heiti SC', sans-serif",
+                  fontWeight: 900,
+                  lineHeight: 0.85,
+                  letterSpacing: "-0.03em",
+                }}
+              >
+                刘俊宁
+              </h1>
+            </div>
             <p
               className="text-[var(--fg)] leading-relaxed"
               style={{ fontSize: "clamp(1.05rem, 1.25vw, 1.15rem)" }}
@@ -275,6 +279,7 @@ export function ArchiveContent({ className, onNavigate }: ArchiveContentProps) {
         </div>
       </section>
 
+      {restReady && (<>
       <div className="px-6 md:px-12">
         <div className="h-[2px] bg-[var(--fg)]/8 w-full" />
       </div>
@@ -452,16 +457,9 @@ export function ArchiveContent({ className, onNavigate }: ArchiveContentProps) {
           style={{ right: "18%", top: "32%", width: "38px", height: "38px" }}
         />
 
-        <SectionMark label="NOTE" />
-        <h2
-          className="type-display mb-4"
-          style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.5rem)" }}
-        >
-          附注
-        </h2>
         <p
-          className="text-[var(--fg)] leading-relaxed max-w-2xl"
-          style={{ fontSize: "clamp(1.05rem, 1.25vw, 1.15rem)" }}
+          className="text-[var(--fg)] whitespace-nowrap mt-2 italic font-bold"
+          style={{ fontSize: "clamp(1.1rem, 1.3vw, 1.2rem)" }}
         >
           持续探索软件工程、视觉设计与影像表达之间的联系，希望创造兼具工程性与审美的数字作品。
         </p>
@@ -473,6 +471,7 @@ export function ArchiveContent({ className, onNavigate }: ArchiveContentProps) {
           <div className="border-[2px] border-[var(--fg)]/15" style={{ width: "16px", height: "16px" }} />
         </div>
       </section>
+      </>)}
 
       {/* 头像 Lightbox */}
       {avatarLightbox && (

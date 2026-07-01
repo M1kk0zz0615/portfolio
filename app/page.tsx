@@ -160,6 +160,7 @@ export default function Home() {
       {drawerMounted && (
         <ArchiveDrawer
           onClose={() => { setHeroShifted(false); setDrawerMounted(false); }}
+          onCloseStart={() => setHeroShifted(false)}
           onNavigate={handleArchiveNavigate}
           onBottomCTA={handleBottomCTA}
         />
