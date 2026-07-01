@@ -11,17 +11,14 @@ interface ArchiveDrawerProps {
   onBottomCTA?: () => void; // 底部 CTA 单独回调
 }
 
-/** 抽屉内容占比不足时触发退出（peek/展开状态分别计算） */
+/** 抽屉内容占视口不足 75% 时触发退出 */
 const getPullThreshold = () => {
   const vh = window.innerHeight;
   const el = document.querySelector('[data-drawer-panel]') as HTMLElement | null;
   const topOffset = el
     ? parseFloat(getComputedStyle(el).top) || 0
     : vh * 0.15; // 回退值
-  // peek 状态需要更多下拉距离才退出，展开状态 80% 就退出
-  return topOffset > 10
-    ? vh * 0.35 - topOffset  // peek: 内容 < 65% 退出
-    : vh * 0.2;               // expanded: 内容 < 80% 退出
+  return vh * 0.25 - topOffset;
 };
 /** 停止下拉后等待此时间再判断回弹/关闭 */
 const PULL_IDLE_MS = 100;
@@ -45,6 +42,7 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
 
   // ── 鼠标拖拽 ──
   const isDraggingRef = useRef(false);
+  const isExitingRef = useRef(false); // 退出动画进行中，屏蔽所有输入
   const dragLastYRef = useRef(0);
   const dragUpAccRef = useRef(0); // 上拖累积 → 展开抽屉
 
@@ -55,8 +53,9 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
 
   const close = useCallback(
     (speed?: "fast" | "slow") => {
-      onCloseStart?.(); // Hero 同步归位
-      const dur = 400;
+      // Hero 归位延迟 300ms，等抽屉 ease-in 慢段结束后开始，600ms 时同时到位
+      setTimeout(() => onCloseStart?.(), 300);
+      const dur = 600;
       closeDurationRef.current = dur;
       setPhase("exit");
       setTimeout(onClose, dur);
@@ -80,13 +79,14 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
 
   // ── 从当前拖拽位置播放退出动画（不经过 React phase，避免内联/React transform 冲突） ──
   const exitFromDrag = useCallback(() => {
-    onCloseStart?.(); // 立即触发 Hero 归位，与退出动画同步
+    // Hero 归位延迟 300ms，等抽屉 ease-in 慢段结束后开始，600ms 时同时到位
+    setTimeout(() => onCloseStart?.(), 300);
     const el = drawerRef.current;
     if (!el) { onClose(); return; }
     const dur = closeDurationRef.current;
     let closed = false;
     const doClose = () => { if (!closed) { closed = true; onClose(); } };
-    el.style.transition = `transform ${dur}ms linear`;
+    el.style.transition = `transform ${dur}ms cubic-bezier(0.4, 0, 1, 1)`;
     requestAnimationFrame(() => {
       el.style.transform = 'translateY(100%)';
     });
@@ -102,8 +102,10 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
   // ── 共享下拉逻辑：累加偏移 → 阈值检测 → 空闲回弹 ──
   const applyPull = useCallback(
     (delta: number) => {
+      if (isExitingRef.current) return; // 退出中，屏蔽
+      const threshold = getPullThreshold();
       setPullOffset((prev) => {
-        const next = prev + delta;
+        const next = Math.min(prev + delta, threshold); // 钳制在阈值内
         pullOffsetRef.current = next;
         return next;
       });
@@ -111,8 +113,9 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
 
       if (pullTimeoutRef.current) clearTimeout(pullTimeoutRef.current);
 
-      // 超过阈值 → 从当前位置播放退出动画
-      if (pullOffsetRef.current >= getPullThreshold()) {
+      // 到达阈值 → 从 75% 位置播放退出动画
+      if (pullOffsetRef.current >= threshold) {
+        isExitingRef.current = true;
         exitFromDrag();
         return;
       }
@@ -121,6 +124,7 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
       pullTimeoutRef.current = setTimeout(() => {
         const final = pullOffsetRef.current;
         if (final >= getPullThreshold()) {
+          isExitingRef.current = true;
           exitFromDrag();
         } else if (final > 0) {
           setPullPhase("bouncing");
@@ -145,7 +149,7 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
 
     // ── 全局鼠标拖拽 ──
     const onMouseMove = (e: MouseEvent) => {
-      if (!isDraggingRef.current) return;
+      if (!isDraggingRef.current || isExitingRef.current) return;
       const el = drawerRef.current;
       if (!el || el.scrollTop > 0) {
         // 内容已滚动 → 取消拖拽
@@ -158,14 +162,16 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
       if (dy > 0) {
         // 向下拖 → 直写 DOM，绕过 React
         dragUpAccRef.current = 0;
+        const threshold = getPullThreshold();
         const delta = dy * DRAG_DAMPING;
-        const next = pullOffsetRef.current + delta;
+        const next = Math.min(pullOffsetRef.current + delta, threshold); // 钳制在阈值内
         pullOffsetRef.current = next;
         el.style.transform = `translateY(${next}px)`;
 
-        // 超过阈值 → 从当前位置播放退出动画
-        if (next >= getPullThreshold()) {
+        // 到达阈值 → 从 75% 位置播放退出动画
+        if (next >= threshold) {
           isDraggingRef.current = false;
+          isExitingRef.current = true;
           exitFromDrag();
           return;
         }
@@ -277,6 +283,7 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
   // ── 滚轮 ──
   const handleWheel = useCallback(
     (e: React.WheelEvent) => {
+      if (isExitingRef.current) return; // 退出中，屏蔽滚轮
       const el = drawerRef.current;
       if (!el) return;
 
@@ -330,7 +337,7 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
   const drawerTransition = noAnim
     ? "none"
     : phase === "exit"
-      ? `top 350ms linear, transform ${closeDurationRef.current}ms linear, box-shadow 350ms linear`
+      ? `top 600ms cubic-bezier(0.4, 0, 1, 1), transform ${closeDurationRef.current}ms cubic-bezier(0.4, 0, 1, 1), box-shadow 350ms linear`
       : pullPhase === "pulling"
         ? "top 350ms cubic-bezier(0.2,0,0,1), box-shadow 350ms linear"
         : pullPhase === "bouncing"
