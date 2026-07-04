@@ -244,7 +244,7 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
   // drawerExpanded → false：立即禁用
   useEffect(() => {
     if (drawerExpanded) {
-      const timer = setTimeout(() => setContentCanScroll(true), 380);
+      const timer = setTimeout(() => setContentCanScroll(true), 260);
       return () => clearTimeout(timer);
     } else {
       setContentCanScroll(false);
@@ -339,10 +339,10 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
     : phase === "exit"
       ? `top 600ms cubic-bezier(0.4, 0, 1, 1), transform ${closeDurationRef.current}ms cubic-bezier(0.4, 0, 1, 1), box-shadow 350ms linear`
       : pullPhase === "pulling"
-        ? "top 350ms cubic-bezier(0.2,0,0,1), box-shadow 350ms linear"
+        ? "top 250ms cubic-bezier(0.2,0,0,1), box-shadow 350ms linear"
         : pullPhase === "bouncing"
-          ? "top 350ms cubic-bezier(0.2,0,0,1), transform 350ms linear, box-shadow 350ms linear"
-          : "top 350ms cubic-bezier(0.2,0,0,1), transform 400ms cubic-bezier(0.2,0,0,1), box-shadow 350ms linear";
+          ? "top 250ms cubic-bezier(0.2,0,0,1), transform 350ms linear, box-shadow 350ms linear"
+          : "top 250ms cubic-bezier(0.2,0,0,1), transform 400ms cubic-bezier(0.2,0,0,1), box-shadow 350ms linear";
 
   const drawer = (
     <div

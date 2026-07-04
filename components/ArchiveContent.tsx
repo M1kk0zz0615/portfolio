@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, memo } from "react";
 import Image from "next/image";
 import { Lightbox } from "@/components/Lightbox";
 import { buildLogProjects } from "@/data/buildLogProjects";
@@ -65,7 +65,7 @@ function ProjectIndexCard({
 }
 
 /* ────────── Archive 内容主体 ────────── */
-export function ArchiveContent({ className, onNavigate, restReady }: ArchiveContentProps) {
+export const ArchiveContent = memo(function ArchiveContent({ className, onNavigate, restReady }: ArchiveContentProps) {
   const [avatarLightbox, setAvatarLightbox] = useState<{ src: string; rect: DOMRect } | null>(null);
 
   return (
@@ -479,4 +479,4 @@ export function ArchiveContent({ className, onNavigate, restReady }: ArchiveCont
       )}
     </div>
   );
-}
+});

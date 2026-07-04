@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, memo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useScrollReveal } from "@/app/hooks/useScrollReveal";
 import { usePosterWidth } from "@/app/hooks/usePosterWidth";
 import { Lightbox } from "@/components/Lightbox";
 
-export function PosterPhotography() {
+export const PosterPhotography = memo(function PosterPhotography() {
   const ref = useScrollReveal<HTMLDivElement>(0.3);
   usePosterWidth(ref); // 修复 iPadOS Safari cqw 不更新
   const [lightbox, setLightbox] = useState<{ src: string; rect: DOMRect } | null>(null);
@@ -385,4 +385,4 @@ className="anim-scale d-4 photo-montage clip-angle-br bg-[var(--bg-muted)] curso
       )}
     </section>
   );
-}
+});

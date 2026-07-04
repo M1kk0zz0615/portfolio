@@ -20,15 +20,25 @@ const geistMono = Geist_Mono({
   fallback: ["ui-monospace", "monospace"],
 });
 
-// Noto Sans SC 仅加载 weight 900 用于中文展示标题
+// Noto Sans SC 900 用于中文展示标题
 // display:swap 确保 4G 下不回退到不可见文字
 // preload:false → 降低首屏关键请求数，中文 900 字重约 2MB 不应阻塞 LCP
 const notoSansSC = Noto_Sans_SC({
   weight: "900",
   subsets: ["latin"],
   display: "swap",
-  preload: false,           // ← 不预加载中文大字体，降低首屏关键请求
+  preload: false,
   variable: "--font-noto-sc",
+  fallback: ["PingFang SC", "Microsoft YaHei", "Heiti SC", "sans-serif"],
+});
+
+// Noto Sans SC 300 用于正文/副标题
+const notoSansSCLight = Noto_Sans_SC({
+  weight: "300",
+  subsets: ["latin"],
+  display: "swap",
+  preload: false,
+  variable: "--font-noto-sc-light",
   fallback: ["PingFang SC", "Microsoft YaHei", "Heiti SC", "sans-serif"],
 });
 
@@ -70,7 +80,7 @@ export default function RootLayout({
   return (
     <html
       lang="zh-CN"
-      className={`${geistSans.variable} ${geistMono.variable} ${notoSansSC.variable} ${notoSerifSC.variable} ${tasaExplorer.variable} antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${notoSansSC.variable} ${notoSansSCLight.variable} ${notoSerifSC.variable} ${tasaExplorer.variable} antialiased`}
     >
       <body className="m-0 p-0">{children}</body>
     </html>

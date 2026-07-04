@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, memo } from "react";
 import Link from "next/link";
 import { useScrollReveal } from "@/app/hooks/useScrollReveal";
 import { usePosterWidth } from "@/app/hooks/usePosterWidth";
 import { Lightbox } from "@/components/Lightbox";
 
-export function PosterOther() {
+export const PosterOther = memo(function PosterOther() {
   const ref = useScrollReveal<HTMLDivElement>(0.3);
   usePosterWidth(ref); // 修复 iPadOS Safari cqw 不更新
   const wechatRef = useRef<HTMLAnchorElement>(null);
@@ -39,6 +39,7 @@ export function PosterOther() {
   return (
     <section
       ref={ref}
+      id="poster-other"
       className="poster flex items-center bg-paper text-[var(--fg)]"
       aria-label="其他"
     >
@@ -303,4 +304,4 @@ export function PosterOther() {
       )}
     </section>
   );
-}
+});

@@ -1,10 +1,11 @@
 "use client";
 
+import { memo } from "react";
 import Link from "next/link";
 import { useScrollReveal } from "@/app/hooks/useScrollReveal";
 import { usePosterWidth } from "@/app/hooks/usePosterWidth";
 
-export function PosterVideo() {
+export const PosterVideo = memo(function PosterVideo() {
   const ref = useScrollReveal<HTMLDivElement>(0.3);
   usePosterWidth(ref); // 修复 iPadOS Safari cqw 不更新
 
@@ -296,4 +297,4 @@ export function PosterVideo() {
       </div>
     </section>
   );
-}
+});

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import dynamic from "next/dynamic";
 import { PosterAbout } from "@/components/home/PosterAbout";
 import { ArchiveDrawer } from "@/components/ArchiveDrawer";
@@ -81,59 +81,83 @@ export default function Home() {
     }
   }, []);
 
-  // 保存滚动位置 + 检测是否滚离跳转目标海报
+  // 保存滚动位置 + 检测是否滚离跳转目标海报（rAF 节流）
   useEffect(() => {
     const container = document.querySelector(".poster-container");
     if (!container) return;
+
+    let rafId = 0;
     const onScroll = () => {
-      sessionStorage.setItem(SCROLL_KEY, String(container.scrollTop));
-      // 如果来自 Archive，检测是否已滚离目标海报
-      if (jumpTargetRef.current) {
-        const target = document.getElementById(jumpTargetRef.current);
-        if (target) {
-          const cr = container.getBoundingClientRect();
-          const tr = target.getBoundingClientRect();
-          // 目标海报可见不足 40% 时隐藏返回按钮
-          const visibleTop = Math.max(tr.top, cr.top);
-          const visibleBottom = Math.min(tr.bottom, cr.bottom);
-          const visibleH = Math.max(0, visibleBottom - visibleTop);
-          const totalH = tr.bottom - tr.top;
-          if (totalH > 0 && visibleH / totalH < 0.4) {
-            sessionStorage.removeItem("from-archive");
-            setFromArchive(false);
-            jumpTargetRef.current = null;
+      if (rafId) return; // 已调度，跳过本次
+      rafId = requestAnimationFrame(() => {
+        rafId = 0;
+        sessionStorage.setItem(SCROLL_KEY, String(container.scrollTop));
+        // 如果来自 Archive，检测是否已滚离目标海报
+        if (jumpTargetRef.current) {
+          const target = document.getElementById(jumpTargetRef.current);
+          if (target) {
+            const cr = container.getBoundingClientRect();
+            const tr = target.getBoundingClientRect();
+            // 目标海报可见不足 40% 时隐藏返回按钮
+            const visibleTop = Math.max(tr.top, cr.top);
+            const visibleBottom = Math.min(tr.bottom, cr.bottom);
+            const visibleH = Math.max(0, visibleBottom - visibleTop);
+            const totalH = tr.bottom - tr.top;
+            if (totalH > 0 && visibleH / totalH < 0.4) {
+              sessionStorage.removeItem("from-archive");
+              setFromArchive(false);
+              jumpTargetRef.current = null;
+            }
           }
         }
-      }
+      });
     };
     container.addEventListener("scroll", onScroll, { passive: true });
-    return () => container.removeEventListener("scroll", onScroll);
+    return () => {
+      container.removeEventListener("scroll", onScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   // 「← 返回档案」→ 在当前海报上打开抽屉
-  const handleBackToArchive = () => {
+  const handleBackToArchive = useCallback(() => {
     setFromArchive(false);
     jumpTargetRef.current = null;
     setHeroShifted(true);
     setDrawerMounted(true);
-  };
+  }, []);
 
   // 从 Archive Drawer 跳转（内部按钮）：先切海报 → 抽屉退出露出
-  const handleArchiveNavigate = (target: string) => {
+  const handleArchiveNavigate = useCallback((target: string) => {
     setFromArchive(true);
     jumpTargetRef.current = target;
     document.getElementById(target)?.scrollIntoView({ block: "start" });
-  };
+  }, []);
 
   // 底部 CTA：抽屉退出 + Hero 复位 同步 → 完成后平滑滚动
-  const handleBottomCTA = () => {
+  const handleBottomCTA = useCallback(() => {
     setHeroShifted(false); // Hero 400ms 复位，与抽屉 300ms 退出同步
     setFromArchive(true);
     jumpTargetRef.current = "build-log";
     setTimeout(() => {
       document.getElementById("build-log")?.scrollIntoView({ behavior: "smooth" });
     }, 350); // 抽屉 300ms + Hero 300ms 同步完成
-  };
+  }, []);
+
+  // PosterAbout 的打开抽屉按钮
+  const handleOpenArchive = useCallback(() => {
+    setHeroShifted(true);
+    setDrawerMounted(true);
+  }, []);
+
+  // 抽屉关闭：卸载抽屉 + Hero 复位
+  const handleCloseDrawer = useCallback(() => {
+    setHeroShifted(false);
+    setDrawerMounted(false);
+  }, []);
+
+  // 抽屉关闭开始：Hero 提前复位（配合退出动画）
+  const handleCloseStart = useCallback(() => setHeroShifted(false), []);
 
   return (
     <main className="poster-container">
@@ -149,7 +173,7 @@ export default function Home() {
       )}
       <PosterAbout
         archiveOpen={heroShifted}
-        onOpenArchive={() => { setHeroShifted(true); setDrawerMounted(true); }}
+        onOpenArchive={handleOpenArchive}
       />
       <PosterBuildLog />
       <PosterPhotography />
@@ -159,8 +183,8 @@ export default function Home() {
       {/* Archive Drawer — Portal 渲染到 body */}
       {drawerMounted && (
         <ArchiveDrawer
-          onClose={() => { setHeroShifted(false); setDrawerMounted(false); }}
-          onCloseStart={() => setHeroShifted(false)}
+          onClose={handleCloseDrawer}
+          onCloseStart={handleCloseStart}
           onNavigate={handleArchiveNavigate}
           onBottomCTA={handleBottomCTA}
         />
