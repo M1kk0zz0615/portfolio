@@ -428,29 +428,27 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
               LOGO 背景构成 — 构成主义矩形 (背景层)
               ═══════════════════════════════════════════ */}
 
-          {/* 黑色矩形 — 右下方基底块 */}
+          {/* 黑色矩形 — 帷幕下片：初始上移覆盖 → 下移分开 → 归位 */}
           <div
-            className="absolute hidden md:block"
+            className={`block-curtain-black absolute hidden md:block${geoCutPlayed ? " animate" : ""}`}
             style={{
               left: "28%",
               bottom: "5%",
               width: "62%",
               height: "48%",
               background: "var(--fg)",
-              opacity: 0.04,
             }}
           />
 
-          {/* 红色裁切矩形 — 右上角被斜切 */}
+          {/* 红色裁切矩形 — 帷幕上片：初始下移覆盖 → 上移分开 → 归位 */}
           <div
-            className="absolute hidden md:block"
+            className={`block-curtain-red absolute hidden md:block${geoCutPlayed ? " animate" : ""}`}
             style={{
               right: "10%",
               top: "8%",
               width: "48%",
               height: "42%",
               background: "#D10000",
-              opacity: 0.04,
               clipPath: "polygon(0 0, 100% 0, 100% 72%, 75% 100%, 0 100%)",
             }}
           />
@@ -459,9 +457,10 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
             <img
               src="/mikkologo/miko.webp"
               alt="Mikko"
-              className="anim-scale d-2 relative w-full h-auto"
+              className="logo-reveal relative w-full h-auto"
             />
           </div>
+
         </div>
       </div>
 
@@ -518,12 +517,6 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
         scroll down
       </div>
       <div className="scroll-arrow z-30" />
-
-      {/* 构成主义几何切割 — 红色矩形扫过动画（仅桌面端，仅播放一次） */}
-      <div
-        className={`geo-cut-rect hidden lg:block${geoCutPlayed ? " animate" : ""}`}
-        aria-hidden="true"
-      />
 
       </div>{/* 桌面端结束 */}
 

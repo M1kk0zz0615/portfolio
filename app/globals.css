@@ -532,38 +532,61 @@ a:hover .geo-marker {
   50%      { opacity: 0.3; transform: translateX(-50%) translateY(8px); }
 }
 
-/* ============================================
-   构成主义几何切割 — Hero 插画红色矩形扫过
-   左下 → 中央(35%) → 右上离场
-   机械线性运动，不做高光/渐变/blur
-   ============================================ */
-@keyframes geo-cut {
-  0% {
-    transform: translate(-110%, 80%) rotate(24deg);
-  }
-  35% {
-    transform: translate(50%, -20%) rotate(24deg);
-  }
-  100% {
-    transform: translate(320%, -240%) rotate(24deg);
-  }
+/* ═══════════════════════════════════════════
+   Logo 帷幕式出场 — 色块入场 → 上下分开 → Logo 浮现 → 色块合并
+   黑色块为下片（初始上移），红色块为上片（初始下移）
+   色块先淡入，然后向上下分开，露出 Logo 区域
+   Logo 在色块完全分开后才开始 scale 浮现
+   最后色块归位，插入 Logo 下方
+   总时长 1s
+   ═══════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════
+   时序（总长 1.1s）：
+   0──0.1s──0.25s──────0.7s──────1.1s
+   │ 淡入 │  分开  │ Logo浮现 │  合并  │
+   ═══════════════════════════════════════════ */
+
+@keyframes block-curtain-black {
+  0%   { opacity: 0;   transform: translateY(-50%); }  /* 隐藏，上移覆盖 */
+  9%   { opacity: 0.3; }                                /* 淡入（0.1s） */
+  23%  { opacity: 0.3; transform: translateY(90%); }    /* 最远端（0.25s），等 100ms → Logo 开始 */
+  73%  { opacity: 0.3; transform: translateY(90%); }    /* 保持 0.3，等 Logo 结束（0.8s） */
+  100% { opacity: 0.04; transform: translateY(0); }     /* 合并归位（1.1s），0.3→0.04 */
 }
 
-.geo-cut-rect {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  background: #D10000;
-  pointer-events: none;
-  z-index: 5;
-  width: 33vw;
-  height: 100vw;
+@keyframes block-curtain-red {
+  0%   { opacity: 0;   transform: translateY(50%); }    /* 隐藏，下移覆盖 */
+  9%   { opacity: 0.3; }                                /* 淡入（0.1s） */
+  23%  { opacity: 0.3; transform: translateY(-85%); }   /* 最远端（0.25s），等 100ms → Logo 开始 */
+  73%  { opacity: 0.3; transform: translateY(-85%); }   /* 保持 0.3，等 Logo 结束（0.8s） */
+  100% { opacity: 0.04; transform: translateY(0); }     /* 合并归位（1.1s），0.3→0.04 */
+}
+
+.block-curtain-black,
+.block-curtain-red {
   opacity: 0;
+  transform: translateY(0);
 }
 
-.geo-cut-rect.animate {
-  animation: geo-cut 1s linear forwards;
-  opacity: 0.7;
+.block-curtain-black.animate {
+  animation: block-curtain-black 1.1s linear forwards;
+}
+
+.block-curtain-red.animate {
+  animation: block-curtain-red 1.1s linear forwards;
+}
+
+/* Logo 浮现 — 色块分开完成后等 100ms 才开始（0.35s） */
+@keyframes logo-reveal {
+  0%   { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.logo-reveal {
+  opacity: 0;
+  animation: logo-reveal 0.45s cubic-bezier(0.2, 0, 0, 1) both;
+  animation-delay: 0.35s;
 }
 
 .card-hover {
