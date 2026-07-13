@@ -18,20 +18,82 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
   const btnRef = useRef<HTMLDivElement>(null);
   const [geoCutPlayed, setGeoCutPlayed] = useState(false);
 
-  // 构成主义几何切割动画 — 每次刷新/加载时播放一次
+  // 印版退回后的动画阶段状态机
+  type PostPressPhase = 'idle' | 'line-extend' | 'content-reveal' | 'line-retract' | 'done';
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const [postPressPhase, setPostPressPhase] = useState<PostPressPhase>('idle');
+  const [titleWidth, setTitleWidth] = useState(0);
+  const [parallaxEnabled, setParallaxEnabled] = useState(false);
+
+  // 构成主义色块帷幕 Logo 出场动画 — 页面就绪后立即触发
   useEffect(() => {
-    // requestAnimationFrame 确保 DOM 就位后立即触发
-    const raf = requestAnimationFrame(() => {
+    const timer = setTimeout(() => {
       setGeoCutPlayed(true);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // 测量标题文字像素宽度（供红线延长目标使用）
+  useEffect(() => {
+    if (!geoCutPlayed || !titleRef.current) return;
+    const raf = requestAnimationFrame(() => {
+      if (titleRef.current) {
+        setTitleWidth(titleRef.current.scrollWidth);
+      }
     });
     return () => cancelAnimationFrame(raf);
-  }, []);
+  }, [geoCutPlayed]);
+
+  // 红线延长 → 内容展开 → 红线缩回 阶段链
+  useEffect(() => {
+    if (!geoCutPlayed) return;
+    const timers: ReturnType<typeof setTimeout>[] = [];
+
+    // 印版退回开始时触发红线延长 (1.15s)
+    timers.push(setTimeout(() => setPostPressPhase('line-extend'), 1150));
+    // 红线到位后内容展开 (1.40s)
+    timers.push(setTimeout(() => setPostPressPhase('content-reveal'), 1400));
+    // 内容展开后红线缩回 (1.95s)
+    timers.push(setTimeout(() => setPostPressPhase('line-retract'), 1950));
+    // 全部完成 (2.15s)
+    timers.push(setTimeout(() => setPostPressPhase('done'), 2150));
+
+    return () => timers.forEach(clearTimeout);
+  }, [geoCutPlayed]);
+
+  // 标题出现后即启用鼠标视差（Archive 抽屉打开时关闭）
+  useEffect(() => {
+    if (!geoCutPlayed || archiveOpen) {
+      setParallaxEnabled(false);
+      return;
+    }
+    const timer = setTimeout(() => setParallaxEnabled(true), 1050);
+    return () => clearTimeout(timer);
+  }, [geoCutPlayed, archiveOpen]);
+
+  // 鼠标视差 — 将鼠标相对海报中心的偏移写入 CSS 变量
+  useEffect(() => {
+    if (!parallaxEnabled) return;
+    const poster = document.getElementById('poster-about');
+    if (!poster) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = poster.getBoundingClientRect();
+      const cx = (e.clientX - rect.left) / rect.width * 2 - 1;
+      const cy = (e.clientY - rect.top) / rect.height * 2 - 1;
+      poster.style.setProperty('--parallax-x', String(cx));
+      poster.style.setProperty('--parallax-y', String(cy));
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [parallaxEnabled]);
 
   return (
     <section
       id="poster-about"
       ref={ref}
-      className={`poster bg-paper text-[var(--fg)]${archiveOpen ? " archive-open-hero" : ""}`}
+      className={`poster bg-paper text-[var(--fg)]${archiveOpen ? " archive-open-hero" : ""}${parallaxEnabled ? " parallax-active" : ""}`}
       aria-label="关于迷蔻紫的一切"
     >
       {/* ====== 桌面端 (≥1024px) — 构成主义海报布局 ====== */}
@@ -42,10 +104,10 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
           ═══════════════════════════════════════════ */}
 
       {/* 左上角 L 型框架 */}
-      <div className="anim-line-x d-4 absolute z-0 hidden md:block"
+      <div className="anim-line-x d-4 parallax-layer-3 absolute z-0 hidden md:block"
         style={{ left: "3%", top: "3%", width: "clamp(36px, 5cqw, 64px)", height: "3px", background: "var(--fg)", opacity: 0.2 }}
       />
-      <div className="anim-line-x d-5 absolute z-0 hidden md:block"
+      <div className="anim-line-x d-5 parallax-layer-3 absolute z-0 hidden md:block"
         style={{ left: "3%", top: "3%", width: "3px", height: "clamp(36px, 5cqw, 64px)", background: "var(--fg)", opacity: 0.2 }}
       />
 
@@ -59,7 +121,7 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
 
       {/* 底部不闭合横线 — 右下方红色段 */}
       <div
-        className="anim-line-x d-4 absolute right-[12%] h-[3px] bg-[#D10000] z-0 hidden md:block"
+        className="anim-line-x d-4 parallax-layer-3 absolute right-[12%] h-[3px] bg-[#D10000] z-0 hidden md:block"
         style={{ bottom: "3%", width: "clamp(80px, 14cqw, 180px)", opacity: 0.2 }}
       />
 
@@ -70,7 +132,7 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
       ].map((pos, i) => (
         <div
           key={i}
-          className={`anim-scale d-${i + 2} absolute z-0 hidden lg:block`}
+          className={`anim-scale d-${i + 2} parallax-layer-3 absolute z-0 hidden lg:block`}
           style={{ ...pos, width: "clamp(14px, 2cqw, 22px)", height: "clamp(14px, 2cqw, 22px)" }}
         >
           <div style={{ position: "absolute", left: "50%", top: 0, width: "1px", height: "100%", background: "var(--fg)", transform: "translateX(-50%)", opacity: 0.2 }} />
@@ -90,7 +152,7 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
       ].map((pos, i) => (
         <div
           key={`reg-${i}`}
-          className={`anim-scale d-${i + 2} absolute z-0 hidden lg:block`}
+          className={`anim-scale d-${i + 2} parallax-layer-3 absolute z-0 hidden lg:block`}
           style={{
             ...pos,
             width: "clamp(16px, 2.2cqw, 24px)",
@@ -136,7 +198,7 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
 
       {/* ── 不闭合边框 · 右下角 L 型 ── */}
       <div
-        className="anim-line-x d-4 absolute z-0 hidden md:block"
+        className="anim-line-x d-4 parallax-layer-3 absolute z-0 hidden md:block"
         style={{
           right: "3%",
           bottom: "3%",
@@ -148,7 +210,7 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
         aria-hidden="true"
       />
       <div
-        className="anim-line-x d-5 absolute z-0 hidden md:block"
+        className="anim-line-x d-5 parallax-layer-3 absolute z-0 hidden md:block"
         style={{
           right: "3%",
           bottom: "3%",
@@ -169,7 +231,7 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
       ].map(({ label, ...pos }, i) => (
         <div
           key={`coord-${i}`}
-          className={`anim-y-60 d-${i + 2} absolute z-0 hidden lg:block`}
+          className={`anim-y-60 d-${i + 2} parallax-layer-3 absolute z-0 hidden lg:block`}
           style={{
             ...pos,
             fontSize: "clamp(0.45rem, 0.5cqw, 0.6rem)",
@@ -186,7 +248,7 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
 
       {/* ── 西里尔文档案标注 · 左缘 ── */}
       <div
-        className="anim-y-60 d-4 absolute z-[2] select-none hidden lg:block"
+        className="anim-y-60 d-4 parallax-layer-2 absolute z-[2] select-none hidden lg:block"
         style={{
           left: "4%",
           top: "72%",
@@ -206,7 +268,7 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
 
       {/* Rodchenko 式大圆 — 标题与 Logo 之间，背景层 */}
       <div
-        className="anim-scale d-4 absolute z-[1] hidden lg:block pointer-events-none"
+        className="anim-scale d-4 parallax-layer-1 absolute z-[1] hidden lg:block pointer-events-none"
         style={{
           right: "25%",
           top: "22%",
@@ -225,25 +287,25 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
 
       {/* 左侧红色粗竖条 — 沿左边缘，Rodchenko 式结构锚 */}
       <div
-        className="anim-line-x d-3 absolute left-[3%] w-[4px] bg-[#D10000] z-[1] hidden md:block"
+        className="anim-line-x d-3 parallax-layer-2 absolute left-[3%] w-[4px] bg-[#D10000] z-[1] hidden md:block"
         style={{ top: "16%", height: "28%", opacity: 0.10 }}
       />
 
       {/* 红色水平对齐线 */}
       <div
-        className="anim-line-x d-3 absolute left-0 h-[2px] bg-[#D10000] z-[1] hidden md:block"
+        className="anim-line-x d-3 parallax-layer-2 absolute left-0 h-[2px] bg-[#D10000] z-[1] hidden md:block"
         style={{ top: "28%", width: "22%", opacity: 0.12 }}
       />
 
       {/* 第二条红水平线 */}
       <div
-        className="anim-line-x d-4 absolute left-[3%] h-[2px] bg-[#D10000] z-[1] hidden md:block"
+        className="anim-line-x d-4 parallax-layer-2 absolute left-[3%] h-[2px] bg-[#D10000] z-[1] hidden md:block"
         style={{ top: "47%", width: "16%", opacity: 0.10 }}
       />
 
       {/* 状态文字 — 两条红线之间 */}
       <div
-        className="anim-y-60 d-4 absolute z-[5] select-none hidden lg:block"
+        className="anim-y-60 d-4 parallax-layer-1 absolute z-[5] select-none hidden lg:block"
         style={{
           left: "clamp(2rem, 5cqw, 5.5rem)",
           top: "30%",
@@ -267,7 +329,7 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
 
       {/* 黑色粗方块 — Lissitzky 式几何锚 */}
       <div
-        className="anim-scale d-3 absolute z-[1] hidden md:block"
+        className="anim-scale d-3 parallax-layer-3 absolute z-[1] hidden md:block"
         style={{ right: "6%", top: "20%", width: "clamp(18px, 2.5cqw, 32px)", height: "clamp(18px, 2.5cqw, 32px)", background: "var(--fg)", opacity: 0.10 }}
       />
 
@@ -275,7 +337,7 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
       {[0.18, 0.35, 0.55, 0.72].map((ratio, i) => (
         <div
           key={i}
-          className={`anim-scale d-${i + 3} absolute z-[1] hidden lg:block`}
+          className={`anim-scale d-${i + 3} parallax-layer-2 absolute z-[1] hidden lg:block`}
           style={{
             right: "calc(6% - 2px)",
             top: `${10 + ratio * 70}%`,
@@ -290,7 +352,7 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
 
       {/* 左上 L 角内侧黑锚点 */}
       <div
-        className="anim-scale d-3 absolute z-[1] hidden md:block"
+        className="anim-scale d-3 parallax-layer-2 absolute z-[1] hidden md:block"
         style={{
           left: "calc(3% + clamp(36px, 5cqw, 64px) + 10px)",
           top: "calc(1% + clamp(36px, 5cqw, 64px) - 6px)",
@@ -300,7 +362,7 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
 
       {/* 左侧中部黑色半透明块 — 对冲右侧 Logo 体量 */}
       <div
-        className="anim-scale d-3 absolute z-[1] hidden lg:block"
+        className="anim-scale d-3 parallax-layer-1 absolute z-[1] hidden lg:block"
         style={{
           left: "4%", top: "55%", width: "clamp(30px, 4cqw, 50px)", height: "clamp(50px, 8cqw, 100px)",
           background: "var(--fg)", opacity: 0.06,
@@ -313,7 +375,7 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
 
       {/* 左侧竖排文字 — 背景层 */}
       <div
-        className="anim-y-60 d-3 absolute z-[5] type-cyrillic select-none hidden md:flex flex-col"
+        className="anim-y-60 d-3 parallax-layer-1 absolute z-[5] type-cyrillic select-none hidden md:flex flex-col"
         style={{
           left: "clamp(0.5rem, 1cqw, 1rem)",
           top: "14%",
@@ -332,7 +394,7 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
 
       {/* 右下角坐标 — 背景层 */}
       <div
-        className="anim-y-60 d-4 absolute z-[5] type-label select-none hidden md:flex items-baseline gap-3"
+        className="anim-y-60 d-4 parallax-layer-3 absolute z-[5] type-label select-none hidden md:flex items-baseline gap-3"
         style={{
           right: "clamp(1rem, 2.5cqw, 3rem)",
           bottom: "2.2%",
@@ -349,7 +411,7 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
 
       {/* 时间编码 — 背景层 */}
       <div
-        className="anim-y-60 d-5 absolute z-[5] type-label select-none hidden md:block"
+        className="anim-y-60 d-5 parallax-layer-3 absolute z-[5] type-label select-none hidden md:block"
         style={{
           left: "clamp(1rem, 2.5cqw, 3rem)",
           bottom: "2.2%",
@@ -366,7 +428,7 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
 
       {/* 档案编号 — 模块标签样式 */}
       <div
-        className="anim-y-60 z-20 font-mono text-xs tracking-widest uppercase
+        className="anim-y-60 parallax-layer-3 z-20 font-mono text-xs tracking-widest uppercase
           absolute left-[clamp(1.5rem,6cqw,8%)] top-[19%]"
       >
         <span style={{
@@ -394,23 +456,33 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
       >
         {/* 标题 + 简介 + 按钮 — flex-shrink-0 保持自然高度 */}
         <div className="flex-shrink-0 flex flex-col mt-16 ml-[72px] max-w-[58cqw]">
-          <AboutPosterTitle />
+          <AboutPosterTitle ref={titleRef} printed={geoCutPlayed} />
 
           <div
-            className="anim-line-x d-1 ml-2"
-            style={{ width: "clamp(48px, 6cqw, 80px)", height: "5px", background: "#D10000", opacity: 1, marginTop: "1.5rem", marginBottom: "0.3rem" }}
+            className="press-red-line ml-2"
+            style={{
+              height: "5px",
+              background: "#D10000",
+              marginTop: "1.5rem",
+              marginBottom: "0.3rem",
+              opacity: postPressPhase === 'idle' ? 0 : 1,
+              '--line-width': (postPressPhase === 'line-extend' || postPressPhase === 'content-reveal') && titleWidth > 0
+                ? `${titleWidth}px`
+                : 'clamp(48px, 6cqw, 80px)',
+              width: 'var(--line-width)',
+            } as React.CSSProperties}
             aria-hidden="true"
           />
 
-          <p className="anim-y-60 d-2 mt-5 max-w-lg tracking-wide text-[var(--fg)] ml-2" style={{ fontFamily: "var(--font-noto-sc-light), \"PingFang SC\", \"Microsoft YaHei\", \"Heiti SC\", sans-serif", fontSize: "1.7rem" }}>
+          <p className={`press-reveal-text mt-5 max-w-lg tracking-wide text-[var(--fg)] ml-2${postPressPhase !== 'idle' && postPressPhase !== 'line-extend' ? ' revealed' : ''}`} style={{ fontFamily: "var(--font-noto-sc-light), \"PingFang SC\", \"Microsoft YaHei\", \"Heiti SC\", sans-serif", fontSize: "1.7rem" }}>
             计算机学生 / 摄影师 / 影像创作者
           </p>
 
-          <p className="anim-y-60 d-2 mt-2 max-w-xl leading-relaxed text-[var(--gray-dark)]/80 ml-2" style={{ fontFamily: "var(--font-noto-sc-light), \"PingFang SC\", \"Microsoft YaHei\", \"Heiti SC\", sans-serif", fontSize: "1.45rem" }}>
+          <p className={`press-reveal-text press-reveal-d1 mt-2 max-w-xl leading-relaxed text-[var(--gray-dark)]/80 ml-2${postPressPhase !== 'idle' && postPressPhase !== 'line-extend' ? ' revealed' : ''}`} style={{ fontFamily: "var(--font-noto-sc-light), \"PingFang SC\", \"Microsoft YaHei\", \"Heiti SC\", sans-serif", fontSize: "1.45rem" }}>
             用胶片与像素，记录在场与想象
           </p>
 
-          <div ref={btnRef} className="anim-y-60 d-3 flex justify-start mt-5">
+          <div ref={btnRef} className={`press-reveal-text press-reveal-d2 flex justify-start mt-5${postPressPhase !== 'idle' && postPressPhase !== 'line-extend' ? ' revealed' : ''}`}>
             <AboutArchiveButton onClick={onOpenArchive} />
           </div>
         </div>
@@ -430,24 +502,20 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
 
           {/* 黑色矩形 — 帷幕下片：初始上移覆盖 → 下移分开 → 归位 */}
           <div
-            className={`block-curtain-black absolute hidden md:block${geoCutPlayed ? " animate" : ""}`}
+            className={`block-curtain-black absolute hidden md:block w-[62%] h-[48%] lg:w-[340px] lg:h-[180px]${geoCutPlayed ? " animate" : ""}`}
             style={{
               left: "28%",
               bottom: "5%",
-              width: "62%",
-              height: "48%",
               background: "var(--fg)",
             }}
           />
 
           {/* 红色裁切矩形 — 帷幕上片：初始下移覆盖 → 上移分开 → 归位 */}
           <div
-            className={`block-curtain-red absolute hidden md:block${geoCutPlayed ? " animate" : ""}`}
+            className={`block-curtain-red absolute hidden md:block w-[48%] h-[42%] lg:w-[260px] lg:h-[160px]${geoCutPlayed ? " animate" : ""}`}
             style={{
               right: "10%",
               top: "8%",
-              width: "48%",
-              height: "42%",
               background: "#D10000",
               clipPath: "polygon(0 0, 100% 0, 100% 72%, 75% 100%, 0 100%)",
             }}
@@ -457,7 +525,8 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
             <img
               src="/mikkologo/miko.webp"
               alt="Mikko"
-              className="logo-reveal relative w-full h-auto"
+              className={`relative w-full h-auto${geoCutPlayed ? " logo-reveal" : ""}`}
+              style={geoCutPlayed ? undefined : { opacity: 0 }}
             />
           </div>
 
@@ -469,7 +538,7 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
           杂志封面式背景信息层，非按钮/标签
           ═══════════════════════════════════════════ */}
       <div
-        className="absolute z-[1] select-none hidden md:block"
+        className="parallax-layer-2 absolute z-[1] select-none hidden md:block"
         style={{
           right: "3.5%",
           bottom: "0.5%",
@@ -488,7 +557,7 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
 
       {/* 俄文标注 */}
       <span
-        className="anim-y-60 d-2 type-cyrillic absolute z-10 text-[var(--fg)] select-none hidden md:inline"
+        className="anim-y-60 d-2 parallax-layer-2 type-cyrillic absolute z-10 text-[var(--fg)] select-none hidden md:inline"
         style={{
           right: "8%",
           bottom: "18%",
@@ -501,7 +570,7 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
 
       {/* 滚动引导文字 */}
       <div
-        className="absolute left-1/2 z-30 select-none hidden md:block"
+        className="parallax-layer-2 absolute left-1/2 z-30 select-none hidden md:block"
         style={{
           bottom: "60px",
           transform: "translateX(-50%)",
@@ -516,7 +585,7 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
       >
         scroll down
       </div>
-      <div className="scroll-arrow z-30" />
+      <div className="scroll-arrow parallax-layer-2 z-30" />
 
       </div>{/* 桌面端结束 */}
 

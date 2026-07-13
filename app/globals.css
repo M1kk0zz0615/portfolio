@@ -542,25 +542,24 @@ a:hover .geo-marker {
    ═══════════════════════════════════════════ */
 
 /* ═══════════════════════════════════════════
-   时序（总长 1.1s）：
-   0──0.1s──0.25s──────0.7s──────1.1s
-   │ 淡入 │  分开  │ Logo浮现 │  合并  │
+   时序（总长 1.05s）：
+   0────0.3s─0.35s──────0.65s─0.75s───1.05s
+   │ 分开+淡入 │  │Logo浮现│       │ 闭合  │
+     350ms    50ms重叠  450ms  └100ms重合┘ 400ms
    ═══════════════════════════════════════════ */
 
 @keyframes block-curtain-black {
   0%   { opacity: 0;   transform: translateY(-50%); }  /* 隐藏，上移覆盖 */
-  9%   { opacity: 0.3; }                                /* 淡入（0.1s） */
-  23%  { opacity: 0.3; transform: translateY(90%); }    /* 最远端（0.25s），等 100ms → Logo 开始 */
-  73%  { opacity: 0.3; transform: translateY(90%); }    /* 保持 0.3，等 Logo 结束（0.8s） */
-  100% { opacity: 0.04; transform: translateY(0); }     /* 合并归位（1.1s），0.3→0.04 */
+  33%  { opacity: 0.35; transform: translateY(90%); }   /* 最远端（0.35s）— 淡入+分开同步 */
+  62%  { opacity: 0.35; transform: translateY(90%); }   /* 保持，Logo 浮现中 */
+  100% { opacity: 0.04; transform: translateY(0); }     /* 闭合归位（1.05s） */
 }
 
 @keyframes block-curtain-red {
   0%   { opacity: 0;   transform: translateY(50%); }    /* 隐藏，下移覆盖 */
-  9%   { opacity: 0.3; }                                /* 淡入（0.1s） */
-  23%  { opacity: 0.3; transform: translateY(-85%); }   /* 最远端（0.25s），等 100ms → Logo 开始 */
-  73%  { opacity: 0.3; transform: translateY(-85%); }   /* 保持 0.3，等 Logo 结束（0.8s） */
-  100% { opacity: 0.04; transform: translateY(0); }     /* 合并归位（1.1s），0.3→0.04 */
+  33%  { opacity: 0.35; transform: translateY(-85%); }  /* 最远端（0.35s）— 淡入+分开同步 */
+  62%  { opacity: 0.35; transform: translateY(-85%); }  /* 保持，Logo 浮现中 */
+  100% { opacity: 0.04; transform: translateY(0); }     /* 闭合归位（1.05s） */
 }
 
 .block-curtain-black,
@@ -570,14 +569,14 @@ a:hover .geo-marker {
 }
 
 .block-curtain-black.animate {
-  animation: block-curtain-black 1.1s linear forwards;
+  animation: block-curtain-black 1.05s cubic-bezier(0.65, 0, 1, 0.35) forwards;
 }
 
 .block-curtain-red.animate {
-  animation: block-curtain-red 1.1s linear forwards;
+  animation: block-curtain-red 1.05s cubic-bezier(0.65, 0, 1, 0.35) forwards;
 }
 
-/* Logo 浮现 — 色块分开完成后等 100ms 才开始（0.35s） */
+/* Logo 浮现 — 分开收尾前 50ms 开始（0.3s） */
 @keyframes logo-reveal {
   0%   { opacity: 0; transform: scale(0.9); }
   100% { opacity: 1; transform: scale(1); }
@@ -586,7 +585,105 @@ a:hover .geo-marker {
 .logo-reveal {
   opacity: 0;
   animation: logo-reveal 0.45s cubic-bezier(0.2, 0, 0, 1) both;
-  animation-delay: 0.35s;
+  animation-delay: 0.3s;
+}
+
+/* ═══════════════════════════════════════════
+   标题印刷式出场 — press-bar 冲压动画
+   红褐色印版从左滑入 → 停留 → 标题出现 → ease-in 退回
+   总长 0.6s, delay 0.65s（色块闭合时触发）
+   ═══════════════════════════════════════════ */
+
+@keyframes press-bar {
+  /* 扫入（300ms）— 加速冲入 */
+  0%    { transform: translateX(-110%); }
+  20%   { transform: translateX(-100%); }  /* 慢起 */
+  30%   { transform: translateX(-60%);  }  /* 加速 */
+  37%   { transform: translateX(-10%);  }  /* 冲刺 */
+  40%   { transform: translateX(0%);    }  /* 到位 */
+  /* 停留 200ms */
+  66.7% { transform: translateX(0%);    }  /* 印版盖住标题 */
+  /* 退回（250ms）— 加速撤离 */
+  70%   { transform: translateX(-2%);   }  /* 慢起 */
+  77%   { transform: translateX(-15%);  }  /* 加速 */
+  86%   { transform: translateX(-60%);  }  /* 更快 */
+  94%   { transform: translateX(-100%); }  /* 极速退出 */
+  100%  { transform: translateX(-110%); }
+}
+
+/* 标题出现时机：0.65s(press-bar delay) + 0.3s(扫入) = 0.95s */
+.title-print-stage.animate .type-display {
+  animation: title-appear 0.01s both;
+  animation-delay: 0.95s;
+}
+
+@keyframes title-appear {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* 默认状态：印版隐藏在左侧框外 */
+.title-print-stage .title-press-bar {
+  transform: translateX(-105%);
+}
+
+.title-print-stage.animate .title-press-bar {
+  animation: press-bar 0.75s linear both;
+  animation-delay: 0.65s;
+}
+
+/* ═══════════════════════════════════════════
+   Press-bar 退回调联动 — 红线延长 + 内容展开
+   时序：press-bar retreat (1.15s-1.4s) 时触发
+   ═══════════════════════════════════════════ */
+
+/* 红线 — width 通过 CSS 变量切换，transition 驱动延长/缩回 */
+.press-red-line {
+  width: var(--line-width, clamp(48px, 6cqw, 80px));
+  transition: width 0.25s cubic-bezier(0.3, 0, 0.7, 0);
+  transform-origin: left center;
+}
+
+/* 内容展开 — 从红线处向下滑出 */
+.press-reveal-text {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.3s cubic-bezier(0.2, 0, 0, 1),
+              transform 0.3s cubic-bezier(0.3, 0, 0.7, 0);
+}
+.press-reveal-text.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+.press-reveal-d1 { transition-delay: 0.1s; }
+.press-reveal-d2 { transition-delay: 0.2s; }
+
+/* ═══════════════════════════════════════════
+   鼠标视差 — 装饰元素深度层次
+   仅在 .parallax-active 下生效（动画全部完成后）
+   translate 独立于 transform，不干扰入场动画
+   ═══════════════════════════════════════════ */
+
+.poster.parallax-active .parallax-layer-1 {
+  translate: calc(var(--parallax-x, 0) * 2px) calc(var(--parallax-y, 0) * 2px);
+  transition: translate 0.15s cubic-bezier(0.2, 0, 0, 1);
+}
+.poster.parallax-active .parallax-layer-2 {
+  translate: calc(var(--parallax-x, 0) * 4px) calc(var(--parallax-y, 0) * 4px);
+  transition: translate 0.18s cubic-bezier(0.2, 0, 0, 1);
+}
+.poster.parallax-active .parallax-layer-3 {
+  translate: calc(var(--parallax-x, 0) * 7px) calc(var(--parallax-y, 0) * 7px);
+  transition: translate 0.2s cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* 桌面端以下关闭视差 */
+@media (max-width: 1023px) {
+  .parallax-layer-1,
+  .parallax-layer-2,
+  .parallax-layer-3 {
+    translate: none !important;
+  }
 }
 
 .card-hover {
