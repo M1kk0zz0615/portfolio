@@ -40,11 +40,12 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
   const pullOffsetRef = useRef(0);
   const pullTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // ── 鼠标拖拽 ──
+  // ── 鼠标/触屏拖拽 ──
   const isDraggingRef = useRef(false);
   const isExitingRef = useRef(false); // 退出动画进行中，屏蔽所有输入
   const dragLastYRef = useRef(0);
-  const dragUpAccRef = useRef(0); // 上拖累积 → 展开抽屉
+  const dragUpAccRef = useRef(0);   // 上拖累积 → 展开抽屉
+  const dragDownAccRef = useRef(0); // peek 态下拖累积 → 触屏展开
 
   const drawerRef = useRef<HTMLDivElement>(null);
 
@@ -147,24 +148,37 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
     document.addEventListener("keydown", handler);
     document.body.style.overflow = "hidden";
 
-    // ── 全局鼠标拖拽 ──
-    const onMouseMove = (e: MouseEvent) => {
+    // ── 全局拖拽（鼠标 + 触屏统一走 pointer 事件） ──
+    const onPointerMove = (e: PointerEvent) => {
       if (!isDraggingRef.current || isExitingRef.current) return;
       const el = drawerRef.current;
       if (!el || el.scrollTop > 0) {
         // 内容已滚动 → 取消拖拽
         isDraggingRef.current = false;
+        dragDownAccRef.current = 0;
         if (el) el.style.transition = '';
         return;
       }
-      const dy = e.clientY - dragLastYRef.current; // 鼠标下移 = 向下拉抽屉
+      const dy = e.clientY - dragLastYRef.current;
       dragLastYRef.current = e.clientY;
       if (dy > 0) {
-        // 向下拖 → 直写 DOM，绕过 React
+        // peek 态向下拖 → 展开抽屉（触屏 wheel 等价路径），阈值 20px 区分轻滑和意图拖拽
+        if (!drawerExpanded) {
+          dragDownAccRef.current += dy;
+          if (dragDownAccRef.current > 50) {
+            setDrawerExpanded(true);
+            isDraggingRef.current = false;
+            dragDownAccRef.current = 0;
+            return;
+          }
+          return; // peek 态不触发下拉关闭
+        }
+        // 展开态向下拖 → 直写 DOM，绕过 React
         dragUpAccRef.current = 0;
+        dragDownAccRef.current = 0;
         const threshold = getPullThreshold();
         const delta = dy * DRAG_DAMPING;
-        const next = Math.min(pullOffsetRef.current + delta, threshold); // 钳制在阈值内
+        const next = Math.min(pullOffsetRef.current + delta, threshold);
         pullOffsetRef.current = next;
         el.style.transform = `translateY(${next}px)`;
 
@@ -192,6 +206,7 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
       } else if (dy < 0 && !drawerExpanded) {
         // 向上拖 → 展开抽屉全屏
         dragUpAccRef.current += Math.abs(dy);
+        dragDownAccRef.current = 0;
         if (dragUpAccRef.current > 50) {
           setDrawerExpanded(true);
           dragUpAccRef.current = 0;
@@ -199,7 +214,7 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
       }
     };
 
-    const onMouseUp = () => {
+    const onPointerUp = () => {
       const el = drawerRef.current;
       if (el) el.style.transition = ''; // 恢复 transition
       if (isDraggingRef.current && pullOffsetRef.current > 0) {
@@ -212,15 +227,23 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
       }
       isDraggingRef.current = false;
       dragUpAccRef.current = 0;
+      dragDownAccRef.current = 0;
     };
 
-    document.addEventListener("mousemove", onMouseMove);
-    document.addEventListener("mouseup", onMouseUp);
+    const onPointerCancel = () => {
+      // 来电/通知打断 → 等同于松手回弹
+      onPointerUp();
+    };
+
+    document.addEventListener("pointermove", onPointerMove);
+    document.addEventListener("pointerup", onPointerUp);
+    document.addEventListener("pointercancel", onPointerCancel);
 
     return () => {
       document.removeEventListener("keydown", handler);
-      document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mouseup", onMouseUp);
+      document.removeEventListener("pointermove", onPointerMove);
+      document.removeEventListener("pointerup", onPointerUp);
+      document.removeEventListener("pointercancel", onPointerCancel);
       document.body.style.overflow = "";
     };
   }, [close, drawerExpanded]);
@@ -305,13 +328,15 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
     [drawerExpanded, applyPull]
   );
 
-  // ── 把手鼠标拖拽开始 ──
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+  // ── 把手拖拽开始（鼠标 + 触屏统一走 pointer） ──
+  const handlePointerDown = useCallback((e: React.PointerEvent) => {
     const el = drawerRef.current;
     if (!el || el.scrollTop > 0) return; // 内容已滚动时不触发
     e.preventDefault();
+    (e.target as HTMLElement).setPointerCapture(e.pointerId); // 锁定指针，手指划出把手仍跟手
     isDraggingRef.current = true;
     dragLastYRef.current = e.clientY;
+    dragDownAccRef.current = 0;
     el.style.transition = 'none'; // 关闭 transition，把手瞬间跟手
   }, []);
 
@@ -400,8 +425,9 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
             background: "var(--bg)",
             cursor: isDraggingRef.current ? "grabbing" : "grab",
             userSelect: "none",
+            touchAction: "none",
           }}
-          onMouseDown={handleMouseDown}
+          onPointerDown={handlePointerDown}
           aria-hidden="true"
         >
           <div

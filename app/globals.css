@@ -52,6 +52,13 @@
 
   .scroll-arrow { display: none; }
   .led-indicator { animation: none !important; }
+  /* 视差：JS 已做 reduced-motion 早退，此处为 CSS 层双保险 */
+  .parallax-layer-1,
+  .parallax-layer-2,
+  .parallax-layer-3 {
+    translate: none !important;
+    transition: none !important;
+  }
 }
 
 /* loading.tsx 的关键帧 — 不能放在组件内（Server Component 不支持 styled-jsx） */
@@ -659,7 +666,7 @@ a:hover .geo-marker {
 .press-reveal-d2 { transition-delay: 0.2s; }
 
 /* ═══════════════════════════════════════════
-   鼠标视差 — 装饰元素深度层次
+   鼠标/陀螺仪视差 — 装饰元素深度层次（输入源由 usePosterParallax 仲裁）
    仅在 .parallax-active 下生效（动画全部完成后）
    translate 独立于 transform，不干扰入场动画
    ═══════════════════════════════════════════ */
@@ -675,15 +682,6 @@ a:hover .geo-marker {
 .poster.parallax-active .parallax-layer-3 {
   translate: calc(var(--parallax-x, 0) * 7px) calc(var(--parallax-y, 0) * 7px);
   transition: translate 0.2s cubic-bezier(0.2, 0, 0, 1);
-}
-
-/* 桌面端以下关闭视差 */
-@media (max-width: 1023px) {
-  .parallax-layer-1,
-  .parallax-layer-2,
-  .parallax-layer-3 {
-    translate: none !important;
-  }
 }
 
 .card-hover {

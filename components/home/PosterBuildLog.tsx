@@ -49,10 +49,8 @@ export const PosterBuildLog = memo(function PosterBuildLog() {
 
         {/* ── 四角裁切线 ── */}
         {[
-          { left: "2%", top: "3%" },
           { right: "2%", top: "3%" },
           { left: "2%", bottom: "4.5%" },
-          { right: "2%", bottom: "4.5%" },
         ].map((pos, i) => (
           <div
             key={i}
@@ -67,8 +65,6 @@ export const PosterBuildLog = memo(function PosterBuildLog() {
         {/* ── Registration Mark · 四角套准标记 ── */}
         {[
           { left: "1.2%", top: "2.5%" },
-          { right: "1.2%", top: "2.5%" },
-          { left: "1.2%", bottom: "4%" },
           { right: "1.2%", bottom: "4%" },
         ].map((pos, i) => (
           <div
