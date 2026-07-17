@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, memo } from "react";
+import { useState, useEffect, memo } from "react";
 import Image from "next/image";
 import { Lightbox } from "@/components/Lightbox";
 import { buildLogProjects } from "@/data/buildLogProjects";
@@ -68,28 +68,59 @@ function ProjectIndexCard({
 export const ArchiveContent = memo(function ArchiveContent({ className, onNavigate, restReady }: ArchiveContentProps) {
   const [avatarLightbox, setAvatarLightbox] = useState<{ src: string; rect: DOMRect } | null>(null);
 
+  // 背景大字：跟头像重叠时瞬间下跳对齐 skills
+  const [bgTextTop, setBgTextTop] = useState("3rem");
+  const [bgTextRight, setBgTextRight] = useState("-75px");
+  const [bgTextFontSize, setBgTextFontSize] = useState("clamp(3.4rem, 7.5vw, 7.5rem)");
+  // "刘俊宁" desktop 固定 3.8rem，移动端响应式
+  const [nameFontSize, setNameFontSize] = useState("clamp(1.8rem, 3.5vw, 3.8rem)");
+  // debug
+  const [winWidth, setWinWidth] = useState(0);
+  useEffect(() => {
+    const mqOverlap = window.matchMedia("(max-width: 1800px)");
+    const mqDesktop = window.matchMedia("(min-width: 768px)");
+    const handler = () => {
+      setBgTextTop(mqOverlap.matches ? "350px" : "3rem");
+      setBgTextRight(mqOverlap.matches ? "-25px" : "-75px");
+      setBgTextFontSize(mqOverlap.matches ? "7.5rem" : "clamp(3.4rem, 7.5vw, 7.5rem)");
+      setNameFontSize(mqDesktop.matches ? "3.8rem" : "clamp(1.8rem, 3.5vw, 3.8rem)");
+      setWinWidth(window.innerWidth);
+    };
+    handler();
+    mqOverlap.addEventListener("change", handler);
+    mqDesktop.addEventListener("change", handler);
+    window.addEventListener("resize", handler);
+    return () => {
+      mqOverlap.removeEventListener("change", handler);
+      mqDesktop.removeEventListener("change", handler);
+      window.removeEventListener("resize", handler);
+    };
+  }, []);
+
   return (
-    <div className={className}>
+    <div className={className} style={{ position: "relative" }}>
+      {/* 背景大字 — 外层定位，避免被 content-visibility 裁切 */}
+      <div
+        className="absolute right-0 z-0 pointer-events-none"
+        style={{
+          top: bgTextTop,
+          right: bgTextRight,
+          fontSize: bgTextFontSize,
+          fontFamily: "var(--font-display)",
+          fontWeight: 900,
+          lineHeight: 0.85,
+          letterSpacing: "-0.03em",
+          opacity: 0.1,
+          color: "#3D1515",
+        }}
+      >
+        当我们谈论迷蔻紫，<br />我们在谈论什么？
+      </div>
+
       {/* ═══════════════════════════════════════════
           ① 档案信息（封面）
           ═══════════════════════════════════════════ */}
-      <div className="relative px-6 pt-16 pb-4 md:px-12 md:pt-16 md:pb-6">
-        {/* 左侧大字 — 氛围文本 */}
-        <div
-          className="absolute right-0 top-[clamp(1.2rem,4.5vw,3.5rem)] z-0"
-          style={{
-            fontSize: "clamp(3.4rem, 7.5vw, 7.5rem)",
-            fontFamily: "var(--font-display)",
-            fontWeight: 900,
-            lineHeight: 0.85,
-            letterSpacing: "-0.03em",
-            opacity: 0.2,
-            color: "var(--fg)",
-            maxWidth: "55vw",
-          }}
-        >
-          当我们谈论迷蔻紫，<br />我们在谈论什么？
-        </div>
+      <div className="relative px-6 pt-16 pb-4 md:px-12 md:pt-16 md:pb-6" style={{ contentVisibility: "auto", containIntrinsicSize: "auto 500px" }}>
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-end gap-16">
           {/* 左侧：名字 */}
@@ -98,7 +129,7 @@ export const ArchiveContent = memo(function ArchiveContent({ className, onNaviga
               <h1
                 className="mb-5"
                 style={{
-                  fontSize: "clamp(1.8rem, 3.5vw, 3.8rem)",
+                  fontSize: nameFontSize,
                   fontFamily: "var(--font-noto-sc), 'PingFang SC', 'Microsoft YaHei', 'Heiti SC', sans-serif",
                   fontWeight: 900,
                   lineHeight: 0.85,
@@ -176,7 +207,7 @@ export const ArchiveContent = memo(function ArchiveContent({ className, onNaviga
       {/* ═══════════════════════════════════════════
           ② 技能
           ═══════════════════════════════════════════ */}
-      <section className="relative px-6 py-8 md:px-12 md:py-10">
+      <section className="relative px-6 py-8 md:px-12 md:py-10" style={{ contentVisibility: "auto", containIntrinsicSize: "auto 500px" }}>
         {/* 至上主义 — 细长红方块 + 远处黑点 */}
         <div
           className="absolute bg-[#D10000] z-0"
@@ -234,7 +265,7 @@ export const ArchiveContent = memo(function ArchiveContent({ className, onNaviga
       {/* ═══════════════════════════════════════════
           ④ 项目档案（索引）
           ═══════════════════════════════════════════ */}
-      <section className="relative px-6 py-8 md:px-12 md:py-10">
+      <section className="relative px-6 py-8 md:px-12 md:py-10" style={{ contentVisibility: "auto", containIntrinsicSize: "auto 500px" }}>
         {/* 至上主义 — 黑方块 + 红线的引力场 */}
         <div
           className="absolute bg-[var(--fg)] z-0"
@@ -287,7 +318,7 @@ export const ArchiveContent = memo(function ArchiveContent({ className, onNaviga
       {/* ═══════════════════════════════════════════
           ⑤ 摄影档案
           ═══════════════════════════════════════════ */}
-      <section className="relative px-6 py-8 md:px-12 md:py-10">
+      <section className="relative px-6 py-8 md:px-12 md:py-10" style={{ contentVisibility: "auto", containIntrinsicSize: "auto 500px" }}>
         {/* 右侧装饰 */}
         <div className="geo-circle absolute border-[2px] border-[#D10000]/30 z-0" style={{ right: "10%", top: "12%", width: "28px", height: "28px" }} />
 
@@ -324,7 +355,7 @@ export const ArchiveContent = memo(function ArchiveContent({ className, onNaviga
       {/* ═══════════════════════════════════════════
           ⑥ 影像档案
           ═══════════════════════════════════════════ */}
-      <section className="relative px-6 py-8 md:px-12 md:py-10">
+      <section className="relative px-6 py-8 md:px-12 md:py-10" style={{ contentVisibility: "auto", containIntrinsicSize: "auto 500px" }}>
         {/* 装饰 */}
         <div className="geo-circle absolute bg-[#D10000] z-0" style={{ right: "18%", top: "14%", width: "8px", height: "8px" }} />
         <div className="absolute h-[3px] bg-[#D10000]/50 z-0" style={{ right: "6%", top: "28%", width: "50px" }} />
@@ -362,7 +393,7 @@ export const ArchiveContent = memo(function ArchiveContent({ className, onNaviga
       {/* ═══════════════════════════════════════════
           ⑦ 校园记录
           ═══════════════════════════════════════════ */}
-      <section className="relative px-6 py-8 md:px-12 md:py-10">
+      <section className="relative px-6 py-8 md:px-12 md:py-10" style={{ contentVisibility: "auto", containIntrinsicSize: "auto 500px" }}>
         {/* 右侧装饰 */}
         <div className="geo-circle absolute border-[2px] border-[#D10000]/30 z-0" style={{ right: "10%", top: "12%", width: "28px", height: "28px" }} />
         <div className="absolute h-[3px] bg-[#D10000]/50 z-0" style={{ right: "6%", top: "30%", width: "50px" }} />
@@ -414,7 +445,7 @@ export const ArchiveContent = memo(function ArchiveContent({ className, onNaviga
       {/* ═══════════════════════════════════════════
           ⑧ 联系方式
           ═══════════════════════════════════════════ */}
-      <section className="relative px-6 py-8 md:px-12 md:py-10">
+      <section className="relative px-6 py-8 md:px-12 md:py-10" style={{ contentVisibility: "auto", containIntrinsicSize: "auto 500px" }}>
         <SectionMark label="CONTACT" />
         <h2
           className="type-display mb-4"
@@ -446,7 +477,7 @@ export const ArchiveContent = memo(function ArchiveContent({ className, onNaviga
       {/* ═══════════════════════════════════════════
           ⑨ 附注
           ═══════════════════════════════════════════ */}
-      <section className="relative px-6 py-8 md:px-12 md:py-10 pb-20">
+      <section className="relative px-6 py-8 md:px-12 md:py-10 pb-20" style={{ contentVisibility: "auto", containIntrinsicSize: "auto 500px" }}>
         {/* 至上主义 — 孤独的黑方块 */}
         <div
           className="absolute bg-[var(--fg)] z-0"
@@ -476,6 +507,32 @@ export const ArchiveContent = memo(function ArchiveContent({ className, onNaviga
       {/* 头像 Lightbox */}
       {avatarLightbox && (
         <Lightbox src={avatarLightbox.src} originRect={avatarLightbox.rect} onClose={() => setAvatarLightbox(null)} />
+      )}
+
+      {/* DEBUG — 左下角显示视口宽度，辅助决定断点 (false 隐藏，改 true 恢复) */}
+      {false && (
+      <div
+        style={{
+          position: "fixed",
+          left: 8,
+          bottom: 8,
+          zIndex: 9999,
+          background: "rgba(0,0,0,0.82)",
+          color: "#0f0",
+          padding: "8px 12px",
+          borderRadius: 6,
+          fontFamily: "var(--font-geist-mono)",
+          fontSize: "11px",
+          lineHeight: 1.55,
+          pointerEvents: "none",
+        }}
+        aria-hidden="true"
+      >
+        <div style={{ color: "#FF0", fontWeight: 700, marginBottom: 2 }}>🔍 DEBUG</div>
+        <div>window: <b>{winWidth}</b>px</div>
+        <div>bgTextTop: <b>{bgTextTop}</b></div>
+        <div>nameSize: <b>{nameFontSize}</b></div>
+      </div>
       )}
     </div>
   );

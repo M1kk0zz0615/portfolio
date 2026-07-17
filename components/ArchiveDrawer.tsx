@@ -342,7 +342,7 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
         ? "top 250ms cubic-bezier(0.2,0,0,1), box-shadow 350ms linear"
         : pullPhase === "bouncing"
           ? "top 250ms cubic-bezier(0.2,0,0,1), transform 350ms linear, box-shadow 350ms linear"
-          : "top 250ms cubic-bezier(0.2,0,0,1), transform 400ms cubic-bezier(0.2,0,0,1), box-shadow 350ms linear";
+          : "top 250ms cubic-bezier(0.2,0,0,1), transform 400ms cubic-bezier(0.2,0,0,1)";
 
   const drawer = (
     <div
@@ -387,6 +387,7 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
           background: "var(--bg)",
           overscrollBehavior: "contain",
           WebkitOverflowScrolling: "touch",
+          willChange: "transform",
           boxShadow: drawerExpanded
             ? "0 -2px 12px rgba(0,0,0,0.12)"
             : "0 -2px 20px rgba(0,0,0,0.25)",

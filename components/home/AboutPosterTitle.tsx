@@ -26,7 +26,7 @@ export const AboutPosterTitle = forwardRef<HTMLHeadingElement, AboutPosterTitleP
           style={{
             fontSize: "clamp(2.6rem, calc(var(--pw) * 0.12 * 1px), 5.8rem)",
             lineHeight: 0.9,
-            opacity: printed ? undefined : 1,
+            opacity: printed ? undefined : 0,
           }}
         >
           <span className="leading-none" style={{ letterSpacing: "0.02em" }}>

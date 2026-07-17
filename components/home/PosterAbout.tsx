@@ -454,8 +454,8 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
           pl-[30px] pr-6 pt-[12rem] pb-24
           xl:pt-[16rem]"
       >
-        {/* 标题 + 简介 + 按钮 — flex-shrink-0 保持自然高度 */}
-        <div className="flex-shrink-0 flex flex-col mt-16 ml-[72px] max-w-[58cqw]">
+        {/* 标题 + 简介 + 按钮 — absolute 定位 */}
+        <div className="absolute flex flex-col" style={{ top: "35%", left: "72px", maxWidth: "58cqw" }}>
           <AboutPosterTitle ref={titleRef} printed={geoCutPlayed} />
 
           <div
@@ -542,7 +542,7 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
         style={{
           right: "3.5%",
           bottom: "0.5%",
-          fontSize: "clamp(11rem, 24cqw, 29rem)",
+          fontSize: "28rem",
           fontWeight: 900,
           color: "var(--fg)",
           opacity: 0.02,

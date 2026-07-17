@@ -129,31 +129,27 @@ export const PosterVideo = memo(function PosterVideo() {
 
         {/* ── 四角裁切线 ── */}
         {[
-          { l: "2%", t: "3%" },
-          { r: "2%", t: "3%" },
-          { l: "2%", b: "4.5%" },
-          { r: "2%", b: "4.5%" },
+          { right: "2%", top: "3%" },
+          { left: "2%", bottom: "4.5%" },
         ].map((pos, i) => (
           <div key={i} className={`anim-scale d-${i + 1} absolute z-0`}
             style={{ ...pos, width: "clamp(14px, 2cqw, 22px)", height: "clamp(14px, 2cqw, 22px)" }}>
-            <div style={{ position: "absolute", left: "50%", top: 0, width: "1px", height: "100%", background: "var(--fg)", transform: "translateX(-50%)" }} />
-            <div style={{ position: "absolute", top: "50%", left: 0, height: "1px", width: "100%", background: "var(--fg)", transform: "translateY(-50%)" }} />
+            <div style={{ position: "absolute", left: "50%", top: 0, width: "1px", height: "100%", background: "var(--fg)", opacity: 0.2, transform: "translateX(-50%)" }} />
+            <div style={{ position: "absolute", top: "50%", left: 0, height: "1px", width: "100%", background: "var(--fg)", opacity: 0.2, transform: "translateY(-50%)" }} />
           </div>
         ))}
 
         {/* ── Registration Mark · 四角套准标记 ── */}
         {[
           { left: "1.2%", top: "2.5%" },
-          { right: "1.2%", top: "2.5%" },
-          { left: "1.2%", bottom: "4%" },
           { right: "1.2%", bottom: "4%" },
         ].map((pos, i) => (
           <div key={`reg-${i}`} className={`anim-scale d-${i + 1} absolute z-0`}
             style={{ ...pos, width: "clamp(16px, 2.2cqw, 24px)", height: "clamp(16px, 2.2cqw, 24px)" }}
             aria-hidden="true">
-            <div style={{ position: "absolute", inset: 0, borderRadius: "50%", border: "1px solid var(--fg)", opacity: 1 }} />
-            <div style={{ position: "absolute", left: "50%", top: 0, width: "1px", height: "100%", background: "var(--fg)", opacity: 1, transform: "translateX(-50%)" }} />
-            <div style={{ position: "absolute", top: "50%", left: 0, height: "1px", width: "100%", background: "var(--fg)", opacity: 1, transform: "translateY(-50%)" }} />
+            <div style={{ position: "absolute", inset: 0, borderRadius: "50%", border: "1px solid var(--fg)", opacity: 0.2 }} />
+            <div style={{ position: "absolute", left: "50%", top: 0, width: "1px", height: "100%", background: "var(--fg)", opacity: 0.2, transform: "translateX(-50%)" }} />
+            <div style={{ position: "absolute", top: "50%", left: 0, height: "1px", width: "100%", background: "var(--fg)", opacity: 0.2, transform: "translateY(-50%)" }} />
           </div>
         ))}
 
@@ -165,6 +161,7 @@ export const PosterVideo = memo(function PosterVideo() {
             fontSize: "clamp(0.85rem, 1cqw, 1.1rem)",
             fontFamily: "var(--font-geist-mono)",
             color: "var(--fg)",
+            opacity: 0.2,
             letterSpacing: "0.3em",
             transform: "rotate(90deg)",
             transformOrigin: "left top",
@@ -182,7 +179,7 @@ export const PosterVideo = memo(function PosterVideo() {
             fontSize: "clamp(10rem, 22cqw, 26rem)",
             fontWeight: 900,
             color: "var(--fg)",
-            opacity: 0.035,
+            opacity: 0.02,
             lineHeight: 0.85,
             letterSpacing: "-0.05em",
             fontFamily: "var(--font-geist-mono)",
@@ -282,18 +279,18 @@ export const PosterVideo = memo(function PosterVideo() {
         {/* 四角裁切线 */}
         {[{left:"2.2%",top:"3.2%"},{right:"2.2%",top:"3.2%"},{left:"2.2%",bottom:"4.7%"},{right:"2.2%",bottom:"4.7%"}].map((p,i)=>
           <div key={`cm-${i}`} className="absolute z-0" style={{...p,width:"clamp(10px,3vw,16px)",height:"clamp(10px,3vw,16px)"}} aria-hidden="true">
-            <div style={{position:"absolute",left:"50%",top:0,width:"1px",height:"100%",background:"var(--fg)",opacity:.4,transform:"translateX(-50%)"}} />
-            <div style={{position:"absolute",top:"50%",left:0,height:"1px",width:"100%",background:"var(--fg)",opacity:.4,transform:"translateY(-50%)"}} />
+            <div style={{position:"absolute",left:"50%",top:0,width:"1px",height:"100%",background:"var(--fg)",opacity:.10,transform:"translateX(-50%)"}} />
+            <div style={{position:"absolute",top:"50%",left:0,height:"1px",width:"100%",background:"var(--fg)",opacity:.10,transform:"translateY(-50%)"}} />
           </div>
         )}
 
         {/* ABCD 坐标字母 */}
         {[{left:"3%",top:"5%",v:"A"},{right:"4%",top:"5%",v:"B"},{left:"3%",bottom:"5.5%",v:"C"},{right:"4%",bottom:"5.5%",v:"D"}].map(({v,...p},i)=>
-          <div key={`abc-${i}`} className="absolute z-0 select-none" style={{...p,fontSize:"clamp(0.45rem,2vw,0.6rem)",fontFamily:"var(--font-geist-mono)",color:"var(--fg)",opacity:.5,letterSpacing:"0.05em"}} aria-hidden="true">{v}</div>
+          <div key={`abc-${i}`} className="absolute z-0 select-none" style={{...p,fontSize:"clamp(0.45rem,2vw,0.6rem)",fontFamily:"var(--font-geist-mono)",color:"var(--fg)",opacity:.10,letterSpacing:"0.05em"}} aria-hidden="true">{v}</div>
         )}
 
         {/* 超大编号水印 */}
-        <div className="absolute z-[1] select-none pointer-events-none" style={{right:"4%",bottom:"4%",fontSize:"clamp(8rem,60vw,28rem)",fontWeight:900,color:"var(--fg)",opacity:.04,lineHeight:.85,letterSpacing:"-0.05em",fontFamily:"var(--font-geist-mono)"}} aria-hidden="true">04</div>
+        <div className="absolute z-[1] select-none pointer-events-none" style={{right:"4%",bottom:"4%",fontSize:"clamp(8rem,60vw,28rem)",fontWeight:900,color:"var(--fg)",opacity:.02,lineHeight:.85,letterSpacing:"-0.05em",fontFamily:"var(--font-geist-mono)"}} aria-hidden="true">04</div>
       </div>
     </section>
   );
