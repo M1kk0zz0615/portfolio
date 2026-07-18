@@ -51,6 +51,7 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
 
   const drawerRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null); // 内层滚动容器（分离 transform 与 overflow）
+  const drawerExpandedRef = useRef(false); // 供 callback 读取最新值，避免 effect 重复绑定
 
   // ── 关闭速度：按钮快 / 把手慢 ──
   const closeDurationRef = useRef(400);
@@ -183,18 +184,9 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
       }
       const dy = e.clientY - dragLastYRef.current;
       dragLastYRef.current = e.clientY;
+      const expanded = drawerExpandedRef.current;
       if (dy > 0) {
-        // peek 态向下拖 → 展开抽屉（触屏 wheel 等价路径），阈值 20px 区分轻滑和意图拖拽
-        if (!drawerExpanded) {
-          dragDownAccRef.current += dy;
-          if (dragDownAccRef.current > 50) {
-            setDrawerExpanded(true);
-            isDraggingRef.current = false;
-            dragDownAccRef.current = 0;
-            return;
-          }
-          return; // peek 态不触发下拉关闭
-        }
+        if (!expanded) return; // peek 态向下拖 → 无操作（交给浏览器原生滚动/不反向展开）
         // 展开态向下拖 → 直写 DOM，绕过 React
         dragUpAccRef.current = 0;
         dragDownAccRef.current = 0;
@@ -204,7 +196,7 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
         pullOffsetRef.current = next;
         el.style.transform = `translateY(${next}px)`;
 
-        // 到达阈值 → 从 75% 位置播放退出动画
+        // 到达阈值 → 播放退出动画
         if (next >= threshold) {
           isDraggingRef.current = false;
           isExitingRef.current = true;
@@ -225,12 +217,13 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
             setTimeout(() => setPullPhase("idle"), 350);
           }
         }, PULL_IDLE_MS);
-      } else if (dy < 0 && !drawerExpanded) {
-        // 向上拖 → 展开抽屉全屏
+      } else if (dy < 0 && !expanded) {
+        // peek 态向上拖 → 展开抽屉
         dragUpAccRef.current += Math.abs(dy);
         dragDownAccRef.current = 0;
         if (dragUpAccRef.current > 50) {
           setDrawerExpanded(true);
+          isDraggingRef.current = false;
           dragUpAccRef.current = 0;
         }
       }
@@ -238,19 +231,28 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
 
     const onPointerUp = () => {
       const el = drawerRef.current;
-      if (el) el.style.transition = ''; // 恢复 transition
-      if (isDraggingRef.current && pullOffsetRef.current > 0) {
-        // 松手回弹：清除内联 transform，同步回 React
+      const wasDragging = isDraggingRef.current;
+      const hadPull = pullOffsetRef.current > 0;
+      isDraggingRef.current = false;
+      trackingRef.current = false;
+      dragUpAccRef.current = 0;
+      dragDownAccRef.current = 0;
+
+      if (hadPull) {
+        // 松手回弹：清除内联 transform，让 React 接管回弹动画
         if (el) el.style.transform = '';
         pullOffsetRef.current = 0;
         setPullPhase("bouncing");
         setPullOffset(0);
         setTimeout(() => setPullPhase("idle"), 350);
       }
-      isDraggingRef.current = false;
-      trackingRef.current = false; // 清理追踪状态
-      dragUpAccRef.current = 0;
-      dragDownAccRef.current = 0;
+      // rAF 延迟恢复 transition — 等 React 将新的 drawerTransition 写入 DOM 后再清内联
+      // 避免 React 还没写入就被清空导致 transition=none 打断动画
+      if (wasDragging || hadPull) {
+        requestAnimationFrame(() => {
+          if (el) el.style.transition = '';
+        });
+      }
     };
 
     const onPointerCancel = () => {
@@ -269,7 +271,7 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
       document.removeEventListener("pointercancel", onPointerCancel);
       document.body.style.overflow = "";
     };
-  }, [close, drawerExpanded]);
+  }, [close]); // drawerExpanded 通过 ref 读取，避免每次切换都重建事件
 
   // 入场
   useEffect(() => {
@@ -284,6 +286,9 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
       return () => clearTimeout(timer);
     }
   }, [phase]);
+
+  // ── drawerExpanded → ref 同步（避免 callback 依赖 state 导致事件重复绑定）──
+  useEffect(() => { drawerExpandedRef.current = drawerExpanded; }, [drawerExpanded]);
 
   // ── 抽屉完全展开后才允许内容滚动 ──
   // drawerExpanded → true：等待 380ms（top 350ms 过渡 + 余量）
@@ -304,9 +309,9 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
 
     const onScroll = () => {
       const { scrollTop, clientHeight, scrollHeight } = el;
-      if (scrollTop > 40) {
+      if (scrollTop > 20) {
         setDrawerExpanded(true);
-      } else if (scrollTop <= 5) {
+      } else if (scrollTop <= 10) {
         setDrawerExpanded(false);
         pullOffsetRef.current = 0;
         setPullOffset(0);
@@ -329,13 +334,23 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
   // ── 滚轮 ──
   const handleWheel = useCallback(
     (e: React.WheelEvent) => {
-      if (isExitingRef.current) return; // 退出中，屏蔽滚轮
+      if (isExitingRef.current) return;
       const scroller = scrollRef.current;
       if (!scroller) return;
+      const expanded = drawerExpandedRef.current;
 
-      // peek 模式下向下滚 → 先展开抽屉，内容不滚
-      if (!drawerExpanded && e.deltaY > 0) {
+      // peek 态向下滚 → 展开抽屉
+      if (!expanded && e.deltaY > 0) {
         setDrawerExpanded(true);
+        return;
+      }
+
+      // expanded 态 + 内容在顶部 + 向上滚 → 缩回 peek（自然收起）
+      if (expanded && scroller.scrollTop <= 0 && e.deltaY < 0 && !isDraggingRef.current) {
+        pullOffsetRef.current = 0;
+        setPullOffset(0);
+        setPullPhase("idle");
+        setDrawerExpanded(false);
         return;
       }
 
@@ -348,7 +363,7 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
         if (pullTimeoutRef.current) clearTimeout(pullTimeoutRef.current);
       }
     },
-    [drawerExpanded, applyPull]
+    [applyPull]
   );
 
   // ── 面板拖拽开始（全表面可拖，鼠标 + 触屏统一走 pointer） ──
@@ -358,7 +373,7 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
     if (isExitingRef.current) return;
     const scroller = scrollRef.current;
     // 内容已滚动 → 交给浏览器原生滚动，不追踪
-    if (drawerExpanded && scroller && scroller.scrollTop > 0) return;
+    if (drawerExpandedRef.current && scroller && scroller.scrollTop > 0) return;
     // 点击在按钮/链接上 → 不拦截
     const target = e.target as HTMLElement;
     if (target.closest('button, a, [role="button"]')) return;
@@ -366,13 +381,13 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
     dragStartYRef.current = e.clientY;
     trackingRef.current = true;
     dragDownAccRef.current = 0;
-  }, [drawerExpanded]);
+  }, []);
 
   // 把手同样可拖拽（保留把手上的立即锁定行为，手感更敏捷）
   const handleHandlePointerDown = useCallback((e: React.PointerEvent) => {
     if (isExitingRef.current) return;
     const scroller = scrollRef.current;
-    if (drawerExpanded && scroller && scroller.scrollTop > 0) return;
+    if (drawerExpandedRef.current && scroller && scroller.scrollTop > 0) return;
     e.preventDefault();
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
     isDraggingRef.current = true;
@@ -380,7 +395,7 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
     dragLastYRef.current = e.clientY;
     dragDownAccRef.current = 0;
     if (drawerRef.current) drawerRef.current.style.transition = 'none';
-  }, [drawerExpanded]);
+  }, []);
 
   // 减少动画偏好
   const prefersReduced =
