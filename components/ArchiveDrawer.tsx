@@ -181,6 +181,7 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
       const expanded = drawerExpandedRef.current;
       if (dy > 0) {
         // 向下拖拽（peek/expanded 统一）：累加偏移，直写 DOM
+        if (el) el.style.transition = 'none'; // 手动写 transform 需要禁用过渡
         dragUpAccRef.current = 0;
         dragDownAccRef.current = 0;
         const threshold = getPullThreshold();
@@ -215,9 +216,7 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
         dragUpAccRef.current += Math.abs(dy);
         dragDownAccRef.current = 0;
         if (dragUpAccRef.current > 50) {
-          // 先清除 transition:none 覆盖 + 强制重排，下一帧再改 top 触发动画
-          if (drawerRef.current) drawerRef.current.style.transition = '';
-          void drawerRef.current?.offsetHeight;
+          // transition 未被禁用（上滑路径不写手动 transform），rAF 确保浏览器先提交 before 状态
           isDraggingRef.current = false;
           trackingRef.current = false;
           dragUpAccRef.current = 0;
@@ -370,14 +369,14 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
     const expanded = drawerExpandedRef.current;
 
     if (!expanded) {
-      // peek 态：立即锁定拖拽，响应上滑展开手势
+      // peek 态：立即锁定拖拽，响应上滑展开/下滑退出
       e.preventDefault();
       drawerRef.current?.setPointerCapture?.(e.pointerId);
       isDraggingRef.current = true;
       trackingRef.current = false;
       dragLastYRef.current = e.clientY;
       dragUpAccRef.current = 0;
-      if (drawerRef.current) drawerRef.current.style.transition = 'none';
+      // transition 不在此处禁用——上滑展开不需要手动 transform，下拉时在 onPointerMove 中按需禁用
     } else {
       // 展开态：延迟追踪，避免拦截内容区域的原生滚动
       dragStartYRef.current = e.clientY;
