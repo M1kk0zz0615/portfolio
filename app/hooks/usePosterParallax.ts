@@ -15,6 +15,8 @@ export interface PosterParallaxOptions {
   enabled: boolean;
   /** 倾斜多少度达到满偏 ±1，默认 30 */
   maxTiltDeg?: number;
+  /** 陀螺仪额外倍率 — 调大则手持设备视差更明显，默认 1 */
+  gyroScale?: number;
 }
 
 /**
@@ -36,7 +38,7 @@ export interface PosterParallaxOptions {
  */
 export function usePosterParallax<T extends HTMLElement>(
   ref: React.RefObject<T | null>,
-  { enabled, maxTiltDeg = 30 }: PosterParallaxOptions
+  { enabled, maxTiltDeg = 30, gyroScale = 1 }: PosterParallaxOptions
 ) {
   useEffect(() => {
     // ── 门控 ──
@@ -102,8 +104,8 @@ export function usePosterParallax<T extends HTMLElement>(
       }
 
       setVars(
-        clamp1((dx - baseX) / maxTiltDeg),
-        clamp1((dy - baseY) / maxTiltDeg)
+        clamp1(((dx - baseX) / maxTiltDeg) * gyroScale),
+        clamp1(((dy - baseY) / maxTiltDeg) * gyroScale)
       );
     };
 
