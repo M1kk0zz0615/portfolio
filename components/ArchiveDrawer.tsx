@@ -11,15 +11,9 @@ interface ArchiveDrawerProps {
   onBottomCTA?: () => void; // 底部 CTA 单独回调
 }
 
-/** 抽屉内容占视口不足 75% 时触发退出 */
-const getPullThreshold = () => {
-  const vh = window.innerHeight;
-  const el = document.querySelector('[data-drawer-panel]') as HTMLElement | null;
-  const topOffset = el
-    ? parseFloat(getComputedStyle(el).top) || 0
-    : vh * 0.15; // 回退值
-  return vh * 0.25 - topOffset;
-};
+/** 下拉退出阈值：从当前 top 位置继续下拉 15vh 即触发退出 */
+const PULL_EXIT_VH = 0.15;
+const getPullThreshold = () => window.innerHeight * PULL_EXIT_VH;
 /** 停止下拉后等待此时间再判断回弹/关闭 */
 const PULL_IDLE_MS = 100;
 /** 滚轮阻尼系数 */
@@ -186,8 +180,7 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
       dragLastYRef.current = e.clientY;
       const expanded = drawerExpandedRef.current;
       if (dy > 0) {
-        if (!expanded) return; // peek 态向下拖 → 无操作（交给浏览器原生滚动/不反向展开）
-        // 展开态向下拖 → 直写 DOM，绕过 React
+        // 向下拖拽（peek/expanded 统一）：累加偏移，直写 DOM
         dragUpAccRef.current = 0;
         dragDownAccRef.current = 0;
         const threshold = getPullThreshold();
@@ -222,13 +215,13 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
         dragUpAccRef.current += Math.abs(dy);
         dragDownAccRef.current = 0;
         if (dragUpAccRef.current > 50) {
-          // 先清除 transition:none 覆盖 + 强制重排，让浏览器注册"before"状态
+          // 先清除 transition:none 覆盖 + 强制重排，下一帧再改 top 触发动画
           if (drawerRef.current) drawerRef.current.style.transition = '';
           void drawerRef.current?.offsetHeight;
           isDraggingRef.current = false;
           trackingRef.current = false;
           dragUpAccRef.current = 0;
-          setDrawerExpanded(true); // React 渲染 top:0 + transition → 检测到变化 → 播放动画
+          requestAnimationFrame(() => setDrawerExpanded(true));
         }
       }
     };
@@ -243,13 +236,21 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
       dragDownAccRef.current = 0;
 
       if (hadPull) {
-        // 松手回弹：先清 transition:none + 重排，再让 React 接管回弹动画
-        if (el) { el.style.transform = ''; el.style.transition = ''; }
-        void el?.offsetHeight;
+        const finalPull = pullOffsetRef.current;
         pullOffsetRef.current = 0;
-        setPullPhase("bouncing");
-        setPullOffset(0);
-        setTimeout(() => setPullPhase("idle"), 350);
+
+        if (finalPull >= getPullThreshold()) {
+          // 超过退出阈值 → 从当前位置播放退出动画
+          isDraggingRef.current = false;
+          isExitingRef.current = true;
+          exitFromDrag();
+        } else {
+          // 未到阈值 → snap 回弹
+          if (el) el.style.transform = '';
+          setPullPhase("bouncing");
+          setPullOffset(0);
+          setTimeout(() => setPullPhase("idle"), 350);
+        }
       }
       // transition 由 React render 接管，无需手动清除
     };
@@ -310,11 +311,6 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
       const { scrollTop, clientHeight, scrollHeight } = el;
       if (scrollTop > 20) {
         setDrawerExpanded(true);
-      } else if (scrollTop <= 10) {
-        setDrawerExpanded(false);
-        pullOffsetRef.current = 0;
-        setPullOffset(0);
-        setPullPhase("idle");
       }
       setReachedBottom(scrollTop + clientHeight >= scrollHeight - 20);
     };
@@ -344,15 +340,7 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
         return;
       }
 
-      // expanded 态 + 内容在顶部 + 向上滚 → 缩回 peek（自然收起）
-      if (expanded && scroller.scrollTop <= 0 && e.deltaY < 0 && !isDraggingRef.current) {
-        pullOffsetRef.current = 0;
-        setPullOffset(0);
-        setPullPhase("idle");
-        setDrawerExpanded(false);
-        return;
-      }
-
+      // 内容在顶部 + 向上滚 → 下拉朝退出阈值推进
       if (scroller.scrollTop <= 0 && e.deltaY < 0) {
         applyPull(Math.abs(e.deltaY) * PULL_DAMPING);
       } else if (e.deltaY > 0 && pullOffsetRef.current > 0) {
@@ -370,6 +358,8 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
   // 展开态：延迟追踪 → pointerMove 检测到足够位移后才锁定，避免拦截内容滚动
   const handlePanelPointerDown = useCallback((e: React.PointerEvent) => {
     if (isExitingRef.current) return;
+    // 桌面端：只有把手可拖拽，面板区域不拦截鼠标事件
+    if (e.pointerType === 'mouse') return;
     const scroller = scrollRef.current;
     // 内容已滚动 → 交给浏览器原生滚动，不追踪
     if (drawerExpandedRef.current && scroller && scroller.scrollTop > 0) return;
