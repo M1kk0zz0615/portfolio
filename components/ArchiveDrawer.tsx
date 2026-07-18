@@ -161,7 +161,7 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
         const dy = e.clientY - dragStartYRef.current;
         if (dy > 10) {
           // 锁定拖拽
-          (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+          drawerRef.current?.setPointerCapture?.(e.pointerId);
           isDraggingRef.current = true;
           trackingRef.current = false;
           dragLastYRef.current = e.clientY;
@@ -295,7 +295,7 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
   // drawerExpanded → false：立即禁用
   useEffect(() => {
     if (drawerExpanded) {
-      const timer = setTimeout(() => setContentCanScroll(true), 260);
+      const timer = setTimeout(() => setContentCanScroll(true), 100);
       return () => clearTimeout(timer);
     } else {
       setContentCanScroll(false);
@@ -367,8 +367,8 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
   );
 
   // ── 面板拖拽开始（全表面可拖，鼠标 + 触屏统一走 pointer） ──
-  // 两阶段设计：pointerDown 时只记录位置（tracking），pointerMove 检测到足够
-  // 向下位移后才锁定拖拽（setPointerCapture + isDragging）。避免拦截正常内容滚动。
+  // peek 态：overflow hidden 无滚动冲突 → 立即锁定，和把手行为一致
+  // 展开态：延迟追踪 → pointerMove 检测到足够位移后才锁定，避免拦截内容滚动
   const handlePanelPointerDown = useCallback((e: React.PointerEvent) => {
     if (isExitingRef.current) return;
     const scroller = scrollRef.current;
@@ -378,9 +378,23 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
     const target = e.target as HTMLElement;
     if (target.closest('button, a, [role="button"]')) return;
 
-    dragStartYRef.current = e.clientY;
-    trackingRef.current = true;
-    dragDownAccRef.current = 0;
+    const expanded = drawerExpandedRef.current;
+
+    if (!expanded) {
+      // peek 态：立即锁定拖拽，响应上滑展开手势
+      e.preventDefault();
+      drawerRef.current?.setPointerCapture?.(e.pointerId);
+      isDraggingRef.current = true;
+      trackingRef.current = false;
+      dragLastYRef.current = e.clientY;
+      dragUpAccRef.current = 0;
+      if (drawerRef.current) drawerRef.current.style.transition = 'none';
+    } else {
+      // 展开态：延迟追踪，避免拦截内容区域的原生滚动
+      dragStartYRef.current = e.clientY;
+      trackingRef.current = true;
+      dragDownAccRef.current = 0;
+    }
   }, []);
 
   // 把手同样可拖拽（保留把手上的立即锁定行为，手感更敏捷）
@@ -389,7 +403,7 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
     const scroller = scrollRef.current;
     if (drawerExpandedRef.current && scroller && scroller.scrollTop > 0) return;
     e.preventDefault();
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    drawerRef.current?.setPointerCapture?.(e.pointerId);
     isDraggingRef.current = true;
     trackingRef.current = false;
     dragLastYRef.current = e.clientY;
@@ -466,6 +480,7 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
           transition: drawerTransition,
           background: "var(--bg)",
           willChange: "transform",
+          touchAction: "none",
           boxShadow: drawerExpanded
             ? "0 -2px 12px rgba(0,0,0,0.12)"
             : "0 -2px 20px rgba(0,0,0,0.25)",
@@ -474,13 +489,14 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
         {/* ── 内层滚动容器（与 transform/will-change 分离，确保 iOS 惯性滚动）── */}
         <div
           ref={scrollRef}
+          data-drawer-scroll
           style={{
             height: "100%",
             overflowY: contentCanScroll ? "auto" : "hidden",
             overflowX: "hidden",
             scrollbarGutter: "stable",
             overscrollBehavior: "contain",
-            WebkitOverflowScrolling: "touch",
+            touchAction: contentCanScroll ? "pan-y" : "none",
           }}
         >
         {/* ── 抽屉把手（可拖拽 + 全表面手势）── */}

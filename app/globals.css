@@ -163,6 +163,10 @@ body {
   .poster-container {
     scrollbar-gutter: auto;
   }
+  /* 抽屉内层滚动容器同样处理 */
+  [data-drawer-scroll] {
+    scrollbar-gutter: auto;
+  }
 }
 
 /* ═══════════════════════════════════════════
