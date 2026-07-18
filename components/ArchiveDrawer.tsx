@@ -222,9 +222,13 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
         dragUpAccRef.current += Math.abs(dy);
         dragDownAccRef.current = 0;
         if (dragUpAccRef.current > 50) {
-          setDrawerExpanded(true);
+          // 先清除 transition:none 覆盖 + 强制重排，让浏览器注册"before"状态
+          if (drawerRef.current) drawerRef.current.style.transition = '';
+          void drawerRef.current?.offsetHeight;
           isDraggingRef.current = false;
+          trackingRef.current = false;
           dragUpAccRef.current = 0;
+          setDrawerExpanded(true); // React 渲染 top:0 + transition → 检测到变化 → 播放动画
         }
       }
     };
@@ -239,20 +243,15 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
       dragDownAccRef.current = 0;
 
       if (hadPull) {
-        // 松手回弹：清除内联 transform，让 React 接管回弹动画
-        if (el) el.style.transform = '';
+        // 松手回弹：先清 transition:none + 重排，再让 React 接管回弹动画
+        if (el) { el.style.transform = ''; el.style.transition = ''; }
+        void el?.offsetHeight;
         pullOffsetRef.current = 0;
         setPullPhase("bouncing");
         setPullOffset(0);
         setTimeout(() => setPullPhase("idle"), 350);
       }
-      // rAF 延迟恢复 transition — 等 React 将新的 drawerTransition 写入 DOM 后再清内联
-      // 避免 React 还没写入就被清空导致 transition=none 打断动画
-      if (wasDragging || hadPull) {
-        requestAnimationFrame(() => {
-          if (el) el.style.transition = '';
-        });
-      }
+      // transition 由 React render 接管，无需手动清除
     };
 
     const onPointerCancel = () => {
