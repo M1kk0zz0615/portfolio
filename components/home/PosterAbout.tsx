@@ -1,15 +1,78 @@
 "use client";
 
-import { useRef, useState, useEffect, memo } from "react";
+import { useRef, useState, useEffect, memo, type MutableRefObject } from "react";
 import { useScrollReveal } from "@/app/hooks/useScrollReveal";
 import { usePosterWidth } from "@/app/hooks/usePosterWidth";
 import { usePosterParallax } from "@/app/hooks/usePosterParallax";
+import { usePosterScale } from "@/app/hooks/usePosterScale";
 import { AboutArchiveButton } from "./AboutArchiveButton";
 import { AboutPosterTitle } from "./AboutPosterTitle";
 
 interface PosterAboutProps {
   archiveOpen?: boolean;
   onOpenArchive?: () => void;
+}
+
+/** 纯客户端 debug 面板 — 避免 SSR hydration 不匹配 */
+function DebugPanel({ dbg, scaleRef, contentRef, logoRef, wrapperRef }: {
+  dbg: ReturnType<typeof import("@/app/hooks/usePosterWidth").usePosterWidth>;
+  scaleRef: MutableRefObject<number>;
+  contentRef: MutableRefObject<HTMLDivElement | null>;
+  logoRef: MutableRefObject<HTMLDivElement | null>;
+  wrapperRef: MutableRefObject<HTMLDivElement | null>;
+}) {
+  const [mounted, setMounted] = useState(false);
+  const [info, setInfo] = useState({ scale: 1, vw: 0, cLeft: 0, cRight: 0, cTop: 0, lLeft: 0, lRight: 0, lTop: 0, natW: 0, wrapPos: "", wrapHasTransform: false });
+
+  useEffect(() => {
+    setMounted(true);
+    const tick = () => {
+      const content = contentRef.current;
+      const logo = logoRef.current;
+      const wrapper = wrapperRef.current;
+      const cr = content?.getBoundingClientRect();
+      const lr = logo?.getBoundingClientRect();
+      setInfo({
+        scale: scaleRef.current,
+        vw: window.innerWidth,
+        cLeft: cr ? Math.round(cr.left) : 0,
+        cRight: cr ? Math.round(cr.right) : 0,
+        cTop: cr ? Math.round(cr.top) : 0,
+        lLeft: lr ? Math.round(lr.left) : 0,
+        lRight: lr ? Math.round(lr.right) : 0,
+        lTop: lr ? Math.round(lr.top) : 0,
+        natW: (cr && lr) ? Math.round(Math.max(cr.right, lr.right) - cr.left) : 0,
+        wrapPos: wrapper?.style.position || "(default)",
+        wrapHasTransform: !!wrapper?.style.transform,
+      });
+    };
+    tick();
+    const id = setInterval(tick, 300);
+    window.addEventListener("resize", tick);
+    return () => { clearInterval(id); window.removeEventListener("resize", tick); };
+  }, [scaleRef, contentRef, logoRef, wrapperRef]);
+
+  if (!mounted) return null;
+
+  return (
+    <div
+      style={{
+        position: "absolute", left: 8, bottom: 8, zIndex: 9999,
+        background: "rgba(0,0,0,0.82)", color: "#0f0", padding: "10px 14px",
+        borderRadius: 6, fontFamily: "var(--font-geist-mono)",
+        fontSize: "clamp(9px, 1.2cqw, 12px)", lineHeight: 1.55, maxWidth: "94vw",
+        pointerEvents: "none",
+      }}
+      aria-hidden="true"
+    >
+      <div style={{ color: "#FF0", fontWeight: 700, marginBottom: 4 }}>🔍 POSTER ABOUT DEBUG</div>
+      <div>vw: <b>{info.vw}</b>px | Scale: <b>{info.scale.toFixed(4)}</b> | 70%vw: <b>{Math.round(info.vw * 0.7)}</b>px</div>
+      <div>自然宽度: <b>{info.natW}</b>px | wrapper: <b>{info.wrapPos}</b> | transform: <b>{String(info.wrapHasTransform)}</b></div>
+      <div style={{ color: "#0ff", marginTop: 2 }}>📦 内容块: L=<b>{info.cLeft}</b> R=<b>{info.cRight}</b> T=<b>{info.cTop}</b></div>
+      <div style={{ color: "#f0f" }}>🖼️ Logo块: L=<b>{info.lLeft}</b> R=<b>{info.lRight}</b> T=<b>{info.lTop}</b></div>
+      <div>间隔: <b>{info.lLeft - info.cRight}</b>px | clientW: <b>{dbg.clientWidth}</b>px</div>
+    </div>
+  );
 }
 
 export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOpenArchive }: PosterAboutProps) {
@@ -20,6 +83,9 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
   // 印版退回后的动画阶段状态机
   type PostPressPhase = 'idle' | 'line-extend' | 'content-reveal' | 'line-retract' | 'done';
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
+  const scaleWrapperRef = useRef<HTMLDivElement>(null);
   const [postPressPhase, setPostPressPhase] = useState<PostPressPhase>('idle');
   const [titleWidth, setTitleWidth] = useState(0);
   const [parallaxEnabled, setParallaxEnabled] = useState(false);
@@ -72,6 +138,9 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
 
   // 鼠标/陀螺仪视差 — 输入源由 usePosterParallax 仲裁（鼠标优先、陀螺仪兜底）
   usePosterParallax(ref, { enabled: parallaxEnabled });
+
+  // 内容块+Logo 响应式等比缩放 — 空间不足 70% 视口时等比缩小
+  const scaleRef = usePosterScale(scaleWrapperRef, contentRef, logoRef, { threshold: 0.7 });
 
   return (
     <section
@@ -438,8 +507,11 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
           pl-[30px] pr-6 pt-[12rem] pb-24
           xl:pt-[16rem]"
       >
+        {/* ═══════ 缩放包装容器 — 内容块+Logo 响应式等比缩放 ═══════ */}
+        <div ref={scaleWrapperRef} style={{ transformOrigin: "50% 0" }}>
+
         {/* 标题 + 简介 + 按钮 — absolute 定位 */}
-        <div className="absolute flex flex-col" style={{ top: "33%", left: "72px", maxWidth: "58cqw" }}>
+        <div ref={contentRef} className="absolute flex flex-col" style={{ top: "33%", left: "72px", maxWidth: "58cqw" }}>
           <AboutPosterTitle ref={titleRef} printed={curtainPlayed} />
 
           <div
@@ -471,11 +543,9 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
           </div>
         </div>
 
-        {/* 弹性占位 — 吸收剩余高度，驱动按钮保持在内容自然位置 */}
-        <div className="flex-1 min-h-0" aria-hidden="true" />
-
         {/* Logo 图案 — 桌面端 absolute，右移对齐主标题 */}
         <div
+          ref={logoRef}
           className="flex-shrink-0 flex items-end justify-end
             absolute right-[6%] top-[18%] h-[42%] w-[38%]
             xl:w-[48%]"
@@ -515,18 +585,25 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
           </div>
 
         </div>
+
+        </div>{/* 缩放包装容器结束 */}
+
+        {/* 弹性占位 — 吸收剩余高度，驱动按钮保持在内容自然位置 */}
+        <div className="flex-1 min-h-0" aria-hidden="true" />
+
       </div>
 
       {/* ═══════════════════════════════════════════
           印刷编号 — 右下角超大低透明度
           杂志封面式背景信息层，非按钮/标签
+          用 cqw 断点：poster ~1445px 时 31cqw=28rem 开始缩小，至 ~1135px 触底 22rem
           ═══════════════════════════════════════════ */}
       <div
         className="parallax-layer-2 absolute z-[1] select-none"
         style={{
           right: "3.5%",
           bottom: "0.5%",
-          fontSize: "28rem",
+          fontSize: "clamp(22rem, 31cqw, 28rem)",
           fontWeight: 900,
           color: "var(--fg)",
           opacity: 0.02,
@@ -661,38 +738,7 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
       {/* ═══════════════════════════════════════════
           DEBUG PANEL — iPad 诊断 (false 隐藏，改 true 恢复)
           ═══════════════════════════════════════════ */}
-      {false && (
-      <div
-        style={{
-          position: "absolute",
-          left: 8,
-          bottom: 8,
-          zIndex: 9999,
-          background: "rgba(0,0,0,0.82)",
-          color: "#0f0",
-          padding: "10px 14px",
-          borderRadius: 6,
-          fontFamily: "var(--font-geist-mono)",
-          fontSize: "clamp(9px, 1.2cqw, 12px)",
-          lineHeight: 1.55,
-          maxWidth: "94vw",
-          pointerEvents: "none",
-        }}
-        aria-hidden="true"
-      >
-        <div style={{ color: "#FF0", fontWeight: 700, marginBottom: 4 }}>
-          🔍 POSTER ABOUT DEBUG
-        </div>
-        <div>clientWidth: <b>{dbg.clientWidth}</b>px</div>
-        <div>clientHeight: <b>{dbg.clientHeight}</b>px</div>
-        <div>--pw computed: "<b>{dbg.pwComputed || "(empty)"}</b>"</div>
-        <div>contain: <b>{dbg.contain || "(unknown)"}</b></div>
-        <div>containerType: <b>{dbg.containerType || "(unknown)"}</b></div>
-        <div>ResizeObserver: <b>{dbg.roCount}</b> 次</div>
-        <div>mounted: <b>{String(dbg.mounted)}</b></div>
-        <div style={{ color: "#FF0", marginTop: 4 }}>📌 按钮位置: (已移除 ResizeObserver)</div>
-      </div>
-      )}
+      {false && <DebugPanel dbg={dbg} scaleRef={scaleRef} contentRef={contentRef} logoRef={logoRef} wrapperRef={scaleWrapperRef} />}
     </section>
   );
 });

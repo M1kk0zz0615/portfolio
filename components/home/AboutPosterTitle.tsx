@@ -24,7 +24,7 @@ export const AboutPosterTitle = forwardRef<HTMLHeadingElement, AboutPosterTitleP
           ref={ref}
           className="type-display flex flex-col gap-[0.15em] text-[var(--fg)] select-none whitespace-nowrap"
           style={{
-            fontSize: "clamp(2.6rem, 7.1vw, 5.8rem)",
+            fontSize: "5.8rem",
             lineHeight: 0.9,
             opacity: printed ? undefined : 0,
           }}
