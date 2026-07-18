@@ -272,6 +272,58 @@ export function ArchiveDrawer({ onClose, onCloseStart, onNavigate, onBottomCTA }
     };
   }, [close]); // drawerExpanded 通过 ref 读取，避免每次切换都重建事件
 
+  // ── 触屏下拉退出修复（非被动 touch 监听）──
+  // 根因：展开态滚动容器 touch-action: pan-y 会让浏览器在手势超过 slop 后接管
+  // 垂直平移并派发 pointercancel（即使 scrollTop 已为 0），pointermove 流中断，
+  // 延迟追踪（dy>10 锁定）永远无法完成。
+  // 修复：在浏览器接管之前，对可取消的 touchmove 有选择地 preventDefault，
+  // 原生 pan 不启动 → 不产生 pointercancel → 既有 pointer 管线原样工作。
+  // 注意：必须原生 addEventListener（passive: false）——React 的 onTouchMove
+  // 注册为 passive，preventDefault 无效。
+  useEffect(() => {
+    const el = drawerRef.current;
+    if (!el) return;
+
+    const onTouchMove = (e: TouchEvent) => {
+      // 浏览器已接管滚动的 touchmove 不可取消，preventDefault 会报 intervention 错，先行短路
+      if (!e.cancelable) return;
+
+      // 退出动画进行中 → 冻结原生滚动
+      if (isExitingRef.current) {
+        e.preventDefault();
+        return;
+      }
+
+      // 多指 → 放弃追踪，控制权交还浏览器（浏览器接管会发 pointercancel，走现有复位）
+      if (e.touches.length > 1) {
+        trackingRef.current = false;
+        return;
+      }
+
+      // 已锁定拖拽 → 拖拽期间无条件禁止原生滚动（把手自带 touch-action:none，此为纵深防御）
+      if (isDraggingRef.current) {
+        e.preventDefault();
+        return;
+      }
+
+      // 延迟追踪中：内容在顶部 + 手势向下 → 阻止浏览器启动 pan，保住 pointermove 流。
+      // dragStartYRef 由 handlePanelPointerDown 展开分支写入；pointerdown 规范上先于
+      // touchmove 派发，trackingRef 为 true 时该值必然新鲜，无需另记 touchstart 起点
+      if (trackingRef.current) {
+        const scroller = scrollRef.current;
+        const dy = e.touches[0].clientY - dragStartYRef.current;
+        if (dy > 0 && scroller && scroller.scrollTop <= 0) {
+          e.preventDefault();
+        }
+        // dy <= 0（上滑滚内容）或 scrollTop > 0：不拦截，保持原生滚动
+      }
+      // 其余情况：完全不干预，保持原生惯性滚动
+    };
+
+    el.addEventListener("touchmove", onTouchMove, { passive: false });
+    return () => el.removeEventListener("touchmove", onTouchMove);
+  }, []);
+
   // 入场
   useEffect(() => {
     const raf = requestAnimationFrame(() => setPhase("active"));
