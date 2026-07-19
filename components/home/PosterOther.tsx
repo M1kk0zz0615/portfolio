@@ -1,14 +1,23 @@
 "use client";
 
-import { useState, useRef, useCallback, memo } from "react";
+import { useState, useEffect, useRef, useCallback, memo } from "react";
 import Link from "next/link";
 import { useScrollReveal } from "@/app/hooks/useScrollReveal";
 import { usePosterWidth } from "@/app/hooks/usePosterWidth";
+import { usePosterParallax } from "@/app/hooks/usePosterParallax";
 import { Lightbox } from "@/components/Lightbox";
 
 export const PosterOther = memo(function PosterOther() {
   const ref = useScrollReveal<HTMLDivElement>(0.3);
   usePosterWidth(ref); // 修复 iPadOS Safari cqw 不更新
+
+  // 视差效果
+  const [parallaxEnabled, setParallaxEnabled] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => setParallaxEnabled(true), 1050);
+    return () => clearTimeout(timer);
+  }, []);
+  usePosterParallax(ref, { enabled: parallaxEnabled, gyroScale: 1.75 });
   const wechatRef = useRef<HTMLAnchorElement>(null);
   const [wechatLightbox, setWechatLightbox] = useState<{ src: string; rect: DOMRect } | null>(null);
 
@@ -40,14 +49,14 @@ export const PosterOther = memo(function PosterOther() {
     <section
       ref={ref}
       id="poster-other"
-      className="poster flex items-center bg-paper text-[var(--fg)]"
+      className={`poster flex items-center bg-paper text-[var(--fg)]${parallaxEnabled ? " parallax-active" : ""}`}
       aria-label="其他"
     >
       {/* ====== 桌面端 (>1024px) — 绝对定位海报布局 ====== */}
       <div className="hidden lg:contents">
         {/* 档案编号 — 模块标签样式 */}
         <div
-          className="anim-y-60 absolute z-20 font-mono text-xs tracking-widest uppercase"
+          className="anim-y-60 parallax-layer-3 absolute z-20 font-mono text-xs tracking-widest uppercase"
           style={{ left: "clamp(1.5rem, 6cqw, 8%)", top: "19%" }}
         >
           <span style={{
@@ -64,28 +73,28 @@ export const PosterOther = memo(function PosterOther() {
         </div>
 
         {/* 左上角空心正方形 */}
-        <div className="anim-scale d-1 absolute border-[4px] border-[var(--fg)] z-0"
+        <div className="anim-scale d-1 parallax-layer-2 absolute border-[4px] border-[var(--fg)] z-0"
           style={{ left: "12%", top: "18%", width: "clamp(40px, 6cqw, 70px)", height: "clamp(40px, 6cqw, 70px)" }} />
         {/* 红色小圆 */}
-        <div className="anim-scale d-2 geo-circle absolute bg-[#D10000] z-0"
+        <div className="anim-scale d-2 geo-circle parallax-layer-2 absolute bg-[#D10000] z-0"
           style={{ left: "28%", top: "22%", width: "clamp(14px, 2cqw, 22px)", height: "clamp(14px, 2cqw, 22px)" }} />
         {/* 空心黑圆 */}
-        <div className="anim-scale d-3 geo-circle absolute border-[3px] border-[var(--fg)] z-0"
+        <div className="anim-scale d-3 geo-circle parallax-layer-2 absolute border-[3px] border-[var(--fg)] z-0"
           style={{ right: "16%", top: "20%", width: "clamp(30px, 4cqw, 50px)", height: "clamp(30px, 4cqw, 50px)" }} />
         {/* 细水平线 */}
-        <div className="anim-line-x d-3 absolute right-0 h-[2px] bg-[var(--fg)]/15 z-0"
+        <div className="anim-line-x d-3 parallax-layer-2 absolute right-0 h-[2px] bg-[var(--fg)]/15 z-0"
           style={{ top: "42%", width: "18%" }} />
         {/* 红色粗短横线 */}
-        <div className="anim-line-x d-2 absolute right-[12%] h-[4px] bg-[#D10000] z-0"
+        <div className="anim-line-x d-2 parallax-layer-2 absolute right-[12%] h-[4px] bg-[#D10000] z-0"
           style={{ top: "46%", width: "clamp(40px, 6cqw, 80px)" }} />
         {/* 黑色小方块 */}
-        <div className="anim-scale d-4 absolute bg-[var(--fg)] z-0"
+        <div className="anim-scale d-4 parallax-layer-2 absolute bg-[var(--fg)] z-0"
           style={{ right: "18%", top: "55%", width: "clamp(10px, 1.5cqw, 18px)", height: "clamp(10px, 1.5cqw, 18px)" }} />
         {/* 红色圆点 */}
-        <div className="anim-scale d-5 geo-circle absolute bg-[#D10000] z-0"
+        <div className="anim-scale d-5 geo-circle parallax-layer-2 absolute bg-[#D10000] z-0"
           style={{ right: "10%", bottom: "24%", width: "clamp(8px, 1.2cqw, 14px)", height: "clamp(8px, 1.2cqw, 14px)" }} />
         {/* 竖向细线 */}
-        <div className="anim-line-x d-1 absolute w-[2px] bg-[var(--fg)]/20 z-0"
+        <div className="anim-line-x d-1 parallax-layer-2 absolute w-[2px] bg-[var(--fg)]/20 z-0"
           style={{ right: "26%", top: "26%", height: "16%" }} />
 
         {/* 两个链接 — 居中 */}
@@ -104,7 +113,7 @@ export const PosterOther = memo(function PosterOther() {
         </div>
 
         {/* 社交媒体 */}
-        <div className="anim-y-60 d-4 absolute flex flex-col items-start gap-3 select-none z-10"
+        <div className="anim-y-60 d-4 parallax-layer-1 absolute flex flex-col items-start gap-3 select-none z-10"
           style={{ left: "12%", bottom: "14%" }}>
           <div className="flex items-center gap-2">
             <span className="type-label text-[var(--fg)] font-bold"
@@ -130,7 +139,7 @@ export const PosterOther = memo(function PosterOther() {
           { right: "2%", top: "3%" },
           { left: "2%", bottom: "4.5%" },
         ].map((pos, i) => (
-          <div key={i} className={`anim-scale d-${i + 1} absolute z-0`}
+          <div key={i} className={`anim-scale d-${i + 1} parallax-layer-3 absolute z-0`}
             style={{ ...pos, width: "clamp(14px, 2cqw, 22px)", height: "clamp(14px, 2cqw, 22px)" }}>
             <div style={{ position: "absolute", left: "50%", top: 0, width: "1px", height: "100%", background: "var(--fg)", opacity: 0.2, transform: "translateX(-50%)" }} />
             <div style={{ position: "absolute", top: "50%", left: 0, height: "1px", width: "100%", background: "var(--fg)", opacity: 0.2, transform: "translateY(-50%)" }} />
@@ -142,7 +151,7 @@ export const PosterOther = memo(function PosterOther() {
           { left: "1.2%", top: "2.5%" },
           { right: "1.2%", bottom: "4%" },
         ].map((pos, i) => (
-          <div key={`reg-${i}`} className={`anim-scale d-${i + 1} absolute z-0`}
+          <div key={`reg-${i}`} className={`anim-scale d-${i + 1} parallax-layer-3 absolute z-0`}
             style={{ ...pos, width: "clamp(16px, 2.2cqw, 24px)", height: "clamp(16px, 2.2cqw, 24px)" }}
             aria-hidden="true">
             <div style={{ position: "absolute", inset: 0, borderRadius: "50%", border: "1px solid var(--fg)", opacity: 0.2 }} />
@@ -153,7 +162,7 @@ export const PosterOther = memo(function PosterOther() {
 
         {/* ── 左侧竖排西里尔文 ── */}
         <div
-          className="anim-y-60 d-3 absolute z-[2] select-none"
+          className="anim-y-60 d-3 parallax-layer-2 absolute z-[2] select-none"
           style={{
             left: "2.8%", top: "18%",
             fontSize: "clamp(0.85rem, 1cqw, 1.1rem)",
@@ -171,7 +180,7 @@ export const PosterOther = memo(function PosterOther() {
 
         {/* 右下角大水印数字 */}
         <div
-          className="absolute z-[1] select-none"
+          className="parallax-layer-2 absolute z-[1] select-none"
           style={{
             right: "4%", bottom: "4%",
             fontSize: "clamp(10rem, 22cqw, 26rem)",
@@ -186,7 +195,7 @@ export const PosterOther = memo(function PosterOther() {
           05
         </div>
 
-        <div className="footer-bar z-0" />
+        <div className="footer-bar parallax-layer-2 z-0" />
       </div>
 
       {/* ====== 移动端+平板 (<1024px) — flex-col 纵向布局 ====== */}
