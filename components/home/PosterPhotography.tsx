@@ -18,7 +18,7 @@ export const PosterPhotography = memo(function PosterPhotography() {
     const timer = setTimeout(() => setParallaxEnabled(true), 1050);
     return () => clearTimeout(timer);
   }, []);
-  usePosterParallax(ref, { enabled: parallaxEnabled, gyroScale: 1.75 });
+  usePosterParallax(ref, { enabled: parallaxEnabled, gyroScale: 2.25 });
 
   const [lightbox, setLightbox] = useState<{ src: string; rect: DOMRect } | null>(null);
 

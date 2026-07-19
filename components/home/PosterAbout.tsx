@@ -137,7 +137,7 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
   }, [curtainPlayed, archiveOpen]);
 
   // 鼠标/陀螺仪视差 — 输入源由 usePosterParallax 仲裁（鼠标优先、陀螺仪兜底）
-  usePosterParallax(ref, { enabled: parallaxEnabled, gyroScale: 1.75 });
+  usePosterParallax(ref, { enabled: parallaxEnabled, gyroScale: 2.25 });
 
   // 内容块+Logo 响应式等比缩放 — 空间不足 70% 视口时等比缩小
   const scaleRef = usePosterScale(scaleWrapperRef, contentRef, logoRef, { threshold: 0.7 });
