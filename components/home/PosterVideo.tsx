@@ -16,7 +16,7 @@ export const PosterVideo = memo(function PosterVideo() {
     const timer = setTimeout(() => setParallaxEnabled(true), 1050);
     return () => clearTimeout(timer);
   }, []);
-  usePosterParallax(ref, { enabled: parallaxEnabled, gyroScale: 2.25 });
+  usePosterParallax(ref, { enabled: parallaxEnabled, gyroScale: 2.5 });
 
   return (
     <section

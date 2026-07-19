@@ -688,6 +688,49 @@ a:hover .geo-marker {
   transition: translate 0.2s cubic-bezier(0.2, 0, 0, 1);
 }
 
+/* ═══════════════════════════════════════════
+   海报③④⑤ — 视差幅度 +50% (3.4 / 6.8 / 11px)
+   ═══════════════════════════════════════════ */
+
+#photography.poster.parallax-active .parallax-layer-1 {
+  translate: calc(var(--parallax-x, 0) * 3.4px) calc(var(--parallax-y, 0) * 3.4px);
+  transition: translate 0.15s cubic-bezier(0.2, 0, 0, 1);
+}
+#photography.poster.parallax-active .parallax-layer-2 {
+  translate: calc(var(--parallax-x, 0) * 6.8px) calc(var(--parallax-y, 0) * 6.8px);
+  transition: translate 0.18s cubic-bezier(0.2, 0, 0, 1);
+}
+#photography.poster.parallax-active .parallax-layer-3 {
+  translate: calc(var(--parallax-x, 0) * 11px) calc(var(--parallax-y, 0) * 11px);
+  transition: translate 0.2s cubic-bezier(0.2, 0, 0, 1);
+}
+
+#video.poster.parallax-active .parallax-layer-1 {
+  translate: calc(var(--parallax-x, 0) * 3.4px) calc(var(--parallax-y, 0) * 3.4px);
+  transition: translate 0.15s cubic-bezier(0.2, 0, 0, 1);
+}
+#video.poster.parallax-active .parallax-layer-2 {
+  translate: calc(var(--parallax-x, 0) * 6.8px) calc(var(--parallax-y, 0) * 6.8px);
+  transition: translate 0.18s cubic-bezier(0.2, 0, 0, 1);
+}
+#video.poster.parallax-active .parallax-layer-3 {
+  translate: calc(var(--parallax-x, 0) * 11px) calc(var(--parallax-y, 0) * 11px);
+  transition: translate 0.2s cubic-bezier(0.2, 0, 0, 1);
+}
+
+#poster-other.poster.parallax-active .parallax-layer-1 {
+  translate: calc(var(--parallax-x, 0) * 3.4px) calc(var(--parallax-y, 0) * 3.4px);
+  transition: translate 0.15s cubic-bezier(0.2, 0, 0, 1);
+}
+#poster-other.poster.parallax-active .parallax-layer-2 {
+  translate: calc(var(--parallax-x, 0) * 6.8px) calc(var(--parallax-y, 0) * 6.8px);
+  transition: translate 0.18s cubic-bezier(0.2, 0, 0, 1);
+}
+#poster-other.poster.parallax-active .parallax-layer-3 {
+  translate: calc(var(--parallax-x, 0) * 11px) calc(var(--parallax-y, 0) * 11px);
+  transition: translate 0.2s cubic-bezier(0.2, 0, 0, 1);
+}
+
 .card-hover {
   transition: transform 0.35s cubic-bezier(0.2, 0, 0, 1);
 }
