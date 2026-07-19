@@ -18,7 +18,7 @@ export const PosterBuildLog = memo(function PosterBuildLog() {
     const timer = setTimeout(() => setParallaxEnabled(true), 1050);
     return () => clearTimeout(timer);
   }, []);
-  usePosterParallax(ref, { enabled: parallaxEnabled, gyroScale: 1.5 });
+  usePosterParallax(ref, { enabled: parallaxEnabled, gyroScale: 1.75 });
 
   return (
     <section

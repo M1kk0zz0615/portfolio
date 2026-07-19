@@ -1,29 +1,39 @@
 "use client";
 
-import { useState, memo } from "react";
+import { useState, useEffect, memo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useScrollReveal } from "@/app/hooks/useScrollReveal";
 import { usePosterWidth } from "@/app/hooks/usePosterWidth";
+import { usePosterParallax } from "@/app/hooks/usePosterParallax";
 import { Lightbox } from "@/components/Lightbox";
 
 export const PosterPhotography = memo(function PosterPhotography() {
   const ref = useScrollReveal<HTMLDivElement>(0.3);
   usePosterWidth(ref); // 修复 iPadOS Safari cqw 不更新
+
+  // 视差效果
+  const [parallaxEnabled, setParallaxEnabled] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => setParallaxEnabled(true), 1050);
+    return () => clearTimeout(timer);
+  }, []);
+  usePosterParallax(ref, { enabled: parallaxEnabled, gyroScale: 1.75 });
+
   const [lightbox, setLightbox] = useState<{ src: string; rect: DOMRect } | null>(null);
 
   return (
     <section
       ref={ref}
       id="photography"
-      className="poster flex items-center bg-paper text-[var(--fg)]"
+      className={`poster flex items-center bg-paper text-[var(--fg)]${parallaxEnabled ? " parallax-active" : ""}`}
       aria-label="摄影档案"
     >
       {/* ====== 桌面端 (>1034px) — 绝对定位海报布局 ====== */}
       <div className="hidden lg:contents">
         {/* 档案编号 — 模块标签样式 */}
         <div
-          className="anim-y-60 absolute z-20 font-mono text-xs tracking-widest uppercase"
+          className="anim-y-60 parallax-layer-3 absolute z-20 font-mono text-xs tracking-widest uppercase"
           style={{
             left: "clamp(1.5rem, 6cqw, 8%)",
             top: "19%",
@@ -44,48 +54,48 @@ export const PosterPhotography = memo(function PosterPhotography() {
 
         {/* 黑色对角线 */}
         <div
-          className="anim-line-x d-1 absolute h-[4px] bg-[var(--fg)] origin-left z-0"
+          className="anim-line-x d-1 parallax-layer-2 absolute h-[4px] bg-[var(--fg)] origin-left z-0"
           style={{ left: "0%", top: "42%", width: "68%", transform: "rotate(14deg)" }}
         />
         {/* 细红线 */}
         <div
-          className="anim-line-x d-2 absolute h-[3px] bg-[#D10000]/60 origin-right z-0"
+          className="anim-line-x d-2 parallax-layer-2 absolute h-[3px] bg-[#D10000]/60 origin-right z-0"
           style={{ right: "0%", top: "48%", width: "45%", transform: "rotate(-10deg)" }}
         />
         {/* 红色粗竖线 */}
         <div
-          className="anim-line-x d-3 absolute w-[4px] bg-[#D10000] z-0"
+          className="anim-line-x d-3 parallax-layer-2 absolute w-[4px] bg-[#D10000] z-0"
           style={{ right: "22%", top: "30%", height: "28%" }}
         />
         {/* 黑色横条 */}
         <div
-          className="anim-scale d-4 absolute bg-[var(--fg)] z-0"
+          className="anim-scale d-4 parallax-layer-2 absolute bg-[var(--fg)] z-0"
           style={{ right: "10%", top: "58%", width: "clamp(30px, 4cqw, 60px)", height: "4px" }}
         />
         {/* 红色小圆点 */}
         <div
-          className="anim-scale d-2 geo-circle absolute bg-[#D10000] z-0"
+          className="anim-scale d-2 geo-circle parallax-layer-2 absolute bg-[#D10000] z-0"
           style={{ right: "40%", top: "5%", width: "clamp(10px, 1.5cqw, 18px)", height: "clamp(10px, 1.5cqw, 18px)" }}
         />
         {/* 小黑方块 */}
         <div
-          className="anim-scale d-5 absolute bg-[var(--fg)] z-0"
+          className="anim-scale d-5 parallax-layer-2 absolute bg-[var(--fg)] z-0"
           style={{ left: "4%", bottom: "8%", width: "14px", height: "14px" }}
         />
 
         {/* 半透明红块 */}
         <div
-          className="anim-scale d-3 absolute bg-[#D10000]/30 pointer-events-none z-[1]"
+          className="anim-scale d-3 parallax-layer-2 absolute bg-[#D10000]/30 pointer-events-none z-[1]"
           style={{ left: "38%", top: "36%", width: "clamp(60px, 8cqw, 120px)", height: "clamp(60px, 8cqw, 120px)" }}
         />
         <div
-          className="anim-scale d-3 absolute bg-[#D10000]/20 pointer-events-none z-[1]"
+          className="anim-scale d-3 parallax-layer-2 absolute bg-[#D10000]/20 pointer-events-none z-[1]"
           style={{ right: "26%", top: "44%", width: "clamp(50px, 7cqw, 100px)", height: "clamp(50px, 7cqw, 100px)" }}
         />
 
         {/* 照片 1 */}
         <div
-className="anim-scale d-3 photo-montage clip-angle-tl absolute bg-[var(--bg-muted)] cursor-pointer z-[5]"
+className="anim-scale d-3 photo-montage clip-angle-tl parallax-layer-1 absolute bg-[var(--bg-muted)] cursor-pointer z-[5]"
           style={{
             left: "16%", top: "7%",
             width: "clamp(160px, 26cqw, 340px)", height: "clamp(120px, 20cqw, 260px)",
@@ -104,7 +114,7 @@ className="anim-scale d-3 photo-montage clip-angle-tl absolute bg-[var(--bg-mute
 
         {/* 照片 2 */}
         <div
-className="anim-scale d-4 photo-montage clip-angle-br absolute bg-[var(--bg-muted)] cursor-pointer z-[5]"
+className="anim-scale d-4 photo-montage clip-angle-br parallax-layer-1 absolute bg-[var(--bg-muted)] cursor-pointer z-[5]"
           style={{
             right: "-10%", top: "9%",
             width: "clamp(140px, 22cqw, 280px)", height: "clamp(160px, 24cqw, 310px)",
@@ -123,7 +133,7 @@ className="anim-scale d-4 photo-montage clip-angle-br absolute bg-[var(--bg-mute
 
         {/* 照片 3 */}
         <div
-className="anim-scale d-5 photo-montage clip-angle-tr absolute bg-[var(--bg-muted)] cursor-pointer z-[5]"
+className="anim-scale d-5 photo-montage clip-angle-tr parallax-layer-1 absolute bg-[var(--bg-muted)] cursor-pointer z-[5]"
           style={{
             right: "0%", bottom: "10%",
             width: "clamp(150px, 24cqw, 310px)", height: "clamp(110px, 16cqw, 210px)",
@@ -143,7 +153,7 @@ className="anim-scale d-5 photo-montage clip-angle-tr absolute bg-[var(--bg-mute
 
         {/* 俄文标注 */}
         <span
-          className="anim-y-60 d-1 type-cyrillic absolute text-[var(--fg)] select-none z-10"
+          className="anim-y-60 d-1 parallax-layer-2 type-cyrillic absolute text-[var(--fg)] select-none z-10"
           style={{ left: "15%", top: "20%", fontSize: "clamp(1.5rem, calc(var(--pw) * 0.03 * 1px), 2.5rem)", transform: "skewX(-12deg)" }}
         >
           ФОТО
@@ -179,7 +189,7 @@ className="anim-scale d-5 photo-montage clip-angle-tr absolute bg-[var(--bg-mute
           { right: "2%", top: "3%" },
           { left: "2%", bottom: "4.5%" },
         ].map((pos, i) => (
-          <div key={i} className={`anim-scale d-${i + 1} absolute z-0`}
+          <div key={i} className={`anim-scale d-${i + 1} parallax-layer-3 absolute z-0`}
             style={{ ...pos, width: "clamp(14px, 2cqw, 22px)", height: "clamp(14px, 2cqw, 22px)" }}>
             <div style={{ position: "absolute", left: "50%", top: 0, width: "1px", height: "100%", background: "var(--fg)", opacity: 0.2, transform: "translateX(-50%)" }} />
             <div style={{ position: "absolute", top: "50%", left: 0, height: "1px", width: "100%", background: "var(--fg)", opacity: 0.2, transform: "translateY(-50%)" }} />
@@ -191,7 +201,7 @@ className="anim-scale d-5 photo-montage clip-angle-tr absolute bg-[var(--bg-mute
           { left: "1.2%", top: "2.5%" },
           { right: "1.2%", bottom: "4%" },
         ].map((pos, i) => (
-          <div key={`reg-${i}`} className={`anim-scale d-${i + 1} absolute z-0`}
+          <div key={`reg-${i}`} className={`anim-scale d-${i + 1} parallax-layer-3 absolute z-0`}
             style={{ ...pos, width: "clamp(16px, 2.2cqw, 24px)", height: "clamp(16px, 2.2cqw, 24px)" }}
             aria-hidden="true">
             <div style={{ position: "absolute", inset: 0, borderRadius: "50%", border: "1px solid var(--fg)", opacity: 0.2 }} />
@@ -202,7 +212,7 @@ className="anim-scale d-5 photo-montage clip-angle-tr absolute bg-[var(--bg-mute
 
         {/* ── 左侧竖排西里尔文 ── */}
         <div
-          className="anim-y-60 d-3 absolute z-[2] select-none"
+          className="anim-y-60 d-3 parallax-layer-2 absolute z-[2] select-none"
           style={{
             left: "2.8%", top: "68%",
             fontSize: "clamp(0.85rem, 1cqw, 1.1rem)",
@@ -220,7 +230,7 @@ className="anim-scale d-5 photo-montage clip-angle-tr absolute bg-[var(--bg-mute
 
         {/* 右下角大水印数字 */}
         <div
-          className="absolute z-[1] select-none"
+          className="parallax-layer-2 absolute z-[1] select-none"
           style={{
             right: "4%", bottom: "4%",
             fontSize: "clamp(10rem, 22cqw, 26rem)",
@@ -235,7 +245,7 @@ className="anim-scale d-5 photo-montage clip-angle-tr absolute bg-[var(--bg-mute
           03
         </div>
 
-        <div className="scroll-arrow z-30" />
+        <div className="scroll-arrow parallax-layer-2 z-30" />
       </div>
 
       {/* ====== 移动端+平板 (<1034px) — flex-col 纵向布局 ====== */}
