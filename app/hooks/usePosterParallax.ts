@@ -83,9 +83,9 @@ export function usePosterParallax<T extends HTMLElement>(
       const raw = (screen.orientation?.angle as number | undefined) ?? (window as { orientation?: number }).orientation ?? 0;
       const angle = ((Number(raw) % 360) + 360) % 360; // -90 → 270
       switch (angle) {
-        case 90:  return [beta, -gamma];
-        case 180: return [-gamma, -beta];
-        case 270: return [-beta, gamma];
+        case 90:  return [beta, gamma];
+        case 180: return [-gamma, beta];
+        case 270: return [-beta, -gamma];
         default:  return [gamma, beta]; // 0° 竖屏
       }
     };
