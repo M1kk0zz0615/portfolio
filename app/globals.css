@@ -676,15 +676,15 @@ a:hover .geo-marker {
    ═══════════════════════════════════════════ */
 
 .poster.parallax-active .parallax-layer-1 {
-  translate: calc(var(--parallax-x, 0) * 3px) calc(var(--parallax-y, 0) * 3px);
+  translate: calc(var(--parallax-x, 0) * 2.25px) calc(var(--parallax-y, 0) * 2.25px);
   transition: translate 0.15s cubic-bezier(0.2, 0, 0, 1);
 }
 .poster.parallax-active .parallax-layer-2 {
-  translate: calc(var(--parallax-x, 0) * 6px) calc(var(--parallax-y, 0) * 6px);
+  translate: calc(var(--parallax-x, 0) * 4.5px) calc(var(--parallax-y, 0) * 4.5px);
   transition: translate 0.18s cubic-bezier(0.2, 0, 0, 1);
 }
 .poster.parallax-active .parallax-layer-3 {
-  translate: calc(var(--parallax-x, 0) * 10px) calc(var(--parallax-y, 0) * 10px);
+  translate: calc(var(--parallax-x, 0) * 7.5px) calc(var(--parallax-y, 0) * 7.5px);
   transition: translate 0.2s cubic-bezier(0.2, 0, 0, 1);
 }
 
