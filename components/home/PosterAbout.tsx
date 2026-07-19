@@ -373,11 +373,10 @@ export const PosterAbout = memo(function PosterAbout({ archiveOpen = false, onOp
         aria-hidden="true"
       >
         <div style={{ marginBottom: "0.3em", letterSpacing: "0.12em" }}>CURRENTLY：</div>
-        <div>期末烧脑中</div>
-        <div>优化 Mikko Portfolio v2</div>
+        <div>优化Mikko Portfolio v3</div>
         <div>幻想成为画画大师</div>
         <div style={{ marginTop: "0.8em", letterSpacing: "0.12em" }}>Listening:</div>
-        <div>Кино</div>
+        <div>Lily Chou-Chou</div>
       </div>
 
       {/* 黑色粗方块 — Lissitzky 式几何锚 */}
