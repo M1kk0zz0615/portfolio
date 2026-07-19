@@ -1,26 +1,35 @@
 "use client";
 
-import { memo } from "react";
+import { memo, useState, useEffect } from "react";
 import Link from "next/link";
 import { useScrollReveal } from "@/app/hooks/useScrollReveal";
 import { usePosterWidth } from "@/app/hooks/usePosterWidth";
+import { usePosterParallax } from "@/app/hooks/usePosterParallax";
 
 export const PosterVideo = memo(function PosterVideo() {
   const ref = useScrollReveal<HTMLDivElement>(0.3);
   usePosterWidth(ref); // 修复 iPadOS Safari cqw 不更新
 
+  // 视差效果
+  const [parallaxEnabled, setParallaxEnabled] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => setParallaxEnabled(true), 1050);
+    return () => clearTimeout(timer);
+  }, []);
+  usePosterParallax(ref, { enabled: parallaxEnabled, gyroScale: 1.75 });
+
   return (
     <section
       ref={ref}
       id="video"
-      className="poster flex items-center bg-paper text-[var(--fg)]"
+      className={`poster flex items-center bg-paper text-[var(--fg)]${parallaxEnabled ? " parallax-active" : ""}`}
       aria-label="影像档案"
     >
       {/* ====== 桌面端 (>1024px) — 绝对定位海报布局 ====== */}
       <div className="hidden lg:contents">
         {/* 档案编号 — 模块标签样式 */}
         <div
-          className="anim-y-60 absolute z-20 font-mono text-xs tracking-widest uppercase"
+          className="anim-y-60 parallax-layer-3 absolute z-20 font-mono text-xs tracking-widest uppercase"
           style={{ left: "clamp(1.5rem, 6cqw, 8%)", top: "19%" }}
         >
           <span style={{
@@ -38,42 +47,42 @@ export const PosterVideo = memo(function PosterVideo() {
 
         {/* Lissitzky 几何 — 左上角 */}
         <div
-          className="anim-y-60 d-2 absolute bg-[var(--fg)] z-0"
+          className="anim-y-60 d-2 parallax-layer-2 absolute bg-[var(--fg)] z-0"
           style={{ left: "12%", top: "36%", width: "clamp(16px, 2cqw, 24px)", height: "clamp(16px, 2cqw, 24px)" }}
         />
         <div
-          className="anim-scale d-3 geo-circle absolute bg-[#D10000] z-0"
+          className="anim-scale d-3 geo-circle parallax-layer-2 absolute bg-[#D10000] z-0"
           style={{ left: "14%", top: "44%", width: "clamp(8px, 1cqw, 14px)", height: "clamp(8px, 1cqw, 14px)" }}
         />
 
         {/* 右侧细竖线 */}
         <div
-          className="anim-line-x d-2 absolute right-[14%] h-[30%] w-[3px] bg-[var(--fg)]/30 z-0"
+          className="anim-line-x d-2 parallax-layer-2 absolute right-[14%] h-[30%] w-[3px] bg-[var(--fg)]/30 z-0"
           style={{ top: "22%" }}
         />
         {/* 红色小方块 */}
         <div
-          className="anim-scale d-1 absolute bg-[#D10000] z-0"
+          className="anim-scale d-1 parallax-layer-2 absolute bg-[#D10000] z-0"
           style={{ right: "8%", top: "14%", width: "clamp(10px, 1.5cqw, 18px)", height: "clamp(10px, 1.5cqw, 18px)" }}
         />
         {/* 红色斜线 */}
         <div
-          className="anim-line-x d-2 absolute h-[3px] bg-[#D10000]/70 origin-right z-0"
+          className="anim-line-x d-2 parallax-layer-2 absolute h-[3px] bg-[#D10000]/70 origin-right z-0"
           style={{ right: "0%", top: "38%", width: "32%", transform: "rotate(-15deg)" }}
         />
         {/* 空心黑方框 */}
         <div
-          className="anim-scale d-3 absolute border-[3px] border-[var(--fg)] z-0"
+          className="anim-scale d-3 parallax-layer-2 absolute border-[3px] border-[var(--fg)] z-0"
           style={{ right: "20%", top: "48%", width: "clamp(24px, 3.5cqw, 44px)", height: "clamp(24px, 3.5cqw, 44px)" }}
         />
         {/* 红色小圆 */}
         <div
-          className="anim-scale d-4 geo-circle absolute bg-[#D10000] z-0"
+          className="anim-scale d-4 geo-circle parallax-layer-2 absolute bg-[#D10000] z-0"
           style={{ right: "30%", bottom: "28%", width: "clamp(8px, 1.2cqw, 14px)", height: "clamp(8px, 1.2cqw, 14px)" }}
         />
         {/* 装饰斜线组 */}
         <div
-          className="anim-scale d-4 diagonal-stripes absolute select-none z-0"
+          className="anim-scale d-4 diagonal-stripes parallax-layer-2 absolute select-none z-0"
           style={{ right: "10%", bottom: "16%" }}
         >
           <span /><span /><span />
@@ -95,7 +104,7 @@ export const PosterVideo = memo(function PosterVideo() {
 
         {/* 主标题 */}
         <h2
-          className="anim-y-60 type-display absolute text-[var(--fg)] select-none z-10"
+          className="anim-y-60 parallax-layer-1 type-display absolute text-[var(--fg)] select-none z-10"
           style={{ left: "9%", top: "51%", fontSize: "clamp(2.5rem, calc(var(--pw) * 0.045 * 1px), 4.5rem)", transform: "skewX(-5deg)" }}
         >
           影像档案
@@ -103,14 +112,14 @@ export const PosterVideo = memo(function PosterVideo() {
 
         {/* 俄文标注 */}
         <span
-          className="anim-y-60 d-1 type-cyrillic absolute text-[var(--fg)] select-none z-10"
+          className="anim-y-60 d-1 parallax-layer-2 type-cyrillic absolute text-[var(--fg)] select-none z-10"
           style={{ left: "10%", top: "26%", fontSize: "clamp(0.7rem, 1cqw, 0.9rem)" }}
         >
           КИНОАРХИВ
         </span>
 
         {/* 入口 */}
-        <div className="anim-y-60 d-3 absolute flex flex-col gap-6 select-none z-20" style={{ left: "17%", bottom: "22%" }}>
+        <div className="anim-y-60 d-3 parallax-layer-1 absolute flex flex-col gap-6 select-none z-20" style={{ left: "17%", bottom: "22%" }}>
           <Link href="/video/work" className="group flex items-center no-underline">
             <span className="geo-marker" />
             <span className="type-display hover-red" style={{ fontSize: "clamp(1.8rem, calc(var(--pw) * 0.035 * 1px), 3rem)" }}>受托</span>
@@ -122,7 +131,7 @@ export const PosterVideo = memo(function PosterVideo() {
         </div>
 
         {/* 说明文字 */}
-        <p className="anim-y-60 d-4 absolute type-label text-[#8C8C8C] select-none z-10"
+        <p className="anim-y-60 d-4 parallax-layer-1 absolute type-label text-[#8C8C8C] select-none z-10"
           style={{ left: "12%", bottom: "11%", fontSize: "clamp(0.6rem, 0.8cqw, 0.75rem)", maxWidth: "420px" }}>
           活动记录 · 年度回顾 · 毕业纪念 · Vlog · 实验短片
         </p>
@@ -132,7 +141,7 @@ export const PosterVideo = memo(function PosterVideo() {
           { right: "2%", top: "3%" },
           { left: "2%", bottom: "4.5%" },
         ].map((pos, i) => (
-          <div key={i} className={`anim-scale d-${i + 1} absolute z-0`}
+          <div key={i} className={`anim-scale d-${i + 1} parallax-layer-3 absolute z-0`}
             style={{ ...pos, width: "clamp(14px, 2cqw, 22px)", height: "clamp(14px, 2cqw, 22px)" }}>
             <div style={{ position: "absolute", left: "50%", top: 0, width: "1px", height: "100%", background: "var(--fg)", opacity: 0.2, transform: "translateX(-50%)" }} />
             <div style={{ position: "absolute", top: "50%", left: 0, height: "1px", width: "100%", background: "var(--fg)", opacity: 0.2, transform: "translateY(-50%)" }} />
@@ -144,7 +153,7 @@ export const PosterVideo = memo(function PosterVideo() {
           { left: "1.2%", top: "2.5%" },
           { right: "1.2%", bottom: "4%" },
         ].map((pos, i) => (
-          <div key={`reg-${i}`} className={`anim-scale d-${i + 1} absolute z-0`}
+          <div key={`reg-${i}`} className={`anim-scale d-${i + 1} parallax-layer-3 absolute z-0`}
             style={{ ...pos, width: "clamp(16px, 2.2cqw, 24px)", height: "clamp(16px, 2.2cqw, 24px)" }}
             aria-hidden="true">
             <div style={{ position: "absolute", inset: 0, borderRadius: "50%", border: "1px solid var(--fg)", opacity: 0.2 }} />
@@ -155,7 +164,7 @@ export const PosterVideo = memo(function PosterVideo() {
 
         {/* ── 左侧竖排西里尔文 ── */}
         <div
-          className="anim-y-60 d-3 absolute z-[2] select-none"
+          className="anim-y-60 d-3 parallax-layer-2 absolute z-[2] select-none"
           style={{
             left: "2.8%", top: "68%",
             fontSize: "clamp(0.85rem, 1cqw, 1.1rem)",
@@ -173,7 +182,7 @@ export const PosterVideo = memo(function PosterVideo() {
 
         {/* 右下角大水印数字 */}
         <div
-          className="absolute z-[1] select-none"
+          className="parallax-layer-2 absolute z-[1] select-none"
           style={{
             right: "4%", bottom: "4%",
             fontSize: "clamp(10rem, 22cqw, 26rem)",
@@ -189,7 +198,7 @@ export const PosterVideo = memo(function PosterVideo() {
         </div>
 
         {/* 俄文格言 */}
-        <p className="anim-y-60 d-4 type-cyrillic absolute left-1/2 text-[var(--fg)] text-center select-none z-10"
+        <p className="anim-y-60 d-4 parallax-layer-1 type-cyrillic absolute left-1/2 text-[var(--fg)] text-center select-none z-10"
           style={{
             bottom: "7%",
             transform: "translateX(-50%)",
@@ -200,7 +209,7 @@ export const PosterVideo = memo(function PosterVideo() {
           Реальность — вторичная<br />структурная обработка.
         </p>
 
-        <div className="scroll-arrow z-30" />
+        <div className="scroll-arrow parallax-layer-2 z-30" />
       </div>
 
       {/* ====== 移动端+平板 (<1024px) — flex-col 纵向布局 ====== */}
