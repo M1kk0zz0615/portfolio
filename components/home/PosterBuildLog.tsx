@@ -1,9 +1,10 @@
 "use client";
 
-import { memo } from "react";
+import { memo, useState, useEffect } from "react";
 import Link from "next/link";
 import { useScrollReveal } from "@/app/hooks/useScrollReveal";
 import { usePosterWidth } from "@/app/hooks/usePosterWidth";
+import { usePosterParallax } from "@/app/hooks/usePosterParallax";
 import { buildLogProjects } from "@/data/buildLogProjects";
 
 
@@ -11,18 +12,26 @@ export const PosterBuildLog = memo(function PosterBuildLog() {
   const ref = useScrollReveal<HTMLDivElement>(0.3);
   usePosterWidth(ref); // 修复 iPadOS Safari cqw 不更新
 
+  // 视差效果 — 入场动画完成后启用（与 PosterAbout 一致的延迟 + 1.5x 陀螺仪补偿）
+  const [parallaxEnabled, setParallaxEnabled] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => setParallaxEnabled(true), 1050);
+    return () => clearTimeout(timer);
+  }, []);
+  usePosterParallax(ref, { enabled: parallaxEnabled, gyroScale: 1.5 });
+
   return (
     <section
       ref={ref}
       id="build-log"
-      className="poster bg-paper text-[var(--fg)]"
+      className={`poster bg-paper text-[var(--fg)]${parallaxEnabled ? " parallax-active" : ""}`}
       aria-label="构建日志"
     >
       {/* ====== 桌面端 ====== */}
       <div className="hidden lg:contents">
         {/* 红色对角线 */}
         <div
-          className="anim-line-x d-1 pointer-events-none absolute bg-[#D10000]/40 z-0"
+          className="anim-line-x d-1 parallax-layer-2 pointer-events-none absolute bg-[#D10000]/40 z-0"
           style={{
             left: "15%", bottom: "6%", width: "88%", height: "3px",
             transform: "rotate(-16deg)", transformOrigin: "left center",
@@ -37,10 +46,10 @@ export const PosterBuildLog = memo(function PosterBuildLog() {
 
 
         {/* 左上角 L 型框架 */}
-        <div className="anim-line-x absolute z-0"
+        <div className="anim-line-x parallax-layer-3 absolute z-0"
           style={{ left: "2%", top: "3%", width: "clamp(36px, 5cqw, 64px)", height: "3px", background: "var(--fg)", opacity: 0.2 }}
         />
-        <div className="anim-line-x d-1 absolute z-0"
+        <div className="anim-line-x d-1 parallax-layer-3 absolute z-0"
           style={{ left: "2%", top: "3%", width: "3px", height: "clamp(36px, 5cqw, 64px)", background: "var(--fg)", opacity: 0.2 }}
         />
 
@@ -54,7 +63,7 @@ export const PosterBuildLog = memo(function PosterBuildLog() {
         ].map((pos, i) => (
           <div
             key={i}
-            className={`anim-scale d-${i + 1} absolute z-0`}
+            className={`anim-scale d-${i + 1} parallax-layer-3 absolute z-0`}
             style={{ ...pos, width: "clamp(14px, 2cqw, 22px)", height: "clamp(14px, 2cqw, 22px)" }}
           >
             <div style={{ position: "absolute", left: "50%", top: 0, width: "1px", height: "100%", background: "var(--fg)", opacity: 0.2, transform: "translateX(-50%)" }} />
@@ -69,7 +78,7 @@ export const PosterBuildLog = memo(function PosterBuildLog() {
         ].map((pos, i) => (
           <div
             key={`reg-${i}`}
-            className={`anim-scale d-${i + 1} absolute z-0`}
+            className={`anim-scale d-${i + 1} parallax-layer-3 absolute z-0`}
             style={{
               ...pos,
               width: "clamp(16px, 2.2cqw, 24px)",
@@ -84,11 +93,11 @@ export const PosterBuildLog = memo(function PosterBuildLog() {
         ))}
 
         {/* ── 断裂边框 · 右下角 L 型 ── */}
-        <div className="anim-line-x d-2 absolute z-0"
+        <div className="anim-line-x d-2 parallax-layer-3 absolute z-0"
           style={{ right: "2%", bottom: "4.5%", width: "clamp(36px, 5cqw, 64px)", height: "3px", background: "var(--fg)", opacity: 0.2 }}
           aria-hidden="true"
         />
-        <div className="anim-line-x d-3 absolute z-0"
+        <div className="anim-line-x d-3 parallax-layer-3 absolute z-0"
           style={{ right: "2%", bottom: "4.5%", width: "3px", height: "clamp(36px, 5cqw, 64px)", background: "var(--fg)", opacity: 0.2 }}
           aria-hidden="true"
         />
@@ -106,7 +115,7 @@ export const PosterBuildLog = memo(function PosterBuildLog() {
           { left: "2.8%", bottom: "5.2%", label: "C" },
           { right: "3.8%", bottom: "5.2%", label: "D" },
         ].map(({ label, ...pos }, i) => (
-          <div key={`coord-${i}`} className={`anim-y-60 d-${i + 1} absolute z-0`}
+          <div key={`coord-${i}`} className={`anim-y-60 d-${i + 1} parallax-layer-3 absolute z-0`}
             style={{
               ...pos,
               fontSize: "clamp(0.45rem, 0.5cqw, 0.6rem)",
@@ -123,7 +132,7 @@ export const PosterBuildLog = memo(function PosterBuildLog() {
 
         {/* ── 左侧竖排西里尔文 ── */}
         <div
-          className="anim-y-60 d-3 absolute z-[2] select-none"
+          className="anim-y-60 d-3 parallax-layer-2 absolute z-[2] select-none"
           style={{
             left: "2.8%", top: "18%",
             fontSize: "clamp(0.85rem, 1cqw, 1.1rem)",
@@ -149,13 +158,13 @@ export const PosterBuildLog = memo(function PosterBuildLog() {
 
         {/* 黑色粗方块 — Lissitzky 式几何锚 */}
         <div
-          className="anim-scale d-2 absolute z-[1]"
+          className="anim-scale d-2 parallax-layer-3 absolute z-[1]"
           style={{ right: "6%", top: "20%", width: "clamp(18px, 2.5cqw, 32px)", height: "clamp(18px, 2.5cqw, 32px)", background: "var(--fg)", opacity: 0.2 }}
         />
 
         {/* 网格点阵 — 沿右辅助线 */}
         {[0.18, 0.35, 0.55, 0.72].map((ratio, i) => (
-          <div key={i} className={`anim-scale d-${i + 2} absolute z-[1]`}
+          <div key={i} className={`anim-scale d-${i + 2} parallax-layer-2 absolute z-[1]`}
             style={{
               right: "calc(6% - 2px)", top: `${10 + ratio * 70}%`,
               width: "6px", height: "6px",
@@ -166,13 +175,13 @@ export const PosterBuildLog = memo(function PosterBuildLog() {
 
         {/* 右下角小红方块锚点 */}
         <div
-          className="anim-scale d-4 absolute z-[1]"
+          className="anim-scale d-4 parallax-layer-3 absolute z-[1]"
           style={{ right: "2.5%", bottom: "4.8%", width: "clamp(10px, 1.5cqw, 16px)", height: "clamp(10px, 1.5cqw, 16px)", background: "#D10000", opacity: 0.6 }}
         />
 
         {/* 左上 L 角内侧黑锚点 */}
         <div
-          className="anim-scale d-2 absolute z-[1]"
+          className="anim-scale d-2 parallax-layer-2 absolute z-[1]"
           style={{
             left: "calc(2% + clamp(36px, 5cqw, 64px) + 10px)",
             top: "calc(3% + clamp(36px, 5cqw, 64px) - 6px)",
@@ -186,7 +195,7 @@ export const PosterBuildLog = memo(function PosterBuildLog() {
 
         {/* 右下角坐标 */}
         <div
-          className="anim-y-60 d-3 absolute z-[5] type-label select-none flex items-baseline gap-3"
+          className="anim-y-60 d-3 parallax-layer-3 absolute z-[5] type-label select-none flex items-baseline gap-3"
           style={{
             right: "clamp(1rem, 2.5cqw, 3rem)", bottom: "2.2%",
             fontSize: "clamp(0.55rem, 0.65cqw, 0.7rem)",
@@ -200,7 +209,7 @@ export const PosterBuildLog = memo(function PosterBuildLog() {
 
         {/* 时间编码 */}
         <div
-          className="anim-y-60 d-4 absolute z-[5] type-label select-none"
+          className="anim-y-60 d-4 parallax-layer-3 absolute z-[5] type-label select-none"
           style={{
             left: "clamp(1rem, 2.5cqw, 3rem)", bottom: "2.2%",
             fontSize: "clamp(0.55rem, 0.6cqw, 0.65rem)",
@@ -212,7 +221,7 @@ export const PosterBuildLog = memo(function PosterBuildLog() {
 
         {/* 印刷编号 — 右下角超大低透明度 */}
         <div
-          className="absolute z-[1] select-none"
+          className="parallax-layer-2 absolute z-[1] select-none"
           style={{
             right: "4%", bottom: "4%",
             fontSize: "clamp(10rem, 22cqw, 26rem)",
@@ -234,7 +243,7 @@ export const PosterBuildLog = memo(function PosterBuildLog() {
 
         {/* 档案编号 — 模块标签样式 */}
         <div
-          className="anim-y-60 absolute z-20 font-mono text-xs tracking-widest uppercase"
+          className="anim-y-60 parallax-layer-3 absolute z-20 font-mono text-xs tracking-widest uppercase"
           style={{ left: "clamp(1.5rem, 6cqw, 8%)", top: "19%" }}
         >
           <span style={{
@@ -300,7 +309,7 @@ export const PosterBuildLog = memo(function PosterBuildLog() {
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className={`anim-y-60 group no-underline absolute z-10 d-${i + 2} card-hover`}
+              className={`anim-y-60 group no-underline absolute z-10 d-${i + 2} card-hover parallax-layer-1`}
               style={{ ...positions[i], width: "clamp(240px, calc(var(--pw) * 0.22 * 1px), 360px)" }}
             >
               {/* 引导提示 — 居中上方 */}
@@ -375,7 +384,7 @@ export const PosterBuildLog = memo(function PosterBuildLog() {
 
         {/* 中间偏上空区 — 色块组 */}
         <div
-          className="anim-scale d-2 pointer-events-none absolute bg-[#D10000]/8 z-0"
+          className="anim-scale d-2 parallax-layer-1 pointer-events-none absolute bg-[#D10000]/8 z-0"
           style={{
             left: "10%", top: "40%",
             width: "clamp(70px,9cqw,130px)", height: "clamp(50px,6cqh,90px)",
@@ -383,7 +392,7 @@ export const PosterBuildLog = memo(function PosterBuildLog() {
           }}
         />
         <div
-          className="anim-scale d-3 pointer-events-none absolute bg-[var(--fg)]/07 z-0"
+          className="anim-scale d-3 parallax-layer-1 pointer-events-none absolute bg-[var(--fg)]/07 z-0"
           style={{
             right: "22%", top: "38%",
             width: "clamp(60px,8cqw,110px)", height: "clamp(45px,5cqh,80px)",
@@ -391,7 +400,7 @@ export const PosterBuildLog = memo(function PosterBuildLog() {
           }}
         />
         <div
-          className="anim-scale d-4 pointer-events-none absolute bg-[#D10000]/12 z-0"
+          className="anim-scale d-4 parallax-layer-1 pointer-events-none absolute bg-[#D10000]/12 z-0"
           style={{
             left: "6%", top: "35%",
             width: "clamp(40px,5cqw,70px)", height: "clamp(35px,4cqh,60px)",
@@ -400,17 +409,17 @@ export const PosterBuildLog = memo(function PosterBuildLog() {
         />
         {/* 中右红色细线 — 已删除 */}
         <div
-          className="anim-scale d-4 geo-circle pointer-events-none absolute bg-[#D10000]/25 z-0"
+          className="anim-scale d-4 geo-circle parallax-layer-1 pointer-events-none absolute bg-[#D10000]/25 z-0"
           style={{ right: "30%", top: "36%", width: "10px", height: "10px" }}
         />
 
         {/* 顶部装饰 */}
         <div
-          className="anim-line-x d-1 pointer-events-none absolute bg-[#D10000]/30 z-0"
+          className="anim-line-x d-1 parallax-layer-1 pointer-events-none absolute bg-[#D10000]/30 z-0"
           style={{ left: "5%", top: "10%", width: "clamp(60px,8cqw,120px)", height: "3px" }}
         />
         <div
-          className="anim-scale d-2 pointer-events-none absolute bg-[#D10000]/10 z-0"
+          className="anim-scale d-2 parallax-layer-1 pointer-events-none absolute bg-[#D10000]/10 z-0"
           style={{
             right: "20%", top: "14%",
             width: "clamp(50px,6cqw,90px)", height: "clamp(8px,1cqh,14px)",
@@ -418,13 +427,13 @@ export const PosterBuildLog = memo(function PosterBuildLog() {
           }}
         />
         <div
-          className="anim-scale d-3 geo-circle pointer-events-none absolute border-[2px] border-[#D10000]/20 z-0"
+          className="anim-scale d-3 geo-circle parallax-layer-1 pointer-events-none absolute border-[2px] border-[#D10000]/20 z-0"
           style={{ left: "22%", top: "8%", width: "clamp(16px,2cqw,28px)", height: "clamp(16px,2cqw,28px)" }}
         />
 
         {/* 右下角构成主义西里尔文 */}
         <span
-          className="anim-scale d-3 type-cyrillic pointer-events-none absolute z-0 text-[#8B0000]/12"
+          className="anim-scale d-3 parallax-layer-1 type-cyrillic pointer-events-none absolute z-0 text-[#8B0000]/12"
           style={{
             right: "2%", bottom: "8%",
             fontSize: "clamp(2rem,4vw,5rem)",
@@ -437,7 +446,7 @@ export const PosterBuildLog = memo(function PosterBuildLog() {
           МЕТОД<br />—<br />ЭКСПЕРИМЕНТ
         </span>
 
-        <div className="scroll-arrow z-30" />
+        <div className="scroll-arrow parallax-layer-2 z-30" />
       </div>
 
       {/* ====== 移动端 ====== */}
