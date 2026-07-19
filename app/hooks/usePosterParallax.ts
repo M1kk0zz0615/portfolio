@@ -94,7 +94,10 @@ export function usePosterParallax<T extends HTMLElement>(
       // 桌面 Chrome 会发全 null 事件 — 静默忽略
       if (e.beta == null || e.gamma == null) return;
 
-      const [dx, dy] = remapAxes(e.beta, e.gamma);
+      const [rawDx, rawDy] = remapAxes(e.beta, e.gamma);
+      // 陀螺仪深度视差：设备向某方向倾斜 → 视角从该方向看 → 元素反向移动
+      const dx = -rawDx;
+      const dy = -rawDy;
 
       // 首帧标定：以当前持机姿态为零点
       if (baseX === null || baseY === null) {
