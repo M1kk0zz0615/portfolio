@@ -309,7 +309,7 @@ export const PosterBuildLog = memo(function PosterBuildLog() {
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className={`anim-y-60 group no-underline absolute z-10 d-${i + 2} card-hover parallax-layer-1`}
+              className={`anim-y-60 group no-underline absolute z-10 d-${i + 2} card-hover`}
               style={{ ...positions[i], width: "clamp(240px, calc(var(--pw) * 0.22 * 1px), 360px)" }}
             >
               {/* 引导提示 — 居中上方 */}
@@ -354,12 +354,7 @@ export const PosterBuildLog = memo(function PosterBuildLog() {
                 </div>
                 <h3
                   className="type-display text-[var(--fg)]"
-                  style={{
-                    fontSize: "clamp(1.45rem,2.3vw,1.8rem)", lineHeight: 1.25,
-                    // 抵消卡片 parallax-layer-1 的偏移，保持标题固定
-                    translate: "calc(var(--parallax-x, 0) * -3px) calc(var(--parallax-y, 0) * -3px)",
-                    transition: "translate 0.15s cubic-bezier(0.2, 0, 0, 1)",
-                  }}
+                  style={{ fontSize: "clamp(1.45rem,2.3vw,1.8rem)", lineHeight: 1.25 }}
                 >
                   {project.title}
                 </h3>
